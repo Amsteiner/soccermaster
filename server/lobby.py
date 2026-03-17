@@ -810,6 +810,9 @@ class LobbyServer:
             "is_dev": email in _OWNER_EMAILS,
             "email": email,
             "last_seen": profile.get("last_seen", ""),
+            "radio_settings": profile.get("radio_settings", {}),
+            "theme": profile.get("theme", ""),
+            "google_id": google_id,
         }
 
     async def _broadcast_online_spieler(self):

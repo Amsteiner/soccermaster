@@ -155,7 +155,7 @@ class ProfileManager:
             return None
 
         # Update allowed fields
-        allowed_fields = ["name", "nickname", "profile_image", "last_login", "lieblingsverein", "radio_settings", "last_seen"]
+        allowed_fields = ["name", "nickname", "profile_image", "last_login", "lieblingsverein", "radio_settings", "theme", "last_seen"]
         for field in allowed_fields:
             if field in data:
                 profile[field] = data[field]

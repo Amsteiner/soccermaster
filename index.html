@@ -1219,6 +1219,8 @@ function applyTheme(id) {
   localStorage.setItem('theme', id);
   document.querySelectorAll('.theme-select').forEach(sel => sel.value = id);
   applyFontScale(parseFloat(localStorage.getItem('font_scale') || '1'));
+  if (S.auth_token) fetch('/api/profile', {method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({token: S.auth_token, theme: id})}).catch(()=>{});
 }
 
 function triggerAvatarUpload() {
@@ -4535,34 +4537,59 @@ function oeffneProfilModal(name, profil) {
 
   body.appendChild(info);
 
-  // Einstellungen für eigenen Account und Admins/Dev
-  if (name === S.nickname || istAdmin() || istDevAdmin()) {
+  // Einstellungen anzeigen: eigener Account, Admins/Dev sehen auch Fremdprofile
+  const _isOwn = name === S.nickname;
+  const _canEdit = _isOwn || istAdmin() || istDevAdmin();
+  const _isAdmin = istAdmin() || istDevAdmin();
+  if (_canEdit) {
     const SEP2 = document.createElement('div');
     SEP2.style.cssText = 'border-top:1px solid rgba(255,215,0,0.2);margin:8px 0;';
     body.appendChild(SEP2);
     const einst = document.createElement('div');
-    const _curTheme = document.querySelector('.theme-select')?.value || localStorage.getItem('theme') || 'c64';
-    const _curScale = parseFloat(document.querySelector('.font-scale-btn.btn-hi')?.dataset.scale || localStorage.getItem('font_scale') || '1');
-    const _rt = _radioTypenGeladen();
-    const _autoA = !!document.querySelector('.radio-autostart-btn.aktiv');
-    const _shA = !!document.querySelector('.radio-shuffle-btn.aktiv');
+
+    // Einstellungen: eigene aus localStorage, fremde aus Profil
+    const _targetGid = profil.email ? (S.gidToProfile[name]?.google_id || '') : '';
+    const _rs = _isOwn ? null : (profil.radio_settings || {});
+    const _curTheme = _isOwn
+      ? (localStorage.getItem('theme') || 'c64')
+      : (profil.theme || 'c64');
+    const _curScale = parseFloat(localStorage.getItem('font_scale') || '1');
+    const _rt = _isOwn ? _radioTypenGeladen() : (_rs?.types || ['ost']);
+    const _autoA = _isOwn ? !!document.querySelector('.radio-autostart-btn.aktiv') : (_rs?.autostart === '1');
+    const _shA   = _isOwn ? !!document.querySelector('.radio-shuffle-btn.aktiv')   : (_rs?.shuffle   === '1');
+
     const _themeOpts = ['c64','dos','wb13','wb31','magicwb','arcade','amber','spectrum','cga','mac','pet','c64basic']
       .map(t => `<option value="${t}"${t===_curTheme?' selected':''}>${t.toUpperCase()}</option>`).join('');
-    const _scBtn = (v, lbl) => `<button class="btn font-scale-btn${_curScale===v?' btn-hi':''}" data-scale="${v}" onclick="applyFontScale(${v})" style="font-size:0.7em;padding:2px 5px;">${lbl}</button>`;
-    const _rtBtn = (typ, lbl) => `<button class="btn radio-typ-btn${_rt.includes(typ)?' aktiv':''}" data-typ="${typ}" onclick="radioTypToggle(this)" style="font-size:0.7em;padding:2px 5px;width:100%;">${lbl}</button>`;
-    const _schriftZeile = S.lobbyCode ? '' :
-      `<div style="display:flex;align-items:center;gap:3px;margin-bottom:4px;"><span style="font-size:0.7em;color:var(--dim);min-width:4.5em;">SCHRIFT</span>${_scBtn(1,'1×')}${_scBtn(1.5,'1.5×')}${_scBtn(2,'2×')}</div>`;
     const _lbl = (t) => `<span style="font-size:0.7em;color:var(--dim);white-space:nowrap;">${t}</span>`;
+    const _scBtn = (v, lbl) => `<button class="btn font-scale-btn${_curScale===v?' btn-hi':''}" data-scale="${v}" onclick="applyFontScale(${v})" style="font-size:0.7em;padding:2px 5px;">${lbl}</button>`;
+
+    // Für fremde Profile: Buttons/Dropdowns rufen Admin-Speicherfunktion auf
+    const _onTheme = _isOwn
+      ? `applyTheme(this.value)`
+      : `_adminSaveUserSetting('${profil.google_id||''}','theme',this.value,this)`;
+    const _rtBtn = (typ, lbl) => {
+      const aktiv = _rt.includes(typ);
+      const onclick = _isOwn
+        ? `radioTypToggle(this)`
+        : `_adminRadioTypToggle(this,'${profil.google_id||''}')`;
+      return `<button class="btn radio-typ-btn${aktiv?' aktiv':''}" data-typ="${typ}" onclick="${onclick}" style="font-size:0.7em;padding:2px 5px;width:100%;">${lbl}</button>`;
+    };
+    const _autoOnclick = _isOwn ? `radioAutostartToggle(this)` : `_adminRadioToggle(this,'autostart','${profil.google_id||''}')`;
+    const _shOnclick   = _isOwn ? `radioShuffleToggle(this)`   : `_adminRadioToggle(this,'shuffle','${profil.google_id||''}')`;
+
+    const _editHint = !_isOwn ? `<div style="color:var(--orange);font-size:0.72em;margin-bottom:4px;">[ Admin: Einstellungen für ${escHtml(name)} ]</div>` : '';
+
     einst.innerHTML =
-      `<div style="color:var(--dim);margin-bottom:6px;letter-spacing:1px;font-size:0.9em;">── EINSTELLUNGEN</div>` +
+      `<div style="color:var(--dim);margin-bottom:4px;letter-spacing:1px;font-size:0.9em;">── EINSTELLUNGEN</div>` +
+      _editHint +
       `<div style="display:grid;grid-template-columns:auto 1fr;gap:4px 8px;align-items:center;">` +
-        _lbl('THEME') + `<div><select class="theme-select" onchange="applyTheme(this.value)" style="font-family:inherit;font-size:0.7em;background:var(--bg2);color:var(--text);border:1px solid var(--gold);padding:2px 4px;cursor:pointer;">${_themeOpts}</select></div>` +
-        (S.lobbyCode ? '' : _lbl('SCHRIFT') + `<div style="display:flex;gap:3px;">${_scBtn(1,'1×')}${_scBtn(1.5,'1.5×')}${_scBtn(2,'2×')}</div>`) +
+        _lbl('THEME') + `<div><select class="theme-select" onchange="${_onTheme}" style="font-family:inherit;font-size:0.7em;background:var(--bg2);color:var(--text);border:1px solid var(--gold);padding:2px 4px;cursor:pointer;">${_themeOpts}</select></div>` +
+        (_isOwn && !S.lobbyCode ? _lbl('SCHRIFT') + `<div style="display:flex;gap:3px;">${_scBtn(1,'1×')}${_scBtn(1.5,'1.5×')}${_scBtn(2,'2×')}</div>` : '') +
         _lbl('RADIO') +
         `<div style="display:grid;grid-template-columns:1fr 1fr;gap:3px;">` +
           [['ost','MP3 (OST)'],['sid','SID (C64)'],['mp3','MP3 (Andere)'],['mod','MOD (Amiga)']].filter(([t])=>(S._verfügbareTypen||['ost','sid','mod','mp3']).includes(t)).map(([t,l])=>_rtBtn(t,l)).join('') +
-          `<button class="btn radio-typ-btn radio-autostart-btn${_autoA?' aktiv':''}" onclick="radioAutostartToggle(this)" style="font-size:0.7em;padding:2px 5px;width:100%;">AUTOPLAY</button>` +
-          `<button class="btn radio-typ-btn radio-shuffle-btn${_shA?' aktiv':''}" onclick="radioShuffleToggle(this)" style="font-size:0.7em;padding:2px 5px;width:100%;">SHUFFLE</button>` +
+          `<button class="btn radio-typ-btn radio-autostart-btn${_autoA?' aktiv':''}" onclick="${_autoOnclick}" style="font-size:0.7em;padding:2px 5px;width:100%;">AUTOPLAY</button>` +
+          `<button class="btn radio-typ-btn radio-shuffle-btn${_shA?' aktiv':''}" onclick="${_shOnclick}" style="font-size:0.7em;padding:2px 5px;width:100%;">SHUFFLE</button>` +
         `</div>` +
       `</div>`;
     body.appendChild(einst);
@@ -4573,6 +4600,47 @@ function oeffneProfilModal(name, profil) {
 
 function schliesseProfil() {
   document.getElementById('profil-modal-overlay').classList.remove('vis');
+}
+
+async function _adminSaveUserSetting(gid, field, value, el) {
+  if (!gid) return;
+  const body = {token: S.auth_token, target_google_id: gid};
+  body[field] = value;
+  const r = await fetch('/api/admin/user_settings', {method:'POST',
+    headers:{'Content-Type':'application/json'}, body: JSON.stringify(body)}).then(r=>r.json()).catch(()=>null);
+  if (r?.success) sbr('EINSTELLUNG GESPEICHERT');
+  else sbr('FEHLER: ' + (r?.error||'?'));
+}
+
+function _adminRadioTypToggle(btn, gid) {
+  if (!gid) return;
+  const typ = btn.dataset.typ;
+  const aktiv = [...btn.closest('div').querySelectorAll('.radio-typ-btn[data-typ]')]
+    .filter(b => b.classList.contains('aktiv')).map(b => b.dataset.typ);
+  const idx = aktiv.indexOf(typ);
+  let neu;
+  if (idx >= 0) {
+    if (aktiv.length <= 1) return;
+    neu = aktiv.filter(t => t !== typ);
+  } else {
+    neu = [...aktiv, typ];
+  }
+  btn.closest('div').querySelectorAll('.radio-typ-btn[data-typ]').forEach(b =>
+    b.classList.toggle('aktiv', neu.includes(b.dataset.typ)));
+  const rs = {types: neu, autostart: btn.closest('div').querySelector('.radio-autostart-btn')?.classList.contains('aktiv') ? '1' : '0',
+               shuffle: btn.closest('div').querySelector('.radio-shuffle-btn')?.classList.contains('aktiv') ? '1' : '0'};
+  _adminSaveUserSetting(gid, 'radio_settings', rs, btn);
+}
+
+function _adminRadioToggle(btn, field, gid) {
+  if (!gid) return;
+  btn.classList.toggle('aktiv');
+  const container = btn.closest('div');
+  const types = [...container.querySelectorAll('.radio-typ-btn[data-typ].aktiv')].map(b => b.dataset.typ);
+  const rs = {types,
+    autostart: container.querySelector('.radio-autostart-btn')?.classList.contains('aktiv') ? '1' : '0',
+    shuffle:   container.querySelector('.radio-shuffle-btn')?.classList.contains('aktiv')   ? '1' : '0'};
+  _adminSaveUserSetting(gid, 'radio_settings', rs, btn);
 }
 
 function _ntBuildHtml(items) {

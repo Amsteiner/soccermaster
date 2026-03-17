@@ -560,6 +560,9 @@ class APIHandler(SimpleHTTPRequestHandler):
                 if 'radio_settings' in data and isinstance(data['radio_settings'], dict):
                     update_data["radio_settings"] = data['radio_settings']
 
+                if 'theme' in data and isinstance(data['theme'], str):
+                    update_data["theme"] = data['theme']
+
                 profile = ProfileManager.update_profile(google_id, update_data)
                 if not profile:
                     self._send_json({"success": False, "error": "Profile not found"}, 404)
@@ -818,8 +821,11 @@ class APIHandler(SimpleHTTPRequestHandler):
                 def _do_restart():
                     import time as _time
                     _time.sleep(0.5)
+                    # Unter systemd: eigenen Prozess beenden → systemd startet neu
+                    # Unter start.sh: SIGUSR1 an Parent → start.sh startet neu
                     try:
                         ppid = _os.getppid()
+                        # Prüfen ob Parent start.sh ist (kein systemd/init)
                         with open(f"/proc/{ppid}/comm") as f:
                             parent_name = f.read().strip()
                         if parent_name in ("bash", "sh", "start.sh"):
@@ -829,6 +835,32 @@ class APIHandler(SimpleHTTPRequestHandler):
                     except Exception:
                         _os.kill(_os.getpid(), _sig.SIGTERM)
                 _th.Thread(target=_do_restart, daemon=True).start()
+            except Exception as e:
+                self._send_json({"success": False, "error": str(e)}, 500)
+
+        # Admin: Einstellungen eines anderen Users ändern
+        elif path == '/api/admin/user_settings':
+            try:
+                content_length = int(self.headers.get('Content-Length', 0))
+                body = self.rfile.read(content_length).decode('utf-8')
+                data = json.loads(body)
+                if not self._check_admin(data.get('token')):
+                    self._send_json({"success": False, "error": "Forbidden"}, 403)
+                    return
+                target_gid = data.get('target_google_id')
+                if not target_gid:
+                    self._send_json({"success": False, "error": "target_google_id fehlt"}, 400)
+                    return
+                update_data = {}
+                if 'radio_settings' in data and isinstance(data['radio_settings'], dict):
+                    update_data["radio_settings"] = data['radio_settings']
+                if 'theme' in data and isinstance(data['theme'], str):
+                    update_data["theme"] = data['theme']
+                profile = ProfileManager.update_profile(target_gid, update_data)
+                if not profile:
+                    self._send_json({"success": False, "error": "Profil nicht gefunden"}, 404)
+                    return
+                self._send_json({"success": True})
             except Exception as e:
                 self._send_json({"success": False, "error": str(e)}, 500)
 
