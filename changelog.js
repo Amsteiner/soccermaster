@@ -1,49 +1,39 @@
 const CHANGELOG = [
-  { v: '0.7.27', einträge: [
-    'Dev-Admin-Erkennung läuft jetzt über die hinterlegte E-Mail-Adresse statt hardcoded Werten',
-    'Reservierter Nickname löst Easter Egg aus – egal welcher Nickname reserviert ist',
+  { v: '0.7.29', einträge: [
+    'Es wurden Änderungen an der Steuerung für das Radio vorgenommen',
   ]},
-  { v: '0.7.26', einträge: [
-    'Dev-Admin und reservierte Nicknames sind jetzt über die Konfiguration einstellbar statt hardcoded',
+  { v: '0.7.28', einträge: [
+    'Einstellungen (Theme, Radio) können jetzt auch während einer laufenden Partie geändert werden – eigenen Namen in der Online-Liste anklicken',
+    'Spielstand-Anzeige zeigt jetzt Verein, Saison und Spieltag',
+  ]},
+  { v: '0.7.27', einträge: [
+    'Reservierter Nickname löst Easter Egg aus',
   ]},
   { v: '0.7.25', einträge: [
     'AFK-Modus: Inaktive Spieler werden in der Online-Liste mit gelbem Punkt und [AFK]-Status markiert',
     'AFK-Spieler werden beim Weiter-Button automatisch als bereit gezählt',
-    'Inaktivitäts-Timeout für Admins konfigurierbar',
   ]},
   { v: '0.7.24', einträge: [
     'Saison-Abschluss: Gelistete Spieler werden vor der Insolvenzprüfung zwangsverkauft – Erlös zählt noch zur laufenden Saison',
     'In Woche 34 neu gelistete Spieler kehren bei Saisonende in den Kader zurück',
   ]},
-  { v: '0.7.23', einträge: [
-    'Pokal VORSPULEN: Nach Elfmeter-Ergebnis wurden parallele Spiele nicht mehr blockiert',
-  ]},
   { v: '0.7.22', einträge: [
-    'AFK-Erkennung: Nach 5 Min. Inaktivität werden Spieler in der Online-Liste als [AFK] mit gelbem Punkt markiert',
-    'AFK-Spieler zählen automatisch als bereit und blockieren die Management-Phase nicht',
-    'Inaktivitäts-Timeout für Admins konfigurierbar',
     'Relegationsspiel: Ohne Managerbeteiligung wird das Spiel instant im Hintergrund berechnet',
   ]},
   { v: '0.7.21', einträge: [
     'DFB-Pokal: Folgerunden werden jetzt korrekt als Einzelspiele (KO) ausgelost, nicht als Hin/Rückspiel',
   ]},
   { v: '0.7.20', einträge: [
-    'Pokal-CPU-Runden (kein Manager beteiligt) laufen jetzt sofort statt in Echtzeit → kein 40s-Hänger nach Weiter',
+    'Pokal-CPU-Runden (kein Manager beteiligt) laufen jetzt sofort durch',
     'VORSPULEN im Pokal funktioniert jetzt korrekt: alle parallelen CPU-Spiele skippen mit',
   ]},
   { v: '0.7.19', einträge: [
-    'VORSPULEN-Button jetzt nur für Admins/Tester sichtbar (war versehentlich für alle sichtbar)',
-    'Weiter-Timer bei Reconnect: zeigt korrekte Restzeit statt immer 60 Sekunden',
     'Spieler-Listing: mindestens 11 Spieler müssen im Kader bleiben',
   ]},
   { v: '0.7.18', einträge: [
     'Versionsnummer anklickbar: zeigt diesen Changelog',
     'Neue Retro-Themes: ZX Spectrum, CGA, Macintosh, Commodore PET, C64 BASIC',
     'Statusleiste überarbeitet: einheitlicheres Erscheinungsbild',
-  ]},
-  { v: '0.7.17', einträge: [
-    'Spielsimulation: Weitere Balance-Parameter über das Admin-Panel einstellbar',
-    'Malus für Rote Karten, Eigentor-Chance und weitere Faktoren anpassbar',
   ]},
   { v: '0.7.16', einträge: [
     'Vorspulen: Ereignisse (Tore, Karten, Verletzungen) werden nach dem Spiel im Ticker angezeigt',
@@ -96,8 +86,7 @@ const CHANGELOG = [
   ]},
   { v: '0.7.2', einträge: [
     'Gelbe Karten: Anzeige als Gesamt (Zyklus) wenn Pokalkarten die Ligawertung aufblähen',
-    'Auslandsmarkt: Mindeststärke auf Sehr stark / Weltklasse angehoben',
-    'Spielabbruch: Wertung Liga 2:0, international 3:0 – nur wenn Ergebnis nicht bereits besser',
+    'Spielabbruch: Ergebnis wird zugunsten des nicht-schuldigen Teams gewertet',
   ]},
   { v: '0.7.1', einträge: [
     'Europapokale: ECL, Pokalsieger-Cup und UEFA-Pokal vollständig spielbar',
