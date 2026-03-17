@@ -3052,7 +3052,7 @@ function handleMsg(d){
         S.chatGlobal = [];
         (d.nachrichten || []).forEach(m => {
           if (m.profil) S.gidToProfile[m.name] = m.profil;
-          S.chatGlobal.push({ name: m.name, text: m.text, bereich: bch, ts: m.ts || '', google_id: m.google_id || '' });
+          S.chatGlobal.push({ name: m.name, text: m.text, bereich: bch, ts: m.ts || '', ts_epoch: m.ts_epoch||null, google_id: m.google_id || '' });
         });
         sysMsgs.forEach(m => S.chatGlobal.push(m));
         if (S._pendingOnlineMsg) {
@@ -3070,7 +3070,7 @@ function handleMsg(d){
 
     case 'chat_nachricht':
       if (d.profil) S.gidToProfile[d.name] = d.profil;
-      appendChatNachricht(d.name, d.text, d.bereich || 'global', d.google_id, d.ts); break;
+      appendChatNachricht(d.name, d.text, d.bereich || 'global', d.google_id, d.ts, d.ts_epoch||null); break;
 
     case 'lobby_code_abgelaufen': {
       const code = d.code;
@@ -4741,7 +4741,14 @@ function chatMobileToggle() {
   }
 }
 
-function formatChatTs(ts) {
+function formatChatTs(ts, tsEpoch) {
+  if (tsEpoch) {
+    const d = new Date(tsEpoch);
+    const today = new Date().toLocaleDateString('de-DE', {day:'2-digit', month:'2-digit', year:'numeric'});
+    const dayStr = d.toLocaleDateString('de-DE', {day:'2-digit', month:'2-digit', year:'numeric'});
+    const timeStr = d.toLocaleTimeString('de-DE', {hour:'2-digit', minute:'2-digit'});
+    return dayStr === today ? timeStr : dayStr + ' ' + timeStr;
+  }
   if (!ts) return '';
   const [datePart, timePart] = ts.split(' ');
   if (!datePart || !timePart) return ts;
@@ -4801,7 +4808,7 @@ function chatMsgHtml(m) {
   if (m.system) {
     if (m.ts_epoch && Date.now() - m.ts_epoch > 5 * 60 * 1000) return '';
     return `<div class="chat-msg chat-msg-server">` +
-      `<div class="chat-meta">${escHtml(formatChatTs(m.ts||''))} <span class="cn-server">▌ SERVER</span></div>` +
+      `<div class="chat-meta">${escHtml(formatChatTs(m.ts||'', m.ts_epoch))} <span class="cn-server">▌ SERVER</span></div>` +
       `<div class="ct">${escHtml(m.text)}</div>` +
       `</div>`;
   }
@@ -4811,7 +4818,7 @@ function chatMsgHtml(m) {
       ? `<span class="cn cn-tip" data-name="${escHtml(m.name)}">${escHtml(m.name)}</span>`
       : `<span class="cn">${escHtml(m.name)}</span>`;
     return `<div class="chat-msg${mentionCls}">` +
-      `<div class="chat-meta">${escHtml(formatChatTs(m.ts||''))} ${nameHtml}:</div>` +
+      `<div class="chat-meta">${escHtml(formatChatTs(m.ts||'', m.ts_epoch))} ${nameHtml}:</div>` +
       `<div class="ct">${highlightMentions(linkifyLobbyCodes(replaceEmojis(escHtml(m.text))))}</div>` +
       `</div>`;
   }
@@ -4825,13 +4832,9 @@ function renderChatNachrichten() {
   requestAnimationFrame(() => { const _last = el.lastElementChild; if (_last) _last.scrollIntoView(false); else el.scrollTop = el.scrollHeight; });
 }
 
-function appendChatNachricht(name, text, bereich, google_id, ts) {
-  if (!ts) {
-    const now = new Date();
-    ts = now.toLocaleDateString('de-DE', {day:'2-digit', month:'2-digit', year:'numeric'}) + ' ' +
-         now.toLocaleTimeString('de-DE', {hour:'2-digit', minute:'2-digit'});
-  }
-  const msg = { name, text, bereich, ts, google_id: google_id || '' };
+function appendChatNachricht(name, text, bereich, google_id, ts, ts_epoch) {
+  if (!ts_epoch) ts_epoch = Date.now();
+  const msg = { name, text, bereich, ts: ts||'', ts_epoch, google_id: google_id || '' };
   const arr = (bereich === 'session') ? S.chatSession : S.chatGlobal;
   arr.push(msg);
   if (arr.length > 200) arr.shift();

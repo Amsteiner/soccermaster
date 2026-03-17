@@ -1648,7 +1648,7 @@ class LobbyServer:
                             log_chat(name, text, bereich=bereich, google_id=gid)
                             ts = datetime.now().strftime("%d.%m.%Y %H:%M")
                             msg = {"typ": "chat_nachricht", "name": name, "text": text,
-                                   "bereich": bereich, "google_id": gid, "ts": ts,
+                                   "bereich": bereich, "google_id": gid, "ts": ts, "ts_epoch": int(time.time() * 1000),
                                    "profil": self._profil_daten(gid)}
                             if bereich == "session":
                                 lobby = self.lobbys.get(conn_info.get("lobby_code"))
