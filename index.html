@@ -359,7 +359,7 @@ hr{border:none;border-top:1px solid var(--bg2);margin:8px 0;}
             <div id="profil-einst-body" style="display:none;padding-left:4px;">
               <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
                 <span style="font-size:0.55em;color:var(--dim);min-width:4.5em;">THEME</span>
-                <select id="theme-select" onchange="applyTheme(this.value)" style="font-family:inherit;font-size:0.55em;background:var(--bg2);color:var(--text);border:1px solid var(--gold);padding:2px 4px;cursor:pointer;">
+                <select id="theme-select" class="theme-select" onchange="applyTheme(this.value)" style="font-family:inherit;font-size:0.55em;background:var(--bg2);color:var(--text);border:1px solid var(--gold);padding:2px 4px;cursor:pointer;">
                   <option value="c64">C64</option>
                   <option value="dos">DOS/GRÜN</option>
                   <option value="wb13">WB 1.3</option>
@@ -386,8 +386,8 @@ hr{border:none;border-top:1px solid var(--bg2);margin:8px 0;}
                 <button class="btn radio-typ-btn" id="radio-typ-mp3" data-typ="mp3" onclick="radioTypToggle(this)" style="font-size:0.55em;padding:2px 5px;">MP3<span style="color:var(--dim);margin-left:2px;">(Andere)</span></button>
                 <button class="btn radio-typ-btn" id="radio-typ-sid" data-typ="sid" onclick="radioTypToggle(this)" style="font-size:0.55em;padding:2px 5px;">SID<span style="color:var(--dim);margin-left:2px;">(C64)</span></button>
                 <button class="btn radio-typ-btn" id="radio-typ-mod" data-typ="mod" onclick="radioTypToggle(this)" style="font-size:0.55em;padding:2px 5px;">MOD<span style="color:var(--dim);margin-left:2px;">(Amiga)</span></button>
-                <button class="btn radio-typ-btn" id="radio-autostart" onclick="radioAutostartToggle(this)" style="font-size:0.55em;padding:2px 5px;" title="Radio beim Laden automatisch starten">AUTOPLAY</button>
-                <button class="btn radio-typ-btn" id="radio-shuffle" onclick="radioShuffleToggle(this)" style="font-size:0.55em;padding:2px 5px;" title="Zufällige Reihenfolge">SHUFFLE</button>
+                <button class="btn radio-typ-btn radio-autostart-btn" id="radio-autostart" onclick="radioAutostartToggle(this)" style="font-size:0.55em;padding:2px 5px;" title="Radio beim Laden automatisch starten">AUTOPLAY</button>
+                <button class="btn radio-typ-btn radio-shuffle-btn" id="radio-shuffle" onclick="radioShuffleToggle(this)" style="font-size:0.55em;padding:2px 5px;" title="Zufällige Reihenfolge">SHUFFLE</button>
               </div>
             </div>
 
@@ -777,8 +777,8 @@ hr{border:none;border-top:1px solid var(--bg2);margin:8px 0;}
     <span onclick="radioNaechster()" style="cursor:pointer;color:var(--gold);user-select:none;flex-shrink:0;font-family:system-ui,sans-serif;font-size:2em;line-height:1;display:inline-flex;align-items:center;" title="Nächster Titel">⏭</span>
     <span id="radio-bar" onclick="toggleRadio()" style="cursor:pointer;flex:1;min-width:0;overflow:hidden;" title="Radio ein/ausschalten"><span id="radio-titel" style="color:var(--dim);white-space:nowrap;display:inline-block;">–</span></span>
     <input id="radio-vol" type="range" min="0" max="100" value="60" oninput="radioLautstärke(this.value)" title="Lautstärke" style="flex-shrink:0;">
-    <button class="btn radio-typ-btn" id="radio-shuffle-sb" onclick="radioShuffleToggle(this)" style="font-size:0.7em;padding:2px 4px;flex-shrink:0;" title="Shuffle">S</button>
-    <button class="btn radio-typ-btn" id="radio-autostart-sb" onclick="radioAutostartToggle(this)" style="font-size:0.7em;padding:2px 4px;flex-shrink:0;" title="Autoplay">A</button>
+    <button class="btn radio-typ-btn radio-shuffle-btn" id="radio-shuffle-sb" onclick="radioShuffleToggle(this)" style="font-size:0.7em;padding:2px 4px;flex-shrink:0;" title="Shuffle">S</button>
+    <button class="btn radio-typ-btn radio-autostart-btn" id="radio-autostart-sb" onclick="radioAutostartToggle(this)" style="font-size:0.7em;padding:2px 4px;flex-shrink:0;" title="Autoplay">A</button>
   </span>
   <span id="sb-conn" style="white-space:nowrap;"><span id="sb-r">GETRENNT</span><span class="blink">■</span></span>
 </div>
@@ -1039,11 +1039,11 @@ function showLoggedInUI() {
     if (einstArrow) einstArrow.textContent = '▼';
   }
   const _rt=_radioTypenGeladen();
-  ['mp3','sid','mod','ost'].forEach(t=>{const el=document.getElementById('radio-typ-'+t);if(el)el.classList.toggle('aktiv',_rt.includes(t));});
+  ['mp3','sid','mod','ost'].forEach(t=>document.querySelectorAll('.radio-typ-btn[data-typ="'+t+'"]').forEach(b=>b.classList.toggle('aktiv',_rt.includes(t))));
   const _autoAktiv=localStorage.getItem('radioAutostart')==='1';
   const _shAktiv=localStorage.getItem('radioShuffle')==='1';
-  document.querySelectorAll('#radio-autostart,#radio-autostart-sb').forEach(b=>b.classList.toggle('aktiv',_autoAktiv));
-  document.querySelectorAll('#radio-shuffle,#radio-shuffle-sb').forEach(b=>b.classList.toggle('aktiv',_shAktiv));
+  document.querySelectorAll('.radio-autostart-btn').forEach(b=>b.classList.toggle('aktiv',_autoAktiv));
+  document.querySelectorAll('.radio-shuffle-btn').forEach(b=>b.classList.toggle('aktiv',_shAktiv));
   document.getElementById('lobbies-section').style.display = 'block';
   fetch(`/api/admin/check?token=${encodeURIComponent(S.auth_token)}`).then(r=>r.json()).then(d=>{ S.isAdmin = d.is_admin||false; S.isTester = d.is_tester||false; S.isDevAdmin = d.is_dev||false; if(S.isAdmin||S.isDevAdmin) document.getElementById('btn-admin').style.display=''; const _sb=document.getElementById('btn-sim'); if(_sb){if(!istAdmin()&&!istTester())_sb.style.display='none';else if(S._simBtnPhase&&_sb.style.display==='none'){_sb.disabled=false;_sb.style.display='';}} if(istAdmin()||istTester()) pruefeUpdate(S._serverVersion||''); }).catch(()=>{});
   // Beim Server anmelden ohne Lobby → Global-Chat sofort nutzbar
@@ -1217,8 +1217,7 @@ function applyTheme(id) {
   Object.entries(t).forEach(([k,v]) => { if (k !== 'font' && k !== 'baseSize') r.style.setProperty(k, v); });
   document.body.style.fontFamily = t.font;
   localStorage.setItem('theme', id);
-  const sel = document.getElementById('theme-select');
-  if (sel) sel.value = id;
+  document.querySelectorAll('.theme-select').forEach(sel => sel.value = id);
   applyFontScale(parseFloat(localStorage.getItem('font_scale') || '1'));
 }
 
@@ -4533,6 +4532,29 @@ function oeffneProfilModal(name, profil) {
 
   body.appendChild(info);
 
+  // Einstellungen für eigenen Account und Admins/Dev
+  if (name === S.nickname || istAdmin() || istDevAdmin()) {
+    const SEP2 = document.createElement('div');
+    SEP2.style.cssText = 'border-top:1px solid rgba(255,215,0,0.2);margin:8px 0;';
+    body.appendChild(SEP2);
+    const einst = document.createElement('div');
+    const _curTheme = localStorage.getItem('theme') || 'c64';
+    const _curScale = parseFloat(localStorage.getItem('font_scale') || '1');
+    const _rt = (localStorage.getItem('radioTypen') || 'ost,sid,mod').split(',');
+    const _autoA = localStorage.getItem('radioAutostart') === '1';
+    const _shA = localStorage.getItem('radioShuffle') === '1';
+    const _themeOpts = ['c64','dos','wb13','wb31','magicwb','arcade','amber','spectrum','cga','mac','pet','c64basic']
+      .map(t => `<option value="${t}"${t===_curTheme?' selected':''}>${t.toUpperCase()}</option>`).join('');
+    const _scBtn = (v, lbl) => `<button class="btn font-scale-btn" data-scale="${v}" onclick="applyFontScale(${v})" style="font-size:0.55em;padding:2px 5px;${_curScale===v?'background:rgba(255,208,128,0.15);border-color:var(--yellow);color:var(--yellow);':''}">${lbl}</button>`;
+    const _rtBtn = (typ, lbl) => `<button class="btn radio-typ-btn${_rt.includes(typ)?' aktiv':''}" data-typ="${typ}" onclick="radioTypToggle(this)" style="font-size:0.55em;padding:2px 5px;">${lbl}</button>`;
+    einst.innerHTML =
+      `<div style="color:var(--dim);margin-bottom:6px;letter-spacing:1px;font-size:0.9em;">── EINSTELLUNGEN</div>` +
+      `<div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;"><span style="font-size:0.55em;color:var(--dim);min-width:4.5em;">THEME</span><select class="theme-select" onchange="applyTheme(this.value)" style="font-family:inherit;font-size:0.55em;background:var(--bg2);color:var(--text);border:1px solid var(--gold);padding:2px 4px;cursor:pointer;">${_themeOpts}</select></div>` +
+      `<div style="display:flex;align-items:center;gap:3px;margin-bottom:4px;"><span style="font-size:0.55em;color:var(--dim);min-width:4.5em;">SCHRIFT</span>${_scBtn(1,'1×')}${_scBtn(1.5,'1.5×')}${_scBtn(2,'2×')}</div>` +
+      `<div style="display:flex;align-items:center;flex-wrap:wrap;gap:3px;"><span style="font-size:0.55em;color:var(--dim);min-width:4.5em;">RADIO</span>${_rtBtn('ost','MP3 (OST)')}${_rtBtn('mp3','MP3 (Andere)')}${_rtBtn('sid','SID')}${_rtBtn('mod','MOD')}<button class="btn radio-typ-btn radio-autostart-btn${_autoA?' aktiv':''}" onclick="radioAutostartToggle(this)" style="font-size:0.55em;padding:2px 5px;">AUTOPLAY</button><button class="btn radio-typ-btn radio-shuffle-btn${_shA?' aktiv':''}" onclick="radioShuffleToggle(this)" style="font-size:0.55em;padding:2px 5px;">SHUFFLE</button></div>`;
+    body.appendChild(einst);
+  }
+
   document.getElementById('profil-modal-overlay').classList.add('vis');
 }
 
@@ -5465,8 +5487,9 @@ function _saveRadioSettings(){
 }
 function radioTypToggle(btn){
   btn.classList.toggle('aktiv');
-  const aktiv=['mp3','sid','mod','ost'].filter(t=>document.getElementById('radio-typ-'+t)?.classList.contains('aktiv'));
+  const aktiv=['mp3','sid','mod','ost'].filter(t=>[...document.querySelectorAll('.radio-typ-btn[data-typ="'+t+'"]')].some(b=>b.classList.contains('aktiv')));
   if(aktiv.length===0){btn.classList.add('aktiv');return;} // mindestens eine Option muss aktiv bleiben
+  ['mp3','sid','mod','ost'].forEach(t=>document.querySelectorAll('.radio-typ-btn[data-typ="'+t+'"]').forEach(b=>b.classList.toggle('aktiv',aktiv.includes(t))));
   _radioTypenSpeichern(aktiv);
   _saveRadioSettings();
   const aktuell=_radioSong();
@@ -5478,14 +5501,14 @@ function radioAutostartToggle(btn){
   btn.classList.toggle('aktiv');
   const v=btn.classList.contains('aktiv')?'1':'0';
   localStorage.setItem('radioAutostart',v);
-  document.querySelectorAll('#radio-autostart,#radio-autostart-sb').forEach(b=>{if(b!==btn)b.classList.toggle('aktiv',v==='1');});
+  document.querySelectorAll('.radio-autostart-btn').forEach(b=>{if(b!==btn)b.classList.toggle('aktiv',v==='1');});
   _saveRadioSettings();
 }
 function radioShuffleToggle(btn){
   btn.classList.toggle('aktiv');
   const v=btn.classList.contains('aktiv')?'1':'0';
   localStorage.setItem('radioShuffle',v);
-  document.querySelectorAll('#radio-shuffle,#radio-shuffle-sb').forEach(b=>{if(b!==btn)b.classList.toggle('aktiv',v==='1');});
+  document.querySelectorAll('.radio-shuffle-btn').forEach(b=>{if(b!==btn)b.classList.toggle('aktiv',v==='1');});
   ladeRadio();
   _saveRadioSettings();
 }
@@ -5497,13 +5520,9 @@ function _initRadioDefaults(){
       const autoStart=d.radio['standard_auto']==='1';
       // Buttons aktualisieren falls noch kein lokaler Wert gespeichert
       if(!localStorage.getItem('radioTypen')){
-        ['mp3','sid','mod','ost'].forEach(t=>{
-          const el=document.getElementById('radio-typ-'+t);
-          if(el)el.classList.toggle('aktiv',_radioServerDefaults.includes(t));
-        });
+        ['mp3','sid','mod','ost'].forEach(t=>document.querySelectorAll('.radio-typ-btn[data-typ="'+t+'"]').forEach(b=>b.classList.toggle('aktiv',_radioServerDefaults.includes(t))));
         if(!localStorage.getItem('radioAutostart')){
-          const ae=document.getElementById('radio-autostart');
-          if(ae)ae.classList.toggle('aktiv',autoStart);
+          document.querySelectorAll('.radio-autostart-btn').forEach(b=>b.classList.toggle('aktiv',autoStart));
         }
       }
     }
