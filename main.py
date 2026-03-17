@@ -815,7 +815,20 @@ class APIHandler(SimpleHTTPRequestHandler):
                 import threading as _th, os as _os, signal as _sig
                 if self._ws_server:
                     self._ws_server._neustart = True
-                _th.Timer(0.3, lambda: _os.kill(_os.getppid(), _sig.SIGUSR1)).start()
+                def _do_restart():
+                    import time as _time
+                    _time.sleep(0.5)
+                    try:
+                        ppid = _os.getppid()
+                        with open(f"/proc/{ppid}/comm") as f:
+                            parent_name = f.read().strip()
+                        if parent_name in ("bash", "sh", "start.sh"):
+                            _os.kill(ppid, _sig.SIGUSR1)
+                        else:
+                            _os.kill(_os.getpid(), _sig.SIGTERM)
+                    except Exception:
+                        _os.kill(_os.getpid(), _sig.SIGTERM)
+                _th.Thread(target=_do_restart, daemon=True).start()
             except Exception as e:
                 self._send_json({"success": False, "error": str(e)}, 500)
 
