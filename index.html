@@ -1591,15 +1591,15 @@ async function zeigeAdmin() {
   document.getElementById('tester-mgmt-section').style.display = istDevAdmin() ? 'block' : 'none';
   const [settingsResp, adminsResp, testersResp] = await Promise.all([
     fetch(`/api/admin/settings?token=${encodeURIComponent(S.auth_token)}`).then(r=>r.json()).catch(()=>null),
-    isOwner ? fetch(`/api/admin/admins?token=${encodeURIComponent(S.auth_token)}`).then(r=>r.json()).catch(()=>null) : Promise.resolve(null),
-    isOwner ? fetch(`/api/admin/testers?token=${encodeURIComponent(S.auth_token)}`).then(r=>r.json()).catch(()=>null) : Promise.resolve(null)
+    istDevAdmin() ? fetch(`/api/admin/admins?token=${encodeURIComponent(S.auth_token)}`).then(r=>r.json()).catch(()=>null) : Promise.resolve(null),
+    istDevAdmin() ? fetch(`/api/admin/testers?token=${encodeURIComponent(S.auth_token)}`).then(r=>r.json()).catch(()=>null) : Promise.resolve(null)
   ]);
   if (settingsResp?.success) {
     _adminSections = _adminParse(settingsResp.content);
     _adminRender(_adminSections);
   } else { st.textContent = '✗ ' + (settingsResp?.error || 'Verbindungsfehler'); st.style.color = 'var(--red)'; }
-  if (isOwner && adminsResp?.success) _adminRenderMgmt(adminsResp);
-  if (isOwner && testersResp?.success) _adminRenderTesterMgmt(testersResp);
+  if (istDevAdmin() && adminsResp?.success) _adminRenderMgmt(adminsResp);
+  if (istDevAdmin() && testersResp?.success) _adminRenderTesterMgmt(testersResp);
 }
 
 function _adminRenderMgmt(d) {
