@@ -1,4 +1,9 @@
 const CHANGELOG = [
+  { v: '0.7.30', einträge: [
+    'Rote Karten im Pokal und Europapokalen führen nicht mehr zu einer Ligasperre',
+    'Spieler mit Sonderzeichen im Namen konnten nicht verpflichtet werden – behoben',
+    'Saisons im Minus wurde nach dem Laden eines Spielstands falsch angezeigt – behoben',
+  ]},
   { v: '0.7.29', einträge: [
     'Es wurden Änderungen an der Steuerung für das Radio vorgenommen',
   ]},
