@@ -16,6 +16,8 @@ import websockets
 
 log = logging.getLogger(__name__)
 
+from engine.settings import getint as _cfg_int, getfloat as _cfg_float, getstr as _cfg_str, getlist as _cfg_list
+
 _VERSION = (Path(__file__).parent.parent / "VERSION").read_text(encoding="utf-8").strip()
 _SERVER_ID = str(uuid.uuid4())
 
@@ -41,7 +43,6 @@ def _ist_tester(google_id: str) -> bool:
         pass
     return False
 from engine.game_state import GameState, _VORNAMEN, _NACHNAMEN
-from engine.settings import getint as _cfg_int, getfloat as _cfg_float, getstr as _cfg_str, getlist as _cfg_list
 from engine.draft import draft_kader
 from engine.transfer import Transfermarkt
 from engine.spielplan import (
