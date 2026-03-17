@@ -4538,11 +4538,11 @@ function oeffneProfilModal(name, profil) {
     SEP2.style.cssText = 'border-top:1px solid rgba(255,215,0,0.2);margin:8px 0;';
     body.appendChild(SEP2);
     const einst = document.createElement('div');
-    const _curTheme = localStorage.getItem('theme') || 'c64';
-    const _curScale = parseFloat(localStorage.getItem('font_scale') || '1');
-    const _rt = (localStorage.getItem('radioTypen') || 'ost,sid,mod').split(',');
-    const _autoA = localStorage.getItem('radioAutostart') === '1';
-    const _shA = localStorage.getItem('radioShuffle') === '1';
+    const _curTheme = document.querySelector('.theme-select')?.value || localStorage.getItem('theme') || 'c64';
+    const _curScale = parseFloat(document.querySelector('.font-scale-btn.btn-hi')?.dataset.scale || localStorage.getItem('font_scale') || '1');
+    const _rt = ['mp3','sid','mod','ost'].filter(t => document.querySelector('.radio-typ-btn[data-typ="'+t+'"].aktiv'));
+    const _autoA = !!document.querySelector('.radio-autostart-btn.aktiv');
+    const _shA = !!document.querySelector('.radio-shuffle-btn.aktiv');
     const _themeOpts = ['c64','dos','wb13','wb31','magicwb','arcade','amber','spectrum','cga','mac','pet','c64basic']
       .map(t => `<option value="${t}"${t===_curTheme?' selected':''}>${t.toUpperCase()}</option>`).join('');
     const _scBtn = (v, lbl) => `<button class="btn font-scale-btn${_curScale===v?' btn-hi':''}" data-scale="${v}" onclick="applyFontScale(${v})" style="font-size:0.7em;padding:2px 5px;">${lbl}</button>`;
