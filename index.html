@@ -2154,8 +2154,14 @@ document.addEventListener('DOMContentLoaded', () => {
       })
       .catch(() => {})
       .finally(() => {
-        showLoggedInUI();
-        loadOngoingGames();
+        if (!S.nickname) {
+          const ov = document.getElementById('nickname-overlay');
+          ov.style.display = 'flex';
+          setTimeout(() => document.getElementById('inp-nickname-forced').focus(), 50);
+        } else {
+          showLoggedInUI();
+          loadOngoingGames();
+        }
       });
   }
 });
