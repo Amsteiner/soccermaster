@@ -4556,9 +4556,9 @@ function oeffneProfilModal(name, profil) {
         _lbl('THEME') + `<div><select class="theme-select" onchange="applyTheme(this.value)" style="font-family:inherit;font-size:0.7em;background:var(--bg2);color:var(--text);border:1px solid var(--gold);padding:2px 4px;cursor:pointer;">${_themeOpts}</select></div>` +
         (S.lobbyCode ? '' : _lbl('SCHRIFT') + `<div style="display:flex;gap:3px;">${_scBtn(1,'1×')}${_scBtn(1.5,'1.5×')}${_scBtn(2,'2×')}</div>`) +
         _lbl('RADIO') +
-        `<div style="display:inline-grid;grid-template-columns:1fr 1fr;gap:3px;">` +
-          `${_rtBtn('ost','OST')}${_rtBtn('sid','SID')}` +
-          `${_rtBtn('mp3','MP3')}${_rtBtn('mod','MOD')}` +
+        `<div style="display:grid;grid-template-columns:1fr 1fr;gap:3px;">` +
+          `${_rtBtn('ost','MP3 (OST)')}${_rtBtn('sid','SID (C64)')}` +
+          `${_rtBtn('mp3','MP3 (Andere)')}${_rtBtn('mod','MOD (Amiga)')}` +
           `<button class="btn radio-typ-btn radio-autostart-btn${_autoA?' aktiv':''}" onclick="radioAutostartToggle(this)" style="font-size:0.7em;padding:2px 5px;width:100%;">AUTOPLAY</button>` +
           `<button class="btn radio-typ-btn radio-shuffle-btn${_shA?' aktiv':''}" onclick="radioShuffleToggle(this)" style="font-size:0.7em;padding:2px 5px;width:100%;">SHUFFLE</button>` +
         `</div>` +
