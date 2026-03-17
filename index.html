@@ -768,7 +768,7 @@ hr{border:none;border-top:1px solid var(--bg2);margin:8px 0;}
 </div>
 
 <div id="sb">
-  <span id="sb-title" style="color:var(--dim);">v<span id="sb-version" onclick="zeigeChangelog()" style="cursor:pointer;text-decoration:underline;" title="Changelog anzeigen">–</span> · BY AMSTEINER · <span onclick="zeigeHilfe()" style="cursor:pointer;text-decoration:underline;">HILFE</span></span><span id="sb-update" style="display:none;margin-left:10px;color:var(--yellow);font-size:0.75em;cursor:pointer;" title="Neue Version verfügbar">▲ UPDATE</span>
+  <span id="sb-title" style="color:var(--dim);">v<span id="sb-version" onclick="zeigeChangelog()" style="cursor:pointer;text-decoration:underline;" title="Changelog anzeigen">–</span> · BY AMSTEINER · <span onclick="zeigeHilfe()" style="cursor:pointer;text-decoration:underline;">HILFE</span><span id="sb-update" style="display:none;color:var(--gold);cursor:pointer;"> · UPDATE</span></span>
   <span id="sb-radio" style="display:flex;align-items:center;gap:6px;width:520px;flex-shrink:0;overflow:hidden;line-height:1;">
     <span style="white-space:nowrap;">RADIO:</span>
     <span onclick="radioPrevious()" style="cursor:pointer;color:var(--gold);user-select:none;flex-shrink:0;font-family:system-ui,sans-serif;font-size:2em;line-height:1;display:inline-flex;align-items:center;" title="Vorheriger Titel">⏮</span>
@@ -1414,8 +1414,9 @@ function pruefeUpdate(lokalVersion) {
       const rv = remote.trim();
       if (rv && rv !== lokalVersion) {
         const el = document.getElementById('sb-update');
-        el.textContent = '▲ UPDATE v' + rv;
-        el.title = 'Neue Version ' + rv + ' verfügbar (lokal: ' + lokalVersion + ')';
+        el.textContent = '· UPDATE';
+        el.title = '';
+        el.onclick = () => { document.getElementById('modal-title').textContent = '▌ UPDATE VERFÜGBAR'; showModal('Neue Version <b>' + rv + '</b> auf GitHub (lokal: ' + lokalVersion + ').<br><br>Auf dem Server ausführen:<br><br><span style="color:var(--yellow);">git pull<br>systemctl restart soccermaster</span>', [{label:'OK', action:()=>{}}]); };
         el.style.display = 'inline';
       }
     }).catch(() => {});
