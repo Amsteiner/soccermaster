@@ -312,10 +312,11 @@ async def simulate_match(
                     heim_rote += 1
                     heim_ausgefallen += 1
                     ergebnis.heim_rote_karten += 1
-                    dauer = random.randint(_cfg_int("match", "rot_sperre_min"), _cfg_int("match", "rot_sperre_max"))
-                    spieler.gesperrt_wochen = dauer
                     spieler.rote_karten += 1
                     heim_rot_raus.add(spieler.name)
+                    if not ist_pokal:
+                        dauer = random.randint(_cfg_int("match", "rot_sperre_min"), _cfg_int("match", "rot_sperre_max"))
+                        spieler.gesperrt_wochen = dauer
 
                 # Zyklus-Sperre: immer prüfen, auch wenn gleichzeitig Gelb-Rot
                 if not ist_pokal and spieler.gelbe_karten_zyklus >= _cfg_int("match", "gelb_zyklus_schwelle"):
@@ -347,10 +348,11 @@ async def simulate_match(
                     gast_rote += 1
                     gast_ausgefallen += 1
                     ergebnis.gast_rote_karten += 1
-                    dauer = random.randint(_cfg_int("match", "rot_sperre_min"), _cfg_int("match", "rot_sperre_max"))
-                    spieler.gesperrt_wochen = dauer
                     spieler.rote_karten += 1
                     gast_rot_raus.add(spieler.name)
+                    if not ist_pokal:
+                        dauer = random.randint(_cfg_int("match", "rot_sperre_min"), _cfg_int("match", "rot_sperre_max"))
+                        spieler.gesperrt_wochen = dauer
 
                 # Zyklus-Sperre: immer prüfen, auch wenn gleichzeitig Gelb-Rot
                 if not ist_pokal and spieler.gelbe_karten_zyklus >= _cfg_int("match", "gelb_zyklus_schwelle"):
