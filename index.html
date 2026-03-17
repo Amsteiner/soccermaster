@@ -751,8 +751,8 @@ hr{border:none;border-top:1px solid var(--bg2);margin:8px 0;}
     <div style="border-top:1px solid var(--bg2);margin-top:10px;padding-top:8px;text-align:center;font-size:0.65em;color:var(--dim);">
       <div style="margin-bottom:6px;color:var(--dim);">Ein Spiel von <span style="color:var(--yellow);">AMSTEINER</span> · 2026</div>
       Fragen, Feedback, Mitspieler gesucht?
-      <a href="https://discord.gg/D2xUtTdej4" target="_blank" rel="noopener"
-         style="color:var(--gold);text-decoration:none;border-bottom:1px dashed var(--gold);margin-left:4px;">▌ Discord beitreten</a>
+      <a id="discord-link" href="#" target="_blank" rel="noopener"
+         style="display:none;color:var(--gold);text-decoration:none;border-bottom:1px dashed var(--gold);margin-left:4px;">▌ Discord beitreten</a>
       <br><br>
       <span onclick="zeigeDownloads()" style="cursor:pointer;color:var(--gold);border-bottom:1px dashed var(--gold);">▌ Downloads</span>
     </div>
@@ -3300,6 +3300,10 @@ async function zeigeHilfe(){
       pre.textContent=await r.text();
     }catch(e){pre.textContent='Hilfe konnte nicht geladen werden.';}
   }
+  fetch('/api/discord').then(r=>r.json()).then(j=>{
+    const a=document.getElementById('discord-link');
+    if(a && j.success && j.url){ a.href=j.url; a.style.display='inline'; }
+  }).catch(()=>{});
 }
 
 async function zeigeDownloads(){

@@ -335,6 +335,9 @@ class APIHandler(SimpleHTTPRequestHandler):
                 self._send_json({"success": False, "error": str(e)}, 500)
 
         # Admin: Prüft ob aktueller User Admin- oder Tester-Rechte hat
+        elif path == '/api/discord':
+            self._send_json({"success": True, "url": _cfg_str("dev", "discord_invite")})
+
         elif path == '/api/random_nick':
             try:
                 import random as _rnd
