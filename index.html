@@ -4549,12 +4549,13 @@ function oeffneProfilModal(name, profil) {
     const _rtBtn = (typ, lbl) => `<button class="btn radio-typ-btn${_rt.includes(typ)?' aktiv':''}" data-typ="${typ}" onclick="radioTypToggle(this)" style="font-size:0.7em;padding:2px 5px;">${lbl}</button>`;
     const _schriftZeile = S.lobbyCode ? '' :
       `<div style="display:flex;align-items:center;gap:3px;margin-bottom:4px;"><span style="font-size:0.7em;color:var(--dim);min-width:4.5em;">SCHRIFT</span>${_scBtn(1,'1×')}${_scBtn(1.5,'1.5×')}${_scBtn(2,'2×')}</div>`;
+    const _lbl = (t) => `<span style="font-size:0.7em;color:var(--dim);white-space:nowrap;">${t}</span>`;
     einst.innerHTML =
       `<div style="color:var(--dim);margin-bottom:6px;letter-spacing:1px;font-size:0.9em;">── EINSTELLUNGEN</div>` +
-      `<div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;"><span style="font-size:0.7em;color:var(--dim);min-width:4.5em;">THEME</span><select class="theme-select" onchange="applyTheme(this.value)" style="font-family:inherit;font-size:0.7em;background:var(--bg2);color:var(--text);border:1px solid var(--gold);padding:2px 4px;cursor:pointer;">${_themeOpts}</select></div>` +
-      _schriftZeile +
-      `<div style="display:grid;grid-template-columns:auto 1fr;gap:3px 6px;align-items:center;">` +
-        `<span style="font-size:0.7em;color:var(--dim);white-space:nowrap;">RADIO</span><div style="display:flex;flex-wrap:wrap;gap:3px;">${_rtBtn('ost','OST')}${_rtBtn('mp3','MP3')}${_rtBtn('sid','SID')}${_rtBtn('mod','MOD')}</div>` +
+      `<div style="display:grid;grid-template-columns:auto 1fr;gap:4px 8px;align-items:center;">` +
+        _lbl('THEME') + `<div><select class="theme-select" onchange="applyTheme(this.value)" style="font-family:inherit;font-size:0.7em;background:var(--bg2);color:var(--text);border:1px solid var(--gold);padding:2px 4px;cursor:pointer;">${_themeOpts}</select></div>` +
+        (S.lobbyCode ? '' : _lbl('SCHRIFT') + `<div style="display:flex;gap:3px;">${_scBtn(1,'1×')}${_scBtn(1.5,'1.5×')}${_scBtn(2,'2×')}</div>`) +
+        _lbl('RADIO') + `<div style="display:flex;flex-wrap:wrap;gap:3px;">${_rtBtn('ost','OST')}${_rtBtn('mp3','MP3')}${_rtBtn('sid','SID')}${_rtBtn('mod','MOD')}</div>` +
         `<span></span><div style="display:flex;flex-wrap:wrap;gap:3px;"><button class="btn radio-typ-btn radio-autostart-btn${_autoA?' aktiv':''}" onclick="radioAutostartToggle(this)" style="font-size:0.7em;padding:2px 5px;">AUTOPLAY</button><button class="btn radio-typ-btn radio-shuffle-btn${_shA?' aktiv':''}" onclick="radioShuffleToggle(this)" style="font-size:0.7em;padding:2px 5px;">SHUFFLE</button></div>` +
       `</div>`;
     body.appendChild(einst);
