@@ -1922,7 +1922,7 @@ async function loadOngoingGames() {
         const pinBtn = `<button class="btn" style="font-size:0.7em;padding:2px 6px;${pinDisabled?'opacity:0.3;cursor:not-allowed;':''}" title="${pinTitle}" ${pinDisabled?'disabled':''} onclick="togglePin('${game.game_key}',${!game.pinned})">${game.pinned?'★':'☆'}</button>`;
         const col = game.pinned ? 'var(--yellow)' : 'var(--gold)';
         div.innerHTML =
-          `<span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer;color:${col};" onclick="resumeGame('${game.game_key}','${escHtml(game.team||'?')}','${saison}','${st}',${game.pinned?1:0})">` +
+          `<span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer;color:${col};" onclick="resumeGame('${game.game_key}','${escHtml(game.team||'?')}',${game.season||1},${game.matchday||1},${game.pinned?1:0})">` +
           `▶ ${escHtml(team)} · ${saison} · ${st} · <span style="color:var(--dim);font-size:0.9em;">${datum}</span></span>` +
           pinBtn +
           `<button class="btn" style="font-size:0.7em;padding:2px 6px;border-color:var(--red);color:var(--red);" title="Löschen" onclick="deleteGame('${game.game_key}',${!!game.pinned})">✕</button>`;
@@ -1986,8 +1986,10 @@ async function togglePin(gameKey, pinned) {
   } catch(e) { sbr('FEHLER BEIM PINNEN'); }
 }
 
-async function resumeGame(gameKey, team, saison, st, pinned) {
-  const label = team ? ((pinned ? '★ ENDLOS' : team) + ' · ' + saison + ' · ' + st) : '...';
+async function resumeGame(gameKey, team, season, matchday, pinned) {
+  const saison = season ? `'${String(1982+season).slice(-2)}/'${String(1983+season).slice(-2)}` : '';
+  const st = matchday ? `ST${String(matchday).padStart(2,'0')}` : '';
+  const label = team ? ((pinned ? '★ ENDLOS' : team) + (saison?' · '+saison:'') + (st?' · '+st:'')) : '...';
   sbr('LADE SPIELSTAND: ' + label);
   S.lobbyCode = null;
   wsVerbinden(() => {
