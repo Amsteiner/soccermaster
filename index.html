@@ -4560,8 +4560,7 @@ function oeffneProfilModal(name, profil) {
         (S.lobbyCode ? '' : _lbl('SCHRIFT') + `<div style="display:flex;gap:3px;">${_scBtn(1,'1×')}${_scBtn(1.5,'1.5×')}${_scBtn(2,'2×')}</div>`) +
         _lbl('RADIO') +
         `<div style="display:grid;grid-template-columns:1fr 1fr;gap:3px;">` +
-          `${_rtBtn('ost','MP3 (OST)')}${_rtBtn('sid','SID (C64)')}` +
-          `${_rtBtn('mp3','MP3 (Andere)')}${_rtBtn('mod','MOD (Amiga)')}` +
+          [['ost','MP3 (OST)'],['sid','SID (C64)'],['mp3','MP3 (Andere)'],['mod','MOD (Amiga)']].filter(([t])=>(S._verfügbareTypen||['ost','sid','mod','mp3']).includes(t)).map(([t,l])=>_rtBtn(t,l)).join('') +
           `<button class="btn radio-typ-btn radio-autostart-btn${_autoA?' aktiv':''}" onclick="radioAutostartToggle(this)" style="font-size:0.7em;padding:2px 5px;width:100%;">AUTOPLAY</button>` +
           `<button class="btn radio-typ-btn radio-shuffle-btn${_shA?' aktiv':''}" onclick="radioShuffleToggle(this)" style="font-size:0.7em;padding:2px 5px;width:100%;">SHUFFLE</button>` +
         `</div>` +
@@ -5500,12 +5499,18 @@ function _saveRadioSettings(){
   },800);
 }
 function radioTypToggle(btn){
-  btn.classList.toggle('aktiv');
   const typ=btn.dataset.typ;
   const aktiv=_radioTypenGeladen().slice();
   const idx=aktiv.indexOf(typ);
-  if(idx>=0) aktiv.splice(idx,1); else aktiv.push(typ);
-  if(aktiv.length===0){document.querySelectorAll('.radio-typ-btn[data-typ="'+typ+'"]').forEach(b=>b.classList.add('aktiv'));return;} // mindestens eine Option muss aktiv bleiben
+  if(idx>=0){
+    // deaktivieren — nur erlaubt wenn noch ein anderer verfügbarer Typ aktiv bleibt
+    const verfügbar=S._verfügbareTypen||['ost','sid','mod','mp3'];
+    const verbleibend=aktiv.filter(t=>t!==typ&&verfügbar.includes(t));
+    if(verbleibend.length===0) return; // letzter aktiver — nicht deaktivieren
+    aktiv.splice(idx,1);
+  } else {
+    aktiv.push(typ);
+  }
   ['mp3','sid','mod','ost'].forEach(t=>document.querySelectorAll('.radio-typ-btn[data-typ="'+t+'"]').forEach(b=>b.classList.toggle('aktiv',aktiv.includes(t))));
   _radioTypenSpeichern(aktiv);
   _saveRadioSettings();
@@ -5558,6 +5563,8 @@ async function ladeRadio(){
     const r=await fetch('/api/music');
     const d=await r.json();
     const alle=d.songs||[];
+    S._verfügbareTypen=[...new Set(alle.map(s=>s.type))];
+    ['mp3','sid','mod','ost'].forEach(t=>{const ok=S._verfügbareTypen.includes(t);document.querySelectorAll('.radio-typ-btn[data-typ="'+t+'"]').forEach(b=>b.style.display=ok?'':'none');});
     const typen=_radioTypenGeladen();
     const aktuell=_radioSong();
     radio.songs=alle.filter(s=>typen.includes(s.type));
