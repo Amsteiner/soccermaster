@@ -77,13 +77,26 @@ Der Server startet:
 MUSIK (OPTIONAL)
 -----------------
 Nur der OST-Ordner ist im Repository enthalten (music/ost/).
-Weitere Formate können lokal hinzugefügt werden:
+Weitere Musikdateien können lokal in folgende Ordner gelegt werden –
+sie werden automatisch vom Radio-Player erkannt und abgespielt:
 
-  music/sid/   → C64 SID-Dateien (*.sid)
-  music/mod/   → Amiga MOD-Dateien (*.mod)
-  music/mp3/   → MP3-Dateien (*.mp3)
+  music/ost/   → Soccermaster-Soundtrack (*.mp3, bereits enthalten)
+  music/sid/   → C64 SID-Chiptunes (*.sid)
+  music/mod/   → Amiga MOD-Tracker-Dateien (*.mod)
+  music/mp3/   → Eigene MP3-Dateien (*.mp3)
 
-Einstellungen unter [radio] in settings.cfg.
+Die Ordner werden beim Serverstart automatisch angelegt falls nicht vorhanden.
+Neue Dateien werden sofort beim nächsten Seitenaufruf im Radio angezeigt –
+kein Serverneustart nötig.
+
+Welche Formate im Radio aktiv sind, lässt sich pro Nutzer im Spiel einstellen
+(Einstellungen → Radio) sowie als Standardwert in settings.cfg unter [radio]:
+
+  standard_ost = 1   → Soccermaster OST aktiv
+  standard_mp3 = 0   → MP3 inaktiv (0 = aus, 1 = an)
+  standard_sid = 0   → SID inaktiv
+  standard_mod = 0   → MOD inaktiv
+  standard_auto = 0  → Radio beim Seitenaufruf automatisch starten
 
 
 PRODUKTIVBETRIEB MIT NGINX
