@@ -2623,7 +2623,7 @@ class LobbyServer:
             }
             verlauf = gs.finanzen_verlauf.setdefault(_tn, [])
             verlauf.append(eintrag)
-            gs.finanzen_verlauf[_tn] = verlauf[-3:]  # max. 3 Saisons behalten
+            gs.finanzen_verlauf[_tn] = verlauf[-5:]  # max. 5 Saisons behalten
 
         # DFB-Pokal Ergebnis
         dfb_sieger = None
