@@ -1,5 +1,6 @@
 # Secrets & Konfiguration
 .env
+settings.local.cfg
 
 # Nutzerdaten (werden lokal angelegt, nicht ins Repo)
 data/manager_profiles/

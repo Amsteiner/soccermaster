@@ -6,9 +6,10 @@ Zugriff: from engine.settings import CFG
 import configparser
 from pathlib import Path
 
-_cfg_path = Path(__file__).parent.parent / "settings.cfg"
+_base = Path(__file__).parent.parent / "settings.cfg"
+_local = Path(__file__).parent.parent / "settings.local.cfg"
 CFG = configparser.ConfigParser()
-CFG.read(_cfg_path, encoding="utf-8")
+CFG.read([_base, _local], encoding="utf-8")  # local überschreibt base
 
 
 def getint(section: str, key: str) -> int:
