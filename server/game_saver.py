@@ -39,6 +39,7 @@ def serialize_team(team):
         "niederlagen": team.niederlagen,
         "unentschieden": team.unentschieden,
         "kontostand_verlauf": team.kontostand_verlauf,
+        "saisons_negativ": team.saisons_negativ,
     }
 
 
@@ -84,6 +85,7 @@ def deserialize_team(data):
     team.niederlagen = data["niederlagen"]
     team.unentschieden = data["unentschieden"]
     team.kontostand_verlauf = data.get("kontostand_verlauf", [])
+    team.saisons_negativ = data.get("saisons_negativ", 0)
     return team
 
 

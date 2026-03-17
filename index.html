@@ -1919,13 +1919,13 @@ async function loadOngoingGames() {
         div.style.cssText = ROW + (game.pinned ? 'border-bottom-color:rgba(200,146,42,0.3);' : '');
         const pinDisabled = !game.pinned && hasPinned;
         const pinTitle = game.pinned ? 'Endlos-Spiel entfernen' : (pinDisabled ? 'Bereits ein Endlos-Spiel vorhanden' : 'Als Endlos-Spiel pinnen');
-        const pinBtn = `<button class="btn" style="font-size:0.7em;padding:2px 6px;${pinDisabled?'opacity:0.3;cursor:not-allowed;':''}" title="${pinTitle}" ${pinDisabled?'disabled':''} onclick="togglePin('${game.game_key}',${!game.pinned})">${game.pinned?'★':'☆'}</button>`;
+        const pinBtn = `<button class="btn" style="font-size:1.2em;padding:2px 7px;${pinDisabled?'opacity:0.3;cursor:not-allowed;':''}" title="${pinTitle}" ${pinDisabled?'disabled':''} onclick="togglePin('${game.game_key}',${!game.pinned})">${game.pinned?'★':'☆'}</button>`;
         const col = game.pinned ? 'var(--yellow)' : 'var(--gold)';
         div.innerHTML =
           `<span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer;color:${col};" onclick="resumeGame('${game.game_key}','${escHtml(game.team||'?')}',${game.season||1},${game.matchday||1},${game.pinned?1:0})">` +
           `▶ ${escHtml(team)} · ${saison} · ${st} · <span style="color:var(--dim);font-size:0.9em;">${datum}</span></span>` +
           pinBtn +
-          `<button class="btn" style="font-size:0.7em;padding:2px 6px;border-color:var(--red);color:var(--red);" title="Löschen" onclick="deleteGame('${game.game_key}',${!!game.pinned})">✕</button>`;
+          `<button class="btn" style="font-size:1.2em;padding:2px 7px;border-color:var(--red);color:var(--red);" title="Löschen" onclick="deleteGame('${game.game_key}',${!!game.pinned})">✕</button>`;
         list.appendChild(div);
       }
       box.style.display = 'block';
@@ -3737,7 +3737,7 @@ function renderFinanzen(){
       return `<div style="display:flex;justify-content:space-between;padding:2px 0;border-bottom:1px solid rgba(0,0,0,0.2);font-size:0.78em;">
         <span style="color:var(--dim)">SAISON ${e.saison} · ${_liga}</span>
         <span>${_pos} Platz</span>
-        <span style="color:${_kc}">${fmt(e.end_kontostand)} DM</span>
+        <span style="color:${_kc}">${fmt(e.end_kontostand)}</span>
       </div>`;
     }).join('');
   } else {
@@ -3980,7 +3980,7 @@ function zeigeInland(angebote){
     const ausl=a.nationalitaet==='A';
     const kaufBtn=istVergriffen
       ?`<div style="margin-top:5px;font-size:0.72em;color:var(--red);">[ VERGRIFFEN ]</div>`
-      :`<button class="btn" style="margin-top:5px;font-size:0.75em;" ${kannKaufen?'':'disabled'} onclick="kaufen('${a.name}',${a.preis},'inland',this)">[KAUFEN]</button>`;
+      :`<button class="btn" style="margin-top:5px;font-size:0.75em;" ${kannKaufen?'':'disabled'} onclick="kaufen('${a.name.replace(/'/g,"\\'")}',${a.preis},'inland',this)">[KAUFEN]</button>`;
     box.innerHTML=`
       <span class="${POS_COLOR[a.position]||'cA'}">[${a.position}] ${a.name}${ausl?'<span class="badge" style="color:var(--orange)">[I]</span>':''}</span>
       <span class="preis">${fmt(a.preis)}</span>
@@ -3998,7 +3998,7 @@ function zeigeAusland(sp){
   const kannKaufen=!imKader&&S.kader.length<20&&auslCount<3;
   const kaufBtn=imKader
     ?`<div style="margin-top:5px;font-size:0.72em;color:var(--dim);">[ IM KADER ]</div>`
-    :`<button class="btn btn-hi" style="margin-top:5px;font-size:0.75em;" ${kannKaufen?'':'disabled'} onclick="kaufen('${sp.name}',${sp.preis},'ausland',this)">[VERPFLICHTEN]</button>`;
+    :`<button class="btn btn-hi" style="margin-top:5px;font-size:0.75em;" ${kannKaufen?'':'disabled'} onclick="kaufen('${sp.name.replace(/'/g,"\\'")}',${sp.preis},'ausland',this)">[VERPFLICHTEN]</button>`;
   document.getElementById('ausland-ang').innerHTML=`
     <div class="angebot">
       <span class="${POS_COLOR[sp.position]||'cA'}">[${sp.position}] ${sp.name}</span>
