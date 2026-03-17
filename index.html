@@ -4545,15 +4545,15 @@ function oeffneProfilModal(name, profil) {
     const _shA = localStorage.getItem('radioShuffle') === '1';
     const _themeOpts = ['c64','dos','wb13','wb31','magicwb','arcade','amber','spectrum','cga','mac','pet','c64basic']
       .map(t => `<option value="${t}"${t===_curTheme?' selected':''}>${t.toUpperCase()}</option>`).join('');
-    const _scBtn = (v, lbl) => `<button class="btn font-scale-btn${_curScale===v?' btn-hi':''}" data-scale="${v}" onclick="applyFontScale(${v})" style="font-size:0.55em;padding:2px 5px;">${lbl}</button>`;
-    const _rtBtn = (typ, lbl) => `<button class="btn radio-typ-btn${_rt.includes(typ)?' aktiv':''}" data-typ="${typ}" onclick="radioTypToggle(this)" style="font-size:0.55em;padding:2px 5px;">${lbl}</button>`;
+    const _scBtn = (v, lbl) => `<button class="btn font-scale-btn${_curScale===v?' btn-hi':''}" data-scale="${v}" onclick="applyFontScale(${v})" style="font-size:0.7em;padding:2px 5px;">${lbl}</button>`;
+    const _rtBtn = (typ, lbl) => `<button class="btn radio-typ-btn${_rt.includes(typ)?' aktiv':''}" data-typ="${typ}" onclick="radioTypToggle(this)" style="font-size:0.7em;padding:2px 5px;">${lbl}</button>`;
     const _schriftZeile = S.lobbyCode ? '' :
-      `<div style="display:flex;align-items:center;gap:3px;margin-bottom:4px;"><span style="font-size:0.55em;color:var(--dim);min-width:4.5em;">SCHRIFT</span>${_scBtn(1,'1×')}${_scBtn(1.5,'1.5×')}${_scBtn(2,'2×')}</div>`;
+      `<div style="display:flex;align-items:center;gap:3px;margin-bottom:4px;"><span style="font-size:0.7em;color:var(--dim);min-width:4.5em;">SCHRIFT</span>${_scBtn(1,'1×')}${_scBtn(1.5,'1.5×')}${_scBtn(2,'2×')}</div>`;
     einst.innerHTML =
       `<div style="color:var(--dim);margin-bottom:6px;letter-spacing:1px;font-size:0.9em;">── EINSTELLUNGEN</div>` +
-      `<div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;"><span style="font-size:0.55em;color:var(--dim);min-width:4.5em;">THEME</span><select class="theme-select" onchange="applyTheme(this.value)" style="font-family:inherit;font-size:0.55em;background:var(--bg2);color:var(--text);border:1px solid var(--gold);padding:2px 4px;cursor:pointer;">${_themeOpts}</select></div>` +
+      `<div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;"><span style="font-size:0.7em;color:var(--dim);min-width:4.5em;">THEME</span><select class="theme-select" onchange="applyTheme(this.value)" style="font-family:inherit;font-size:0.7em;background:var(--bg2);color:var(--text);border:1px solid var(--gold);padding:2px 4px;cursor:pointer;">${_themeOpts}</select></div>` +
       _schriftZeile +
-      `<div style="display:flex;align-items:center;flex-wrap:wrap;gap:3px;"><span style="font-size:0.55em;color:var(--dim);min-width:4.5em;">RADIO</span>${_rtBtn('ost','MP3 (OST)')}${_rtBtn('mp3','MP3 (Andere)')}${_rtBtn('sid','SID')}${_rtBtn('mod','MOD')}<button class="btn radio-typ-btn radio-autostart-btn${_autoA?' aktiv':''}" onclick="radioAutostartToggle(this)" style="font-size:0.55em;padding:2px 5px;">AUTOPLAY</button><button class="btn radio-typ-btn radio-shuffle-btn${_shA?' aktiv':''}" onclick="radioShuffleToggle(this)" style="font-size:0.55em;padding:2px 5px;">SHUFFLE</button></div>`;
+      `<div style="display:flex;align-items:center;flex-wrap:wrap;gap:3px;"><span style="font-size:0.7em;color:var(--dim);min-width:4.5em;">RADIO</span>${_rtBtn('ost','MP3 (OST)')}${_rtBtn('mp3','MP3 (Andere)')}${_rtBtn('sid','SID')}${_rtBtn('mod','MOD')}<button class="btn radio-typ-btn radio-autostart-btn${_autoA?' aktiv':''}" onclick="radioAutostartToggle(this)" style="font-size:0.7em;padding:2px 5px;">AUTOPLAY</button><button class="btn radio-typ-btn radio-shuffle-btn${_shA?' aktiv':''}" onclick="radioShuffleToggle(this)" style="font-size:0.7em;padding:2px 5px;">SHUFFLE</button></div>`;
     body.appendChild(einst);
   }
 
