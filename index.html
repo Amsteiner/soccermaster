@@ -1919,13 +1919,13 @@ async function loadOngoingGames() {
         div.style.cssText = ROW + (game.pinned ? 'border-bottom-color:rgba(200,146,42,0.3);' : '');
         const pinDisabled = !game.pinned && hasPinned;
         const pinTitle = game.pinned ? 'Endlos-Spiel entfernen' : (pinDisabled ? 'Bereits ein Endlos-Spiel vorhanden' : 'Als Endlos-Spiel pinnen');
-        const pinBtn = `<button class="btn" style="font-size:1.4em;padding:0;aspect-ratio:1/1;display:inline-grid;place-items:center;${pinDisabled?'opacity:0.3;cursor:not-allowed;':''}" title="${pinTitle}" ${pinDisabled?'disabled':''} onclick="togglePin('${game.game_key}',${!game.pinned})">${game.pinned?'★':'☆'}</button>`;
+        const pinBtn = `<button class="btn" style="width:22px;height:22px;font-size:1em;padding:0;line-height:22px;text-align:center;overflow:hidden;${pinDisabled?'opacity:0.3;cursor:not-allowed;':''}" title="${pinTitle}" ${pinDisabled?'disabled':''} onclick="togglePin('${game.game_key}',${!game.pinned})">${game.pinned?'★':'☆'}</button>`;
         const col = game.pinned ? 'var(--yellow)' : 'var(--gold)';
         div.innerHTML =
           `<span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer;color:${col};" onclick="resumeGame('${game.game_key}','${escHtml(game.team||'?')}',${game.season||1},${game.matchday||1},${game.pinned?1:0})">` +
           `▶ ${escHtml(team)} · ${saison} · ${st} · <span style="color:var(--dim);font-size:0.9em;">${datum}</span></span>` +
           pinBtn +
-          `<button class="btn" style="font-size:1.4em;padding:0;aspect-ratio:1/1;display:inline-grid;place-items:center;border-color:var(--red);color:var(--red);" title="Löschen" onclick="deleteGame('${game.game_key}',${!!game.pinned})">✕</button>`;
+          `<button class="btn" style="width:22px;height:22px;font-size:1em;padding:0;line-height:22px;text-align:center;overflow:hidden;border-color:var(--red);color:var(--red);" title="Löschen" onclick="deleteGame('${game.game_key}',${!!game.pinned})">✕</button>`;
         list.appendChild(div);
       }
       box.style.display = 'block';
