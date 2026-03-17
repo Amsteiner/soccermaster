@@ -5501,8 +5501,11 @@ function _saveRadioSettings(){
 }
 function radioTypToggle(btn){
   btn.classList.toggle('aktiv');
-  const aktiv=['mp3','sid','mod','ost'].filter(t=>[...document.querySelectorAll('.radio-typ-btn[data-typ="'+t+'"]')].some(b=>b.classList.contains('aktiv')));
-  if(aktiv.length===0){btn.classList.add('aktiv');return;} // mindestens eine Option muss aktiv bleiben
+  const typ=btn.dataset.typ;
+  const aktiv=(localStorage.getItem('radioTypen')||'ost,sid,mod').split(',').filter(Boolean);
+  const idx=aktiv.indexOf(typ);
+  if(idx>=0) aktiv.splice(idx,1); else aktiv.push(typ);
+  if(aktiv.length===0){return;} // mindestens eine Option muss aktiv bleiben
   ['mp3','sid','mod','ost'].forEach(t=>document.querySelectorAll('.radio-typ-btn[data-typ="'+t+'"]').forEach(b=>b.classList.toggle('aktiv',aktiv.includes(t))));
   _radioTypenSpeichern(aktiv);
   _saveRadioSettings();
