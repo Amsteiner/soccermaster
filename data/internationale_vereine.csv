@@ -1,0 +1,68 @@
+# Internationale Vereine für Europapokale (Ära 1975-1990)
+# tier: 1=Landesmeister-Niveau (ECL), 2=UEFA-Pokal-Niveau, 3=Pokalsieger/Qualifikant
+# staerke_min/staerke_max: interner Stärkewert 1-100 (höher als BL1-Schnitt = international schwerer)
+name,land,staerke_min,staerke_max,tier
+Liverpool FC,England,88,97,1
+Nottingham Forest,England,82,92,1
+Aston Villa,England,79,89,1
+Manchester United,England,74,85,2
+Arsenal FC,England,70,81,2
+Tottenham Hotspur,England,70,82,2
+Everton FC,England,71,82,2
+Ipswich Town,England,65,76,3
+West Ham United,England,62,73,3
+Juventus Turin,Italien,86,96,1
+AC Mailand,Italien,82,93,1
+Inter Mailand,Italien,77,88,2
+AS Rom,Italien,74,85,2
+SSC Napoli,Italien,68,80,2
+Fiorentina,Italien,64,75,3
+Sampdoria Genua,Italien,62,73,3
+Real Madrid,Spanien,82,93,1
+FC Barcelona,Spanien,77,89,1
+Atletico Madrid,Spanien,70,82,2
+Valencia CF,Spanien,67,78,2
+Real Sociedad,Spanien,64,75,3
+Athletic Bilbao,Spanien,63,74,3
+Ajax Amsterdam,Niederlande,83,93,1
+PSV Eindhoven,Niederlande,78,89,1
+Feyenoord Rotterdam,Niederlande,72,83,2
+AZ Alkmaar,Niederlande,64,75,3
+Anderlecht,Belgien,73,84,2
+Club Brügge,Belgien,67,78,2
+Standard Lüttich,Belgien,62,73,3
+AS Saint-Etienne,Frankreich,75,85,2
+Olympique Marseille,Frankreich,70,81,2
+AS Monaco,Frankreich,65,76,3
+Paris Saint-Germain,Frankreich,63,74,3
+Celtic Glasgow,Schottland,70,81,2
+Aberdeen FC,Schottland,67,79,2
+Rangers FC,Schottland,65,76,3
+Dundee United,Schottland,62,73,3
+Benfica Lissabon,Portugal,74,84,2
+FC Porto,Portugal,72,83,2
+Sporting Lissabon,Portugal,64,75,3
+Dynamo Kiew,UdSSR,73,84,2
+Spartak Moskau,UdSSR,68,80,2
+Dynamo Minsk,UdSSR,60,71,3
+Roter Stern Belgrad,Jugoslawien,71,83,2
+Dinamo Zagreb,Jugoslawien,62,73,3
+Vojvodina Novi Sad,Jugoslawien,59,70,3
+Steaua Bukarest,Rumänien,68,80,2
+Dinamo Bukarest,Rumänien,63,74,3
+CSKA Sofia,Bulgarien,61,72,3
+Levski Sofia,Bulgarien,59,70,3
+Dukla Prag,Tschechoslowakei,63,74,3
+Slavia Prag,Tschechoslowakei,60,71,3
+Sparta Prag,Tschechoslowakei,62,73,3
+Göteborg IFK,Schweden,65,77,3
+Malmö FF,Schweden,62,73,3
+Ferencváros Budapest,Ungarn,62,73,3
+Videoton Székesfehérvár,Ungarn,59,70,3
+Legia Warschau,Polen,60,71,3
+Lech Posen,Polen,58,69,3
+Panathinaikos,Griechenland,60,71,3
+Olympiakos Piräus,Griechenland,61,72,3
+PAOK Thessaloniki,Griechenland,57,68,3
+Galatasaray,Türkei,58,69,3
+Fenerbahçe,Türkei,57,68,3

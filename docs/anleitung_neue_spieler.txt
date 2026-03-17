@@ -1,0 +1,337 @@
+SOCCERMASTER – ANLEITUNG FÜR NEUE SPIELER
+==========================================
+
+Willkommen bei Soccermaster – einem Retro-Fußballmanager im C64-Style!
+Du übernimmst einen Bundesliga-Verein der Saison 1983/84 und führst ihn
+durch eine komplette Saison mit 34 Spieltagen. Bis zu 4 Spieler können
+gleichzeitig in derselben Liga gegeneinander antreten.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. EINSTIEG: LOGIN UND PROFIL
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Beim ersten Besuch meldest du dich mit deinem Google-Account an.
+Danach wählst du einmalig einen Nickname – dieser wird anderen Spielern
+in der Lobby angezeigt. Du kannst ihn jederzeit im Profil-Menü ändern.
+
+LIEBLINGSVEREIN:
+Im Profil kannst du außerdem einen Lieblingsverein hinterlegen.
+Dieser wird bei der Vereinsauswahl automatisch vorausgewählt, sobald
+du einer neuen Lobby beitrittst – du musst ihn dann nur noch bestätigen.
+Wenn zwei Spieler denselben Lieblingsverein haben, entscheidet der Zufall.
+
+PROFILBILD:
+Nach dem Login wird automatisch dein Google-Profilbild gespeichert und
+im C64-Stil angezeigt (16 Farben, pixeliger Retro-Look).
+Du kannst es jederzeit mit einem eigenen Bild ersetzen:
+Klicke im Profil-Bereich auf den [ AVATAR ]-Knopf und wähle eine Datei.
+  Unterstützte Formate: JPEG, PNG, WebP, BMP
+  Hochauflösende, kontrastreiche Bilder liefern das beste Ergebnis.
+Das Bild wird serverseitig auf den C64-Stil umgerechnet.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2. LOBBY: SPIEL ERSTELLEN ODER BEITRETEN
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+NEUE LOBBY ERSTELLEN:
+Klicke auf "Neue Lobby erstellen". Du erhältst einen 6-stelligen Code,
+den du an Mitspieler weitergibst (z.B. per Chat oder mündlich).
+
+BESTEHENDER LOBBY BEITRETEN:
+Trage den Code eines Mitspielers ein und klicke "Beitreten".
+Bis zu 4 Spieler können in einer Lobby spielen.
+
+EIGENE SPIELSTÄNDE LADEN (Solo):
+Laufende Einzelspielstände erscheinen automatisch unter "Laufende Spiele".
+Klicke auf ein Spiel, um alleine weiterzumachen.
+
+MULTIPLAYER-SPIELSTÄNDE LADEN:
+Laufende Multiplayer-Partien werden automatisch gespeichert.
+Der Ersteller der Lobby sieht seine gespeicherten MP-Spiele und kann sie laden.
+Nach dem Laden warten alle auf die registrierten Mitspieler – wer nicht erscheint,
+wird durch die KI ersetzt. Der Ersteller kann das Spiel auch ohne alle Mitspieler
+starten. Wichtig: Zum Beitreten eines MP-Spielstands ist ein Google-Login nötig
+(Gastspieler werden nicht akzeptiert).
+
+Sobald alle Spieler bereit sind, geht es weiter zur Vereinsauswahl.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+3. VEREINSAUSWAHL
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Jeder Spieler wählt einen Verein aus dem Pool historischer
+Bundesliga-Teams (inkl. einiger DDR-Klubs).
+
+- Jeder Verein kann nur einmal gewählt werden
+- Die nicht gewählten BL1-Plätze werden mit KI-Teams aufgefüllt
+- Alle Teams starten mit dem gleichen festen Kapital
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+4. DRAFT: DEIN STARTKADER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Nach der Vereinsauswahl erhalten alle Teams automatisch 15 Spieler
+durch einen ausgewogenen Draft. Du startest mit einem ausgewogenen Mix
+aus Torhütern, Abwehrspielern, Mittelfeldspielern und Stürmern.
+
+Die Marktwerte dieser Spieler werden direkt vom Startkapital abgezogen.
+Was übrig bleibt, ist dein Budget für Transfers.
+
+Spielerstärken werden NICHT als Zahlen angezeigt – du siehst nur
+die Kategorie:
+  Weltklasse → Sehr stark → Stark → Durchschnitt → Schwach → Sehr schwach
+
+Achtung: Jeder Spieler kann nur auf seiner Stammposition eingesetzt werden.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+5. MANAGEMENT-PHASE: DEINE WOCHE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Vor jedem Spieltag hast du eine Management-Phase. Hier kannst du:
+
+AUFSTELLUNG:
+- Wähle deine 11 Stammspieler aus dem Kader
+- Die Formation ergibt sich automatisch aus den aufgestellten Positionen
+- Du kannst keine Spieler auf Fremdpositionen setzen
+- Verletzte und gesperrte Spieler sind ausgegraut und nicht wählbar
+
+TRANSFERMARKT INLAND:
+- Mehrere Angebote pro Besuch (einheimische Spieler)
+- Einige Angebote können mit anderen Managern geteilt sein →
+  wer zuerst kauft, bekommt den Spieler
+- Kauf nur möglich solange dein Konto nicht zu weit im Minus liegt
+
+TRANSFERMARKT AUSLAND:
+- Exklusive Angebote mit stärkeren Spielern (auch Internationale möglich)
+- Nur zugänglich wenn: Konto positiv + noch freie Plätze für Internationale
+- Gelegentlich kann ein Angebot mit einem anderen Manager geteilt sein
+
+VERKAUF:
+- Notverkauf: Sofort verkaufen mit Abschlag auf den Marktwert
+- Auf den Markt stellen (Listen): Voller Marktwert, Spieler wird
+  anderen Managern nächste Woche im Inlandsmarkt angeboten
+
+GELISTETE SPIELER:
+Spieler, die du auf den Markt gelistet hast, erscheinen im Kader-Tab
+in einem eigenen Abschnitt "ZUM VERKAUF GELISTET" unterhalb der Bank.
+Sie sind mit [MARKT] gekennzeichnet und können nicht in die Startelf
+aufgenommen werden, solange sie gelistet sind.
+
+STATUS:
+- Zeigt verletzte und gesperrte Spieler sowie gelb-vorbelastete
+
+TABELLE & FINANZEN:
+- Aktuelle Ligatabelle und dein Kontostand jederzeit einsehbar
+
+Wenn du fertig bist, klicke auf "SPIELTAG STARTEN".
+Das Spiel wartet bis alle Manager bereit sind, dann beginnt der Spieltag.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+6. SPIELTAG: DAS SPIEL LÄUFT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Alle Spiele der Liga laufen gleichzeitig simuliert (ca. 1 Spielminute pro Sekunde).
+
+FÜR DEIN EIGENES SPIEL:
+- Voller Live-Ticker: Tore, Karten, Verletzungen mit genauer Minute
+- Der aktuelle Spielstand aller anderen Partien ist sichtbar
+
+FÜR SPIELE ANDERER MANAGER:
+- Kurzer Ticker bei Toren, Karten und Verletzungen
+
+FÜR KI-SPIELE:
+- Nur der laufende Spielstand, keine Meldungen
+
+SCHNELLVORLAUF (nur für Admins/Tester):
+- Der "VORSPULEN"-Button erscheint oben sobald ein Spieltag läuft.
+- Nach dem Klick läuft das Spiel ohne Pausen durch.
+- Nach dem Abpfiff werden alle Ereignisse (Tore, Karten, Verletzungen)
+  gesammelt als Zusammenfassung im Ticker angezeigt.
+
+NACH DEM ABPFIFF:
+- Zusammenfassung deines Spiels (Tore, Karten, Verletzungen)
+- Die Ergebnisse aller anderen Spiele sind einsehbar
+- Klicke auf "WEITER" wenn du bereit bist für die nächste Woche
+  (ein kurzer Timer läuft ab – du musst nicht auf alle anderen warten)
+
+EINNAHMEN:
+- Heimspiele bringen Zuschauereinnahmen (je besser dein Tabellenplatz,
+  desto mehr Zuschauer)
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+7. TIPPS FÜR EINSTEIGER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✓ Aufstellung zuerst: Prüfe vor dem Spieltag ob alle 11 Stammkräfte
+  fit und nicht gesperrt sind. Achtung im Multiplayer: Wenn du nach
+  dem "Bereit"-Klick noch die Aufstellung änderst, wirst du automatisch
+  wieder auf "Nicht bereit" gesetzt – andere Spieler sehen das sofort.
+
+✓ Inlandsmarkt früh besuchen: Geteilte Angebote sind "first-come-first-serve".
+  Wer zuerst schaut, sichert sich die besten Spieler.
+
+✓ Kader-Balance: Halte immer mindestens 2 Torhüter – fällt der einzige
+  Torwart aus, übernimmt der schwächste Feldspieler mit deutlichem Stärke-Abzug.
+
+✓ Finanzen im Blick: Hohe Gehälter fressen das Budget auf.
+  Verkaufe überzählige Spieler lieber früh auf dem Markt (besserer Preis
+  als Notverkauf).
+
+✓ Gelbe Karten beobachten: Wer kurz vor der Sperrschwelle steht, riskiert
+  bei der nächsten Karte einen Ausfall. Im Status-Screen immer prüfen.
+
+✓ Internationale gezielt einsetzen: Teuer aber stark – ein guter Internationaler
+  in der Startelf kann den Unterschied machen.
+
+✓ Kleines Budget? Kein Problem: Auch schwächere Vereine können
+  erfolgreich sein – gute Aufstellung und clevere Transfers zählen mehr
+  als der Kaderpreis.
+
+✓ Nachwuchs im Blick: Am Saisonende kommen neue Spieler auf den Markt.
+  Wer früh zuschlägt, sichert sich Talente bevor andere es tun.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+8. FINANZEN IM ÜBERBLICK
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Jede Woche werden Spielergehälter abgezogen (anteilig vom Monatsgehalt).
+
+EINNAHMEN:
+  + Zuschauereinnahmen bei Heimspielen
+  + Europacup-Einnahmen (falls qualifiziert)
+  + Transfererlöse (Verkauf, Marktliste)
+
+AUSGABEN:
+  − Spielergehälter (wöchentlich)
+  − Transfers (Zukäufe)
+
+ACHTUNG:
+- Konto zu tief im Minus → kein Kauf auf dem Inlandsmarkt mehr möglich
+- Konto negativ am Saisonende → Insolvenz-Verwarnung
+- Mehrfach hintereinander negativ → Entlassung (Spielende)
+
+Tipp: Achte auf die Gehaltskosten! Ein teurer Kader frisst dein Budget
+schnell auf. Manchmal ist ein günstiger, solider Spieler besser als
+ein teurer Star.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+9. KARTEN UND SPERREN
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+GELBE KARTEN:
+- Spieler sammeln gelbe Karten über die Saison
+- Nach einer bestimmten Anzahl im Zyklus: automatische Wochensperre
+- Danach beginnt ein neuer Zählzyklus
+- Gelb-Rote Karte (2× Gelb in einem Spiel): Sofort vom Platz,
+  mehrere Wochen Sperre
+
+Die Anzeige in der Aufstellung zeigt z.B.:
+  "Hans Müller  Stark  –1–  3(1)"
+  → 3 gelbe Karten gesamt, 1 im aktuellen Zyklus bis zur nächsten Sperre
+
+Pokal-Spiele zählen NICHT zum Sperr-Zyklus (nur Ligaspiele).
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+10. VERLETZUNGEN
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+- Spieler können sich während einer Partie verletzen
+- Ausfallzeit: wenige Wochen bis zu mehreren Monaten (abhängig von der Diagnose)
+- Verletzte Spieler erscheinen im Status-Screen und können nicht aufgestellt werden
+- Verletzungswochen verringern sich automatisch um 1 pro Spielwoche
+
+Beispiel-Diagnosen (von leicht bis schwer):
+  Leichte Zerrung → Knochenprellung → Kreuzbandriss
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+11. INTERNATIONALENREGEL (80er Stil)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Historisch korrekt: Maximal 3 Internationale Spieler erlaubt.
+
+- Maximal 3 Internationale im Kader und in der Startelf
+- Internationale Spieler sind erkennbar am [I]-Badge
+
+Internationale sind oft stärker als einheimische Spieler (einheimische
+sind in der Spitzenkategorie gedeckelt), aber die Marktpreise sind
+entsprechend höher.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+12. EUROPACUP & DFB-POKAL
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+EUROPACUP:
+Falls dein Team qualifiziert ist, nimmst du an einem der drei
+europäischen Wettbewerbe teil:
+
+  ECL (Landesmeisterpokal): Für den Bundesliga-Meister
+  Pokalsieger-Pokal:         Für den DFB-Pokal-Sieger
+  UEFA-Pokal:                Für die vorderen Ligaplätze
+
+Europacup-Spiele finden nach dem jeweiligen Ligaspieltag statt.
+Du erhältst eine Meldung wenn dein Pokalspiel ansteht und musst
+danach ebenfalls auf "Weiter" klicken.
+Hin- und Rückspiele, Verlängerung und Elfmeterschießen sind möglich.
+
+DFB-POKAL:
+Auch der DFB-Pokal läuft parallel zur Liga. Alle BL1-Teams nehmen teil,
+inklusive KI-Teams und Gegner aus der 2. Bundesliga und Oberliga.
+Pokalspiele zählen nicht zum gelben-Karten-Zyklus der Liga.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+13. SAISONABSCHLUSS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Am Ende jeder Saison passieren mehrere Dinge automatisch:
+
+SPIELERENTWICKLUNG:
+Alle Spieler entwickeln sich – positiv oder negativ. Kein Spieler bleibt
+gleich. Die Entwicklung ist zufällig und für dich nicht vorhersehbar.
+
+NACHWUCHS:
+Eine Gruppe neuer Nachwuchsspieler tritt in den Transfermarkt ein.
+Darunter sind einheimische Talente und einzelne Internationale. Sie sind
+meist im mittleren bis guten Bereich und frischen den Markt auf.
+
+FINANZEN:
+- Tabellenplatz beeinflusst Zuschauereinnahmen der kommenden Saison
+- Wer die Saison mit negativem Konto abschließt, erhält eine Verwarnung
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+14. INTERFACE, CHAT & EMOJIS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+NAVIGATION:
+Alle Aktionen per Mausklick. Navigationsleiste oben:
+  AUFST. | INLAND | AUSLAND | STATUS | TABELLE | PAARUNGEN | FINANZEN | SPIELTAG
+
+CHAT:
+Es gibt zwei Chat-Bereiche:
+  Global-Chat:  Für alle eingeloggten Spieler sichtbar (Lobby-Bereich)
+  Session-Chat: Nur für die Spieler in derselben Lobby sichtbar (In-Game)
+
+Du kannst zwischen den Bereichen über die Reiter im Chat-Fenster wechseln.
+
+@ERWÄHNUNGEN:
+Tippe @ im Chat, um andere Spieler zu erwähnen. Der Name wird
+automatisch vervollständigt. Ein erwähnter Spieler erhält eine
+Benachrichtigung, auch wenn er gerade einen anderen Tab geöffnet hat.
+Erwähnungen anderer Spieler können angeklickt werden, um deren Profil zu öffnen.
+
+LOBBY-CODES IM CHAT:
+Wenn jemand einen Lobby-Code postet, erscheint er als anklickbarer Link.
+Sobald die Lobby nicht mehr existiert, wird der Link automatisch
+zu normalem Text – der Code ist dann nicht mehr benutzbar.
+
+MULTIPLAYER: LOBBY-ERSTELLER VERLÄSST DAS SPIEL:
+Wenn der Ersteller einer MP-Lobby die Session verlässt, wird die Partie
+automatisch gespeichert und alle anderen Spieler werden ins Hauptmenü
+zurückgeleitet. Der Spielstand bleibt erhalten und kann später
+neu geladen werden.
+
+EMOJIS:
+Tippe : (Doppelpunkt) im Chat – es erscheint eine Auswahl aller verfügbaren
+Emojis. Weitertippen filtert die Auswahl. Auswählen per Klick, Pfeiltasten
+oder Tab/Enter.
+Klassische Smileys wie :) :-D ;) :( :o :P werden beim Senden automatisch
+umgewandelt. Fahre im Chat über ein Emoji, um den Code als Tooltip zu sehen.

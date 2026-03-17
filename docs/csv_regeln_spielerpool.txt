@@ -1,0 +1,95 @@
+CSV-REGELN: SPIELER-POOL (Soccermaster)
+=============================================
+Stand: März 2026
+
+FORMAT: name, position, staerke, nationalitaet
+
+POSITIONEN:
+  T  = Torwart
+  A  = Abwehr
+  M  = Mittelfeld
+  S  = Sturm
+
+STÄRKE-KATEGORIEN (exakte Schreibweise beachten):
+  Sehr schwach
+  Schwach
+  Durchschnitt
+  Stark
+  Sehr stark
+  Weltklasse
+
+NATIONALITÄT:
+  D = Deutscher Inländer
+  A = Ausländer
+
+---
+
+INLÄNDER-POOL (Ziel: ~1000 Spieler)
+- Deutsche Spieler aus den späten 70ern bis Ende der 90er
+- Bekannte Legenden korrekt mit Position und realistischer Stärke
+- Rest: echte aber weniger bekannte Bundesliga-Profis und 2. Liga-Spieler
+- Stärkeverteilung: Großteil Durchschnitt/Schwach, wenige Sehr stark
+- Maximale Stärke im CSV: beliebig, aber Code kappt beim Laden auf max. 84
+  → Ein D-Spieler mit "Weltklasse" im CSV wird ingame zu "Sehr stark"
+  → Empfehlung: für Deutsche maximal "Sehr stark" eintragen
+
+AUSLÄNDER-POOL (Ziel: ~400 Spieler)
+- Internationale Legenden und Profis der späten 70er bis Ende der 90er
+- Alle als Nationalität "A" gekennzeichnet
+- Stärkeverteilung: bevorzugt Stark bis Weltklasse
+  (Ausländer waren damals etwas Besonderes, daher höheres Niveau)
+- Spieler aller Ligen und Nationen erlaubt; Jahreszahl nicht akkurat
+
+ALLGEMEIN
+- Kein Spielername doppelt (Duplikate werden beim Laden überschrieben)
+- Max. 3 Weltklasse-Spieler pro Verein beim Draft (enforced in draft.py)
+- UTF-8 Encoding, Komma als Trennzeichen, kein Anführungszeichen nötig
+- Keine Leerzeilen, keine Kommentare
+
+---
+
+STÄRKE-WERT TABELLE (versteckt, wird beim Spielstart ausgewürfelt)
+  Weltklasse   = 85 – 100
+  Sehr stark   = 70 – 90
+  Stark        = 55 – 75
+  Durchschnitt = 40 – 60
+  Schwach      = 20 – 45
+  Sehr schwach =  1 – 25
+
+Überschneidungsbereiche (z.B. Wert 72 = "Stark" ODER "Sehr stark"):
+→ Zufällig eine der beiden passenden Kategorien anzeigen
+→ Echter Zahlenwert bleibt immer versteckt
+
+---
+
+BEISPIELE
+
+name,position,staerke,nationalitaet
+Sepp Maier,T,Sehr stark,D
+Franz Beckenbauer,A,Sehr stark,D
+Gerd Müller,S,Sehr stark,D
+Michel Platini,M,Weltklasse,A
+Marco van Basten,S,Weltklasse,A
+Hans Meister,A,Durchschnitt,D
+Klaus Brenner,M,Schwach,D
+
+---
+
+HINWEIS ZUM LADEN (engine/game_state.py, Funktion lade_spieler_csv):
+- CSV wird einmal pro Woche gecacht (beim Transfermarkt)
+- Deutsche Spieler: wert = min(wuerfel_staerke(label), 84)
+- Ausländer: wert = wuerfel_staerke(label) ohne Deckelung
+- Spieler werden nach Nationalität und Stärkewert für Transfermarkt gefiltert
+  → Inlandsmarkt: nur D, max. Stärkewert 84
+  → Auslandsmarkt: nur A, min. Stärkewert 55
+
+---
+
+AKTUELLER STAND DER DATENBANK
+  Deutsche Spieler (D):   ~1006
+  Ausländer (A):          ~402
+  Gesamt:                 ~1408
+
+MINDESTBEDARF FÜR SPIELBETRIEB
+  36 Teams × 15 Spieler = 540 Spieler für initiales Draft
+  → Nach Draft verbleiben ~868 Spieler als Transfermarkt-Pool

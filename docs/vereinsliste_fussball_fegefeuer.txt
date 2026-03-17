@@ -1,0 +1,185 @@
+VEREINSLISTE: SOCCERMASTER
+================================
+Stand: März 2026
+Basis: Saison 1983/84
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+AUSWÄHLBARER VEREINS-POOL (40 Teams)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Manager wählen ihren Verein aus diesem Pool (alphabetisch sortiert).
+Die gewählten Teams starten in der 1. Bundesliga.
+Nicht gewählte Plätze werden mit CPU-Teams aus demselben Pool aufgefüllt (bis 18).
+
+1.  1. FC Kaiserslautern
+2.  1. FC Köln
+3.  1. FC Magdeburg          (DDR)
+4.  1. FC Nürnberg
+5.  1. FC Saarbrücken
+6.  Alemannia Aachen
+7.  Arminia Bielefeld
+8.  Bayer 04 Leverkusen
+9.  Bayer 05 Uerdingen
+10. BFC Dynamo Berlin        (DDR)
+11. Blau-Weiß 90 Berlin
+12. Borussia Dortmund
+13. Borussia Mönchengladbach
+14. Carl Zeiss Jena          (DDR)
+15. Dynamo Dresden           (DDR)
+16. Eintracht Braunschweig
+17. Eintracht Frankfurt
+18. FC 08 Homburg
+19. FC Bayern München
+20. FC Hansa Rostock
+21. FC Lokomotive Leipzig    (DDR)
+22. FC Schalke 04
+23. FC St. Pauli
+24. Fortuna Düsseldorf
+25. Fortuna Köln
+26. Hamburger SV
+27. Hannover 96
+28. Hertha BSC
+29. Karlsruher SC
+30. Kickers Offenbach
+31. MSV Duisburg
+32. Rot-Weiss Essen
+33. SC Freiburg
+34. SG Wattenscheid 09
+35. SpVgg Greuther Fürth
+36. SV Waldhof Mannheim
+37. SV Werder Bremen
+38. TSV 1860 München
+39. VfB Stuttgart
+40. VfL Bochum
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2. BUNDESLIGA (CPU-Teams, ~20 Vereine)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+(Füllen die 2. Bundesliga; nicht für Manager wählbar)
+
+SV Darmstadt 98, SSV Ulm 1846, Stuttgarter Kickers, Wuppertaler SV,
+Holstein Kiel, KSV Hessen Kassel, SG Union Solingen, SC Fortuna Köln,
+Rot-Weiß Oberhausen, VfL Osnabrück, Preußen Münster, Tennis Borussia Berlin,
+FC Augsburg, VfL Wolfsburg, SpVgg Bayreuth, Chemnitzer FC, Rot-Weiß Erfurt,
+FC Vorwärts Frankfurt, 1. FC Union Berlin, FC Energie Cottbus, FC Sachsen Leipzig,
+SV Babelsberg 03, FK Pirmasens, SV Meppen, Wormatia Worms, AS Koblenz, FC Remscheid
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+LIGA 3 / POKALPOOL (CPU-Teams)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+(Für DFB-Pokal-Auffüllung und niedere Ligen)
+
+Rot-Weiß Frankfurt, Kickers Würzburg, VfB Oldenburg, SV Elversberg,
+FC Gütersloh, SV Rödinghausen, Westfalia Herne, SC Victoria Hamburg,
+Altona 93, VfB Lübeck, SC Fortuna Hamburg, SV Wilhelmshaven,
+Kickers Emden, FC Teutonia Ottensen, SpVgg Erkenschwick, Bonner SC 01,
+Rot-Weiss Ahlen, SSV Reutlingen 05, Sportfreunde Siegen, TuRU Düsseldorf,
+FC 08 Villingen, Bahlinger SC, SV Wehen Wiesbaden, Eintracht Trier,
+TuS Koblenz, Hamborn 07, SC Viktoria Köln, 1. FC Heidenheim, SV Sandhausen,
+VfB Zittau, Stahl Brandenburg, BSG Chemie Leipzig, SC Eisenhüttenstadt,
+Roter Stern Leipzig, VfR Aalen, SC Paderborn, FC Ingolstadt, Hallescher FC
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+INTERNATIONALE VEREINE (Europapokal-Pool)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+(Gegner in Europapokal der Landesmeister, Pokalsieger und UEFA-Pokal)
+
+--- ENGLAND ---
+Liverpool FC
+Tottenham Hotspur
+Nottingham Forest
+Aston Villa
+Manchester United
+Ipswich Town
+Arsenal FC
+Everton FC
+
+--- ITALIEN ---
+Juventus Turin
+AS Roma
+AC Milan
+Inter Mailand
+SSC Napoli
+Fiorentina
+
+--- SPANIEN ---
+Real Madrid
+FC Barcelona
+Athletic Bilbao
+Real Sociedad
+Valencia CF
+Atletico Madrid
+
+--- FRANKREICH ---
+AS Saint-Étienne
+Paris Saint-Germain
+Girondins Bordeaux
+Olympique Marseille
+AS Monaco
+
+--- NIEDERLANDE ---
+Ajax Amsterdam
+PSV Eindhoven
+Feyenoord Rotterdam
+AZ Alkmaar
+
+--- BELGIEN ---
+RSC Anderlecht
+Club Brügge
+Standard Lüttich
+
+--- PORTUGAL ---
+Benfica Lissabon
+FC Porto
+Sporting Lissabon
+
+--- SCHOTTLAND ---
+Celtic Glasgow
+Rangers Glasgow
+FC Aberdeen
+
+--- ÖSTERREICH ---
+FK Austria Wien
+SK Rapid Wien
+
+--- SCHWEIZ ---
+FC Basel
+Grasshopper Club Zürich
+FC Sion
+
+--- SCHWEDEN ---
+IFK Göteborg
+Malmö FF
+
+--- JUGOSLAWIEN ---
+Dinamo Zagreb
+Red Star Belgrad
+FK Partizan
+
+--- RUMÄNIEN ---
+Steaua Bukarest
+Dinamo Bukarest
+
+--- TSCHECHOSLOWAKEI ---
+Sparta Prag
+Dukla Prag
+
+--- UNGARN ---
+Ferencváros Budapest
+Honvéd Budapest
+
+--- SOWJETUNION ---
+Dynamo Kiew
+Spartak Moskau
+ZSKA Moskau
+
+--- POLEN ---
+Legia Warschau
+Widzew Łódź
+
+--- GRIECHENLAND ---
+Panathinaikos Athen
+Olympiakos Piräus
+
+--- TÜRKEI ---
+Galatasaray Istanbul
+Fenerbahçe Istanbul

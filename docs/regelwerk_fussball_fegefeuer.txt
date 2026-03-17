@@ -1,0 +1,581 @@
+REGELWERK: SOCCERMASTER
+============================
+Stand: März 2026
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. ALLGEMEINES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+- Setting: Deutsche Bundesliga, 80er Jahre (Saison 1983/84 als Basis)
+- Spieler: 2-4 menschliche Manager pro Lobby
+- Alle Manager spielen in derselben Liga
+- KI-Teams füllen die restlichen Plätze auf
+
+1. BUNDESLIGA:
+- 18 Vereine
+- 34 Spieltage (Doppelrunde Heim+Auswärts, 17+17)
+- Auf-/Abstieg: 2 direkte Absteiger + 1 Relegationsplatz (historisch korrekt 80er)
+
+2. BUNDESLIGA:
+- 20 Vereine
+- 38 Spieltage (Doppelrunde Heim+Auswärts, 19+19)
+- Aufstieg: 2 direkte Aufsteiger + 1 Relegationsplatz
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2. VEREINE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Auswählbarer Vereins-Pool: 40 historische Teams aus der Ära 1983/84
+(inkl. DDR-Klubs für mehr Flair)
+
+- Jeder Lobby-Spieler wählt frei einen Verein aus den 40 Vereinen
+- Die ausgewählten Teams starten in der 1. Bundesliga
+- Verbleibende BL1-Plätze (bis 18) werden mit CPU-Teams aus dem Pool aufgefüllt
+- Vollständige Liste → vereinsliste_fussball_fegefeuer.txt
+- Alle Teams starten mit 6.000.000 DM Startkapital (vor Draft-Abzug)
+
+2. BUNDESLIGA:
+- Wird mit CPU-Teams aus einem separaten Pool (~20 Vereine) befüllt
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+3. STÄRKESYSTEM
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Spielerstärken haben einen versteckten Zahlenwert (1-100).
+Angezeigt wird nur die Kategorie als Text:
+
+  Weltklasse   = 85 – 100
+  Sehr stark   = 70 – 90
+  Stark        = 55 – 75
+  Durchschnitt = 40 – 60
+  Schwach      = 20 – 45
+  Sehr schwach =  1 – 25
+
+Bei Überschneidungen (z.B. Wert 72 liegt in "Stark" UND "Sehr stark"):
+→ Zufällig eine der beiden passenden Kategorien anzeigen
+→ Echter Zahlenwert bleibt immer versteckt
+
+Inländer-Deckelung:
+- Deutsche Spieler (Nationalität D) werden intern auf max. 84 gekappt
+- Das bedeutet: kein Deutscher kann Weltklasse-Niveau erreichen
+- Im CSV eingetragene "Weltklasse"-Label bei D-Spielern werden beim Laden korrigiert
+
+Saisonentwicklung:
+- Stärken ändern sich NICHT innerhalb einer Saison
+- Zwischen Saisons: Inländer ändern sich um -15 bis +10 Punkte (zufällig); Ausländer können einbrechen
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+4. KADER UND AUFSTELLUNG
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+- Kadergröße: Maximal 20 Spieler
+- Positionen: T (Torwart), A (Abwehr), M (Mittelfeld), S (Sturm)
+- Startkader nach Draft: 15 Spieler (Mindest: 2T, 4A, 5M, 4S)
+- Startelf: 11 Spieler
+- Formation ergibt sich automatisch aus den nativen Positionen der aufgestellten Spieler
+- Spieler können nicht auf Fremdpositionen gesetzt werden
+
+Not-Torwart:
+- Kein echter T in der Startelf → schwächster Feldspieler übernimmt
+- Seine Stärke zählt nur zu 60%
+
+Standard-Formationen (kein Malus):
+- 4-4-2
+- 4-3-3
+- 3-5-2
+- 4-5-1
+- 5-3-2
+- 3-4-3
+- 5-4-1
+
+Formations-Malus (greift wenn die Gesamtzahl der Feldspieler ≠ 10):
+- Leicht ungewöhnlich (10 Feldspieler, aber exotische Verteilung): 10-20% Malus
+- Sehr ungewöhnlich (≠ 10 Feldspieler): 20-35% Malus
+
+Automatische Startelf (KI und Standard):
+- Bevorzugt 4-4-2 (1 T, 4 A, 4 M, 2 S)
+- Stärkste verfügbare deutsche Spieler pro Position werden zuerst gewählt
+- Ausländer nur als Ergänzung wenn nicht genug Deutsche verfügbar
+- Verletzte und gesperrte Spieler werden automatisch ausgelassen
+
+Ausländerregel in der Startelf:
+- Maximal 3 Ausländer gleichzeitig in der Startelf (historisch korrekt 80er)
+- Mehr als 3 Ausländer → zusätzlicher 15% Malus auf alle Stärken
+
+Ausländerregel im Kader:
+- Maximal 3 Ausländer im gesamten Kader erlaubt
+- Draft: maximal 2 Ausländer werden zugeteilt
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+5. MATCH-ENGINE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Spielgeschwindigkeit: 1 Spielminute = 0,5 Echtzeitsekunden (ca. 45 Sekunden pro Spiel)
+(konfigurierbar: settings.cfg → [match] sekunden_pro_minute)
+
+Pro Spielminute/Sekunde läuft folgende Kette:
+
+SCHRITT 1 – BALLKONTROLLE (Mittelfeld vs. Mittelfeld):
+- Verhältnis der Mittelfeld-Gesamtstärken bestimmt Ballkontrolle
+- Beispiel: MF 35 vs MF 70 → 33% vs 67% Chance den Ball zu haben
+- Wer den Ball hat, kommt in die Angriffsphase
+
+SCHRITT 2 – ANGRIFF vs. ABWEHR:
+- Sturmstärke + Mittelfeld-Bonus vs. gegnerische Abwehrstärke
+- Basiswahrscheinlichkeit Schuss: ~12% (bei gleich starken Teams) (settings.cfg → schuss_chance_basis)
+- Max. Schusswahrscheinlichkeit: 22% pro Minute (settings.cfg → schuss_chance_cap)
+- Mittelfeld-Bonus: basiert auf der DURCHSCHNITTSSTÄRKE der Mittelfeldspieler
+- Mittelfeld-Dominanz: wer MF-Duell gewinnt, bekommt zusätzlichen Bonus (max. 20%)
+
+Mittelfeld-Bonus Skala (nach Durchschnittsstärke der MF-Spieler):
+  < 20              → +0%
+  20 – 54           → +5%
+  40 – 54           → +10%
+  55 – 69           → +20%
+  70 – 84           → +30%
+  ≥ 85              → +40%
+
+SCHRITT 3 – SCHUSS vs. TORWART:
+- Basiswahrscheinlichkeit Tor: ~18% (bei gleich starken Teams) (settings.cfg → tor_chance_basis)
+- Max. Torwahrscheinlichkeit: 32% pro Schuss (settings.cfg → tor_chance_cap)
+- Torwartstärke beeinflusst diese Wahrscheinlichkeit
+
+Zielwert: ~3,9 Tore gesamt pro Spiel bei gleich starken Teams
+Kein Maximum – auch extreme Ergebnisse sind möglich
+
+Eigentor-Chance: 1% pro Torversuch (Schütze und eigener Verteidiger werden angezeigt)
+
+Torschützen-Gewichtung:
+  Stürmer   → 5-fache Wahrscheinlichkeit das Tor zu schießen
+  Mittelfeld → 2-fache
+  Abwehr    → 0,5-fache
+
+Heimvorteil:
+- Wird alle 10 Minuten neu berechnet
+- Bei Rückstand: -5% bis +5% (Pfiffe/Druck)
+- Bei Führung oder Gleichstand: +5% bis +15% (Euphorie/Support)
+
+Unterzahl:
+- Jeder Platzverweis reduziert alle Teamstärken sofort um 9%
+- Mehrere Platzverweise: kumulativ (Minimum 10% der Original-Stärke)
+
+Spielabbruch (weniger als 7 Spieler):
+- Fällt ein Team durch Rote Karten/Verletzungen unter 7 Spieler → Spielabbruch
+- Wertung Liga: 2:0 für den Gegner
+- Wertung International (Pokal/Europacup): 3:0 für den Gegner
+- Ausnahme: wenn das tatsächliche Ergebnis für den Gegner bereits günstiger ist, bleibt das echte Ergebnis bestehen
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+6. LIVE-TICKER & SPIELANSICHT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Während des Spiels:
+- Alle laufenden Spiele der Liga mit Echtzeit-Ergebnissen sichtbar
+- Live-Ticker NUR für das eigene Spiel (und Spiele der anderen menschlichen Manager)
+- CPU-Spiele: nur laufendes Ergebnis, keine Meldungen
+- Ticker-Meldungen sind sehr kurz (unter 1 Sekunde lesbar)
+
+Ticker-Meldungen (eigene und Mitspieler-Spiele):
+  ⚽ Tor / Eigentor (mit Schütze und Spielminute)
+  🟨 Gelbe Karte (mit Spieler)
+  🟥 Rote Karte (2. Gelbe)
+  🤕 Verletzung + Diagnose + Ausfallwochen
+
+Nach Abpfiff:
+- 1 Minute Timer läuft sichtbar runter
+- Zusammenfassung des eigenen Spiels (Tore, Karten, Verletzungen mit Minuten)
+- Andere Spiele der menschlichen Manager per Klick einsehbar
+- "Weiter"-Button: sobald alle Spieler klicken → sofort weiter, sonst Timer abwarten
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+7. DISZIPLIN (GELBE UND ROTE KARTEN)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Gelbe Karten (Wahrscheinlichkeit pro Spiel, gleichmäßig über 90 Minuten verteilt):
+  Abwehr:    25% gesamt (≈ 0,028% pro Minute)
+  Mittelfeld: 20% gesamt (≈ 0,022% pro Minute)
+  Sturm:     10% gesamt (≈ 0,011% pro Minute)
+  Torwart:    2% gesamt (≈ 0,002% pro Minute)
+
+Gelbe-Karte-Cooldown:
+- Zwischen zwei Gelben Karten für denselben Spieler müssen mindestens 10 Minuten liegen
+  (konfigurierbar: settings.cfg → [match] gelb_abstand_min)
+
+Gelb-Sperre: Bei der 5. Gelben Karte im Liga-Zyklus → 1 Woche Sperre (ab nächstem Spiel)
+- Die 5. Karte löst die Sperre sofort aus; der Spieler kann aber noch im selben Spiel Gelb-Rot bekommen
+- Nach Sperre: Zyklus-Zähler wird auf 0 zurückgesetzt
+- Pokal-Gelbe Karten zählen NICHT zum Liga-Zyklus
+- Gelbe Karten Anzeige: bei Gleichstand "X", wenn Pokal-Karten den Gesamt-Stand erhöhen: "X(Y)" (Gesamt/Zyklus)
+- Gelbe Karten werden saisonübergreifend nicht zurückgesetzt (noch nicht implementiert)
+
+Rote Karten:
+- Direkte Rote Karte: derzeit NICHT implementiert
+- 2. Gelbe im selben Spiel = sofort Rote Karte (Retro-Regel)
+- Sperrdauer nach Roter Karte: 2 bis 5 Wochen (konfigurierbar: settings.cfg → rot_sperre_min / rot_sperre_max)
+- Ein Spieler der Rot gesehen hat bekommt in diesem Spiel keine weiteren Karten
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+8. LAZARETT (VERLETZUNGEN)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+- Wahrscheinlichkeit: 3,25% pro Spieler pro Spiel (settings.cfg → [match] verletzung_wahrscheinlichkeit)
+- Ein bereits verletzter Spieler kann sich im selben Spiel nicht nochmals verletzen
+- Dauer: 1 bis 8 Wochen (Basiswert zufällig)
+- Heilungs-Spielraum: Zufallsfaktor -1, 0 oder +1 Woche auf Basiswert
+- Obergrenze: max. 8 Wochen
+
+Diagnosen nach Ausfallwochen:
+  1 Woche  → "Leichte Zerrung"
+  2 Wochen → "Muskelfaserriss"
+  3 Wochen → "Knochenprellung"
+  4 Wochen → "Bänderriss"
+  5 Wochen → "Meniskusschaden"
+  6 Wochen → "Wadenbeinbruch"
+  7 Wochen → "Kreuzbandriss"
+  8 Wochen → "Kreuzbandriss"
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+9. STATUS-BILDSCHIRM
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+- Zeigt NUR Spieler die verletzt, gesperrt oder gelb-vorbelastet sind
+- Fitte Spieler ohne Karten werden nicht gelistet
+- Sperren und Verletzungen verringern sich jede Woche automatisch um 1
+- Status-Screen ist jederzeit in der Management-Phase einsehbar
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+10. TRANSFERMARKT UND FINANZEN
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Startkapital: 6.000.000 DM (konfigurierbar: settings.cfg → [finanzen] team_startbudget)
+- Beim Draft werden 15 Spieler zufällig zugeteilt (2T, 4A, 5M, 4S)
+- Marktwerte der 15 Startspieler werden direkt vom Startkapital abgezogen
+- Falls Gesamtkosten > 6 Mio: Marktwerte und Gehälter werden proportional skaliert
+- Verbleibender Kontostand ist das Startbudget für Transfers
+
+Marktwert (linear nach verstecktem Zahlenwert 1-100):
+  Sehr schwach (1-25):     20.000 –    100.000 DM
+  Schwach (20-45):         80.000 –    300.000 DM
+  Durchschnitt (40-60):   250.000 –    600.000 DM
+  Stark (55-75):          500.000 –  1.500.000 DM
+  Sehr stark (70-90):   1.200.000 –  4.000.000 DM
+  Weltklasse (85-100):  3.500.000 – 11.000.000 DM
+
+Tatsächlicher Kaufpreis: 90-120% des Basiswertes (zufällig gleichverteilt)
+
+---
+
+INLÄNDER-MARKT:
+- Stärke: maximal Sehr stark (kein Weltklasse, da Deutsche auf 84 gekappt)
+- 3 Angebote pro Besuch, immer dieselben pro Woche
+- Max. 2 Besuche pro Woche
+- 1-2 der 3 Angebote können shared mit anderen Managern sein (je 50% Chance)
+  → Shared: First-come-first-serve → beim anderen Manager steht "Ausverkauft"
+- Bei Solospieler: alle 3 exklusiv, keine shared Angebote
+- Kauflimit: Kauf nur möglich wenn Kontostand über -1.000.000 DM
+- Gelistete Spieler anderer Manager erscheinen im Inland-Angebot als geteilter Slot
+
+VERKAUF – NOTVERKAUF:
+- Sofortiger Verkauf aus dem Kader
+- Erlös: 50-90% des Marktwertes, Mittelwert 65% (Dreiecksverteilung)
+
+VERKAUF – TRANSFERMARKT LISTEN:
+- Spieler wird sofort aus dem Kader entfernt, nicht mehr einsetzbar
+- Preis: 80-120% des Marktwertes (zufällig)
+- Nächste Woche den anderen Managern angeboten als geteilter Inlandsmarkt-Slot
+- Falls niemand kauft (Ladenhüter-Regel): Zwangsverkauf
+  → Erlös: 85-120% des Marktwertes, Mittelwert 98% (Dreiecksverteilung)
+  → Geld wird sofort dem Verkäufer gutgeschrieben (nächste Woche)
+
+---
+
+AUSLÄNDER-MARKT:
+- Stärke: immer Sehr stark bis Weltklasse (min. Stärkewert 70)
+- Zutritt NUR wenn:
+  * Kontostand positiv (> 0 DM)
+  * Weniger als 3 Ausländer aktuell im Kader
+  * Kader nicht voll (unter 20 Spieler)
+- Max. 1 Besuch pro Woche
+- 1 Angebot pro Besuch
+- 30% Chance dass dasselbe Angebot mit anderen Managern geteilt wird
+  → Shared: First-come-first-serve
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+11. SPIELERGEHÄLTER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+- Gehälter richten sich nach dem versteckten Stärkewert (1-100)
+- Zufälliger Spielraum von +/- 10% pro Spieler
+- Werden wöchentlich vom Kontostand abgezogen (Monatsgehalt ÷ 4)
+
+Gehaltsskala (pro Monat, DM):
+  Weltklasse (≥ 85):    36.000 –  60.000 DM
+  Sehr stark (≥ 70):    18.000 –  36.000 DM
+  Stark (≥ 55):          9.000 –  18.000 DM
+  Durchschnitt (≥ 40):   4.000 –   9.000 DM
+  Schwach (≥ 20):        2.000 –   4.000 DM
+  Sehr schwach (< 20):     500 –   2.000 DM
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+12. EINNAHMEN
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ZUSCHAUEREINNAHMEN:
+- Fester Ticketpreis: 3 DM pro Zuschauer (konfigurierbar: settings.cfg → [finanzen] ticketpreis)
+- Zuschauerzahl: dynamisch basierend auf Tabellenplatz beider Teams + Zufallsfaktor (+/-20%)
+- Nur Heimspiele generieren Einnahmen
+- Heimfaktor: Platz 1 → 100% Kapazität, Platz 18/20 → ~15% Kapazität (linear)
+- Gastfaktor: 30% Gewichtung, Heimteam 70%
+
+Zuschauer-Obergrenzen (konfigurierbar: settings.cfg → [finanzen]):
+  2. Bundesliga:   max. 40.000 Zuschauer
+  1. Bundesliga:   max. 65.000 Zuschauer
+
+Minimum: 500 Zuschauer pro Spiel
+
+INTERNATIONALE EINNAHMEN (Europacup-Spiele):
+Einnahmen je Heim-Europacup-Spiel (basierend auf Zuschauerzahl × 4 DM):
+
+  Landesmeister (ECL):
+    1. Runde:         20.000 – 35.000 Zuschauer
+    Viertelfinale:    30.000 – 50.000 Zuschauer
+    Halbfinale:       40.000 – 60.000 Zuschauer
+    Finale:           55.000 – 80.000 Zuschauer
+
+  Pokalsieger-Pokal:
+    1. Runde:         15.000 – 26.000 Zuschauer
+    Halbfinale:       25.000 – 40.000 Zuschauer
+    Finale:           40.000 – 55.000 Zuschauer
+
+  UEFA-Pokal:
+    1. Runde:         12.000 – 22.000 Zuschauer
+    2. Runde:         15.000 – 28.000 Zuschauer
+    Achtelfinale:     18.000 – 32.000 Zuschauer
+    Viertelfinale:    25.000 – 40.000 Zuschauer
+    Halbfinale:       30.000 – 48.000 Zuschauer
+    Finale:           42.000 – 62.000 Zuschauer
+
+Einnahmen werden 50/50 auf Heim- und Auswärtsteam aufgeteilt.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+13. KI-VERHALTEN
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+- KI stellt automatisch die stärkste verfügbare Elf auf (bestimme_startelf)
+- KI berücksichtigt Sperren und Verletzungen bei der Aufstellung
+- KI bevorzugt deutsche Spieler; Ausländer nur als Ergänzung
+- KI kauft und verkauft aktiv Spieler vom Transfermarkt
+- Liga-3-Teams und Pokal-Oberligisten haben CPU-generierte Spieler (keine CSV-Namen)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+14. INSOLVENZ
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+- Wird am Saisonende geprüft
+- Kontostand < 0 am Saisonende: +1 Insolvenz-Zähler
+- Kontostand ≥ 0 am Saisonende: Zähler wird auf 0 zurückgesetzt
+- Nach 3 aufeinanderfolgenden Saisons mit negativem Kontostand → Spielende
+- Spieler wird aus der Lobby entfernt
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+15. SPIELWOCHENABLAUF
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Jede Spielwoche läuft in folgender Reihenfolge ab:
+
+1. MANAGEMENT-PHASE (alle Manager gleichzeitig):
+   - Aufstellung anpassen
+   - Transfermarkt Inland (max. 2 Besuche)
+   - Transfermarkt Ausland (max. 1 Besuch)
+   - Status einsehen (Lazarett, Sperren, Gelbe Karten)
+   - Tabelle einsehen
+   - Finanzen einsehen
+   - Weiter-Button wenn fertig (oder Timer läuft ab)
+
+2. LIGASPIELTAG:
+   - Alle Ligaspiele gleichzeitig (1 Min = 0,5 Sek)
+   - Eigenes Spiel: voller Live-Ticker
+   - Mitspieler-Spiele: Kurzticker (Tore, Karten, Verletzungen)
+   - CPU-Spiele: nur laufendes Ergebnis
+   - Nach Abpfiff: 1 Minute Übersicht, dann Weiter-Button
+
+3. POKAL-EREIGNISSE (falls Pokalrunde laut Kalender):
+   - Findet nach dem Ligaspieltag statt (in Spieltag-Reihenfolge)
+   - DFB-Pokal und Europacup-Runden (je nach aktivem Spieltag)
+   - Manager ohne eigenes Pokalspiel (ausgeschieden): sehen als Zuschauer den Live-Ticker
+     des ersten laufenden Paarung und werden automatisch weiter geleitet (kein Weiter-Klick nötig)
+   - Ist kein Manager mehr im Pokalwettbewerb: Runde wird komplett übersprungen (keine Anzeige)
+
+4. WOCHENTICK:
+   - Gehälter werden abgezogen (Monatsgehalt ÷ 4 pro Woche)
+   - Sperr- und Verletzungswochen verringern sich um 1
+   - Neuer Transfermarkt-Pool wird generiert
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+16. WETTBEWERBS-KALENDER (Spieltage)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Die Pokal-Runden sind fest an Ligaspieltage geknüpft:
+
+  Spieltag  5  → DFB-Pokal: 1. Runde (Einzelspiel)
+  Spieltag  6  → ECL: 1. Runde Hinspiel
+  Spieltag  7  → ECL: 1. Runde Rückspiel
+  Spieltag  8  → Pokalsieger: 1. Runde Hinspiel
+  Spieltag  9  → DFB-Pokal: 2. Runde (Einzelspiel)
+  Spieltag 10  → Pokalsieger: 1. Runde Rückspiel
+  Spieltag 11  → UEFA-Pokal: 1. Runde Hinspiel
+  Spieltag 12  → UEFA-Pokal: 1. Runde Rückspiel
+  Spieltag 13  → UEFA-Pokal: 2. Runde Hinspiel
+  Spieltag 14  → UEFA-Pokal: 2. Runde Rückspiel
+  Spieltag 15  → UEFA-Pokal: Achtelfinale Hinspiel
+  Spieltag 16  → UEFA-Pokal: Achtelfinale Rückspiel
+  Spieltag 17  → DFB-Pokal: Achtelfinale (Einzelspiel)
+  Spieltag 18  → ECL: Viertelfinale Hinspiel
+  Spieltag 19  → ECL: Viertelfinale Rückspiel
+  Spieltag 20  → Pokalsieger: Halbfinale Hinspiel
+  Spieltag 21  → Pokalsieger: Halbfinale Rückspiel
+  Spieltag 22  → DFB-Pokal: Viertelfinale (Einzelspiel)
+  Spieltag 23  → UEFA-Pokal: Viertelfinale Hinspiel
+  Spieltag 24  → UEFA-Pokal: Viertelfinale Rückspiel
+  Spieltag 25  → ECL: Halbfinale Hinspiel
+  Spieltag 26  → ECL: Halbfinale Rückspiel
+  Spieltag 27  → UEFA-Pokal: Halbfinale Hinspiel
+  Spieltag 28  → DFB-Pokal: Halbfinale (Einzelspiel)
+  Spieltag 29  → UEFA-Pokal: Halbfinale Rückspiel
+  Spieltag 30  → Pokalsieger: Finale (Einzelspiel, neutraler Platz)
+  Spieltag 31  → ECL: Finale (Einzelspiel, neutraler Platz)
+  Spieltag 32  → UEFA-Pokal: Finale Hinspiel
+  Spieltag 33  → UEFA-Pokal: Finale Rückspiel
+  Spieltag 34  → DFB-Pokal: Finale (Einzelspiel, neutraler Platz)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+17. WETTBEWERBE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+DFB-POKAL:
+- Teilnehmer: alle 18 BL1 + alle 20 BL2 + Oberligisten (bis max. 64 Teams)
+- K.O.-System, Einzelspiele
+- Unentschieden nach 90 min → Verlängerung (bis 120 min) → Elfmeterschießen (zufällig)
+- Runden: 1. Runde → 2. Runde → Achtelfinale → Viertelfinale → Halbfinale → Finale
+- Finale: Einzelspiel auf neutralem Platz (Spieltag 34)
+- Erster Spieltag: Spieltag 5
+
+EUROPAPOKAL DER LANDESMEISTER (ECL):
+- Qualifikation: Bundesliga-Meister (Platz 1)
+- Historische Saison 0 (1982/83): Hamburger SV als Vorjahres-Meister
+- 16 Teams gesamt (Meister + 15 internationale Gegner, Tier 1+2)
+- Nur Hin- und Rückspiele, kein Gruppenformat
+- Runden: 1. Runde → Viertelfinale → Halbfinale → Finale (4 Runden)
+- Finale: Einzelspiel auf neutralem Platz (Spieltag 31)
+- Unentschieden im Finale → Verlängerung → Elfmeterschießen
+
+EUROPAPOKAL DER POKALSIEGER:
+- Qualifikation: DFB-Pokalsieger
+- Falls Pokalsieger = Bundesligameister → DFB-Pokalfinalist rückt nach
+- Historische Saison 0 (1982/83): 1. FC Köln (Pokalsieger), Fortuna Köln (Finalist)
+- 8 Teams gesamt (1 Deutscher + 7 internationale Gegner, Tier 1+2+3)
+- Runden: 1. Runde → Halbfinale → Finale (3 Runden, nur Hin+Rück, Finale Einzelspiel)
+- Finale: Einzelspiel auf neutralem Platz (Spieltag 30)
+- Unentschieden im Finale → Verlängerung → Elfmeterschießen
+
+UEFA-POKAL:
+- Qualifikation: Bundesliga Plätze 2-5 (historische Saison 0: Werder, Köln, Bayern, Gladbach)
+- 32 Teams gesamt (4 Deutsche + 28 internationale Gegner, Tier 2+3)
+- Runden: 1. Runde → 2. Runde → Achtelfinale → Viertelfinale → Halbfinale → Finale (6 Runden)
+- Hin- und Rückspiele in allen Runden inkl. Finale
+
+Sieger-Bestimmung Hin/Rückspiel:
+1. Gesamttore (Hin + Rück)
+2. Bei Gleichstand: Auswärtstore
+3. Bei weiterhin Gleichstand: Verlängerung im Rückspiel (bis 120 min)
+4. Bei weiterhin Gleichstand: Elfmeterschießen (zufällig simuliert)
+
+Sieger-Bestimmung Einzelspiel (alle Pokalfinales + DFB-Pokal):
+1. Tore nach 90 min
+2. Bei Gleichstand: Verlängerung (bis 120 min)
+3. Bei weiterhin Gleichstand: Elfmeterschießen (zufällig simuliert)
+
+Qualifikation Saison 2+ (nach Spielsaison):
+- ECL-Starter: BL1-Tabellenführer
+- Pokalsieger-Starter: DFB-Pokalsieger
+- UEFA-Pokal-Starter: BL1-Plätze 2-5
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+18. DRAFT-MECHANISMUS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+- Beim Spielstart werden alle Spieler aus spieler.csv geladen
+- Inländer und Ausländer werden getrennt gemischt
+- Jedes Team erhält nacheinander Spieler nach Mindest-Positionen:
+  Mindestpositionen pro Team: 2T, 4A, 5M, 4S = 15 Spieler
+- 20% Chance pro freiem Kader-Slot einen Ausländer zu ziehen (max. 2 pro Team)
+- Max. 3 Weltklasse-Spieler pro Team (Ausländer mit Wert ≥ 85)
+- Falls nach Draft Gesamtmarktwert > 9 Mio: proportionale Skalierung aller Werte
+- Startelf wird automatisch als 4-4-2 aus den stärksten verfügbaren Deutschen gesetzt
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+19. GRAFIK & SOUND
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+GRAFIK:
+- Klassischer C64-Style mit Press Start 2P Font
+- Braun/Gold Farbschema (Retro-Ästhetik)
+- Komplett statisch, keine Animationen
+- Zweispaltiges Layout für Spielpaarungen
+
+SOUND:
+- Soundeffekte bei Ereignissen (SID-Chip Style)
+- Pfeifton bei: Tor, Gelbe Karte, Rote Karte, Verletzung
+- Keine Hintergrundmusik (vorerst)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+20. HAUPTMENÜ (MANAGEMENT-PHASE)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. Aufstellung (Startelf anpassen)
+2. Transfermarkt Inland (max. 2 Besuche pro Woche)
+3. Transfermarkt Ausland (max. 1 Besuch pro Woche)
+4. Status (Lazarett, Sperren, Gelbe Karten)
+5. Tabelle (aktuelle Liga-Tabelle)
+6. Kommende Spielpaarungen
+7. Finanzen (Kontostand, Ein-/Ausgaben)
+8. Spieltag starten (beginnt die Match-Phase)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+21. LOBBY-SYSTEM
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+- Max. 4 Spieler pro Raum
+- Raumersteller erhält einen einzigartigen 6-stelligen Code (Buchstaben + Ziffern)
+- Andere Spieler treten per Code bei
+- Reconnect: Spieler mit selber Manager-ID können die Verbindung wiederherstellen
+  → Nur online Spieler werden für "alle bereit" gezählt
+- Technologie: Python WebSocket-Server (Port 8765), HTTP-Server (Port 8080)
+- Spielstand wird automatisch gespeichert (game_saver.py)
+- Chat-Verlauf wird pro Session gespeichert
+- Anti-Cheat: Beim Server-Neustart werden laufende Spieltage zuerst zu Ende
+  simuliert (im Schnellvorlauf), bevor gespeichert wird – kein Neustart eines
+  bereits laufenden Spieltags möglich
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+22. MANAGER-PROFIL
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+- Login via Google OAuth (Google One-Tap oder OAuth-Flow)
+- Profil wird serverseitig als JSON gespeichert (data/manager_profiles/)
+- Felder: Nickname (frei wählbar, 2-20 Zeichen), Profilbild (Google-Avatar)
+- Statistiken: Saisons gespielt, Siege/Unentschieden/Niederlagen, Gesamtpunkte
+
+LIEBLINGSVEREIN:
+- Im Profil kann ein Lieblingsverein aus den 40 wählbaren Vereinen gesetzt werden
+- Dieser wird beim Spielstart in der Vereinsauswahl automatisch vorausgewählt
+- Falls mehrere Manager in derselben Lobby denselben Lieblingsverein haben,
+  entscheidet der Zufall wer ihn bekommt (kein stiller Vorteil)
+- Der Lieblingsverein kann jederzeit über das Profil-Menü geändert werden
+
+NICKNAME:
+- Beim ersten Login muss ein Nickname gewählt werden
+- Nickname kann jederzeit über das Profil-Menü geändert werden
+- Reserviert: "Amsteiner" / "Amstein" (nur für den Entwickler)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+23. KONFIGURIERBARE WERTE (settings.cfg)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Viele Spielwerte können ohne Code-Änderung in der Datei settings.cfg angepasst werden.
+Wichtige Bereiche:
+
+[match]           → Spielgeschwindigkeit, Schuss-/Torchancen, Kartenwahrscheinlichkeiten,
+                    Verletzungswahrscheinlichkeit, Formations-Malus, Rot-Sperre
+[finanzen]        → Startkapital, Ticketpreis, Zuschauerlimits, Gehaltsfaktor, Zinsen
+[transfer]        → Kauf-/Verkaufsfaktoren, Kaderlimit, Zwangsverkauf-Erlös
+[cpu_ai]          → KI-Kaufwahrscheinlichkeit, Kadergröße, Listing-Schwelle
+[entwicklung]     → Stärkeänderung Inländer/Ausländer zwischen Saisons
+[lobby]           → Reconnect-Timeout, AFK-Timer
+[dev]             → Dev-Admin E-Mail, reservierte Nicknames
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+24. NOCH NICHT IMPLEMENTIERT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Folgende Mechaniken sind geplant aber noch nicht umgesetzt:
+
+- Direkte Rote Karten (Foulspiel, Notbremse)
+- Gelbe Karten Rücksetzung nach bestimmten Spieltagen
+- Vollständige Spielerdatenbank (1000+ Spieler)

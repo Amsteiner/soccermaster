@@ -1,0 +1,26 @@
+# Secrets & Konfiguration
+.env
+
+# Nutzerdaten (werden lokal angelegt, nicht ins Repo)
+data/manager_profiles/
+data/game_saves/
+data/mp_saves/
+data/avatars/
+data/admins.json
+data/testers.json
+data/global_chat.json
+data/settings.bak/
+
+# Logs & Backups
+logs/*
+backups/
+
+# Musik (nur OST im Repo – SID/MOD/MP3 lokal hinzufügen)
+music/sid/
+music/mod/
+music/mp3/
+
+# Python
+venv/
+__pycache__/
+*.pyc
