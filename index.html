@@ -921,13 +921,20 @@ function loginSuccess(auth_token, manager_id, profile) {
   localStorage.setItem('lieblingsverein', S.lieblingsverein || '');
   localStorage.setItem('auth_expires', String(_exp30d));
   if (!S.nickname) {
-    const ov = document.getElementById('nickname-overlay');
-    ov.style.display = 'flex';
-    setTimeout(() => document.getElementById('inp-nickname-forced').focus(), 50);
+    zeigeNickOverlay();
   } else {
     showLoggedInUI();
     loadOngoingGames(); loadMpSlots();
   }
+}
+
+function zeigeNickOverlay() {
+  const ov = document.getElementById('nickname-overlay');
+  ov.style.display = 'flex';
+  const inp = document.getElementById('inp-nickname-forced');
+  inp.value = '';
+  fetch('/api/random_nick').then(r=>r.json()).then(j=>{ if(j.success && !inp.value) inp.value = j.nick; }).catch(()=>{});
+  setTimeout(() => inp.focus(), 50);
 }
 
 async function saveNicknameForced() {
@@ -1019,7 +1026,7 @@ function initiateGoogleSignIn() {
 function showLoggedInUI() {
   document.getElementById('login-form').style.display = 'none';
   document.getElementById('user-info').style.display = 'block';
-  document.getElementById('user-nickname').textContent = S.nickname || S.name || 'MANAGER';
+  document.getElementById('user-nickname').textContent = S.nickname || 'MANAGER';
   const pic = document.getElementById('profile-pic');
   if (S.profile_image) { pic.style.display = 'block'; pixeliereBild(S.profile_image, pic, 2); }
   renderProfileStats();
@@ -1041,7 +1048,7 @@ function showLoggedInUI() {
   fetch(`/api/admin/check?token=${encodeURIComponent(S.auth_token)}`).then(r=>r.json()).then(d=>{ S.isAdmin = d.is_admin||false; S.isTester = d.is_tester||false; S.isDevAdmin = d.is_dev||false; if(S.isAdmin||S.isDevAdmin) document.getElementById('btn-admin').style.display=''; const _sb=document.getElementById('btn-sim'); if(_sb){if(!istAdmin()&&!istTester())_sb.style.display='none';else if(S._simBtnPhase&&_sb.style.display==='none'){_sb.disabled=false;_sb.style.display='';}} }).catch(()=>{});
   // Beim Server anmelden ohne Lobby → Global-Chat sofort nutzbar
   wsVerbinden(() => {
-    wsSend({aktion:'identifizieren', auth_token:S.auth_token, manager_id:S.id, name:S.nickname||S.name||'Manager'});
+    wsSend({aktion:'identifizieren', auth_token:S.auth_token, manager_id:S.id, name:S.nickname||'Manager'});
     // Auto-Reconnect: falls Spieler vor einem Refresh in einem laufenden Spiel war
     const _rk = sessionStorage.getItem('reconnect_game_key');
     if(_rk) wsSend({aktion:'resume_game', game_key:_rk, auth_token:S.auth_token});
@@ -1361,7 +1368,7 @@ async function avatarCropOk() {
       const pic = document.getElementById('profile-pic');
       pic.style.display = 'block';
       pixeliereBild(newUrl, pic, 2);
-      const eigenerName = S.nickname || S.name;
+      const eigenerName = S.nickname || 'MANAGER';
       if (eigenerName && S.gidToProfile[eigenerName]) S.gidToProfile[eigenerName].bild = newUrl;
       sbr('AVATAR GESPEICHERT!');
     } else { sbr('FEHLER: ' + (json.error || 'UNBEKANNT')); }
@@ -2037,7 +2044,7 @@ function mpLadenStarten(slot) {
           aktion: 'mp_laden',
           slot,
           auth_token: S.auth_token,
-          name: S.nickname || S.name || 'Manager',
+          name: S.nickname || 'Manager',
           email: S.email || ''
         }));
       }},
@@ -2155,9 +2162,7 @@ document.addEventListener('DOMContentLoaded', () => {
       .catch(() => {})
       .finally(() => {
         if (!S.nickname) {
-          const ov = document.getElementById('nickname-overlay');
-          ov.style.display = 'flex';
-          setTimeout(() => document.getElementById('inp-nickname-forced').focus(), 50);
+          zeigeNickOverlay();
         } else {
           showLoggedInUI();
           loadOngoingGames();
@@ -2461,7 +2466,7 @@ function handleMsg(d){
       }
       // Benachrichtigung: alle anderen sind bereit, nur ich noch nicht
       if(document.hidden && d.warten_auf && d.warten_auf.length===1) {
-        const _ichName=S.nickname||S.name||'';
+        const _ichName=S.nickname||'';
         if(_ichName && d.warten_auf[0]===_ichName) {
           if('Notification' in window) {
             Notification.requestPermission().then(p=>{
@@ -3144,7 +3149,7 @@ function lobbyErstellen(){
     return;
   }
   S.istErsteller=true;
-  wsVerbinden(()=>wsSend({aktion:'lobby_erstellen', auth_token:S.auth_token, email:S.email, name:S.nickname||S.name}));
+  wsVerbinden(()=>wsSend({aktion:'lobby_erstellen', auth_token:S.auth_token, email:S.email, name:S.nickname||'Manager'}));
 }
 function lobbyBeitreten(){
   const code=document.getElementById('inp-code').value.trim().toUpperCase();
@@ -3152,7 +3157,7 @@ function lobbyBeitreten(){
   wsVerbinden(()=>{
     S.lobbyCode=code;
     document.getElementById('anzeige-code').textContent=code;
-    wsSend({aktion:'lobby_beitreten', code, auth_token:S.auth_token, email:S.email, name:S.nickname||S.name});
+    wsSend({aktion:'lobby_beitreten', code, auth_token:S.auth_token, email:S.email, name:S.nickname||'Manager'});
     zeige('s-warten'); ladeVereine();
   });
 }
@@ -4687,7 +4692,7 @@ function formatChatTs(ts) {
 }
 
 function highlightMentions(html) {
-  const myName = S.nickname || S.name || '';
+  const myName = S.nickname || '';
   return html.replace(/@(\S+)/g, (match, n) => {
     const isMe = myName && n.toLowerCase() === myName.toLowerCase();
     const bg = isMe ? 'background:rgba(184,134,11,0.18);padding:0 2px;' : '';
@@ -4730,7 +4735,7 @@ function chatLobbyCodeKlick(code) {
   ]);
 }
 function _isMentioned(text) {
-  const myName = S.nickname || S.name || '';
+  const myName = S.nickname || '';
   if (!myName) return false;
   return new RegExp('@' + myName.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + '\\b', 'i').test(text);
 }
@@ -5076,7 +5081,7 @@ function chatAcUpdate(inp) {
     const pool = S.chatBereich === 'session'
       ? (S.sessionSpieler || [])
       : (S.onlineSpieler || []).map(u => u.name).filter(Boolean);
-    const myName = S.nickname || S.name || '';
+    const myName = S.nickname || '';
     const namen = pool.filter(n => n && n !== myName);
     const matches = namen.filter(n => n.toLowerCase().startsWith(query));
     if (matches.length) {

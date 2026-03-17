@@ -335,6 +335,17 @@ class APIHandler(SimpleHTTPRequestHandler):
                 self._send_json({"success": False, "error": str(e)}, 500)
 
         # Admin: Prüft ob aktueller User Admin- oder Tester-Rechte hat
+        elif path == '/api/random_nick':
+            try:
+                import random as _rnd
+                from engine.game_state import _VORNAMEN, _NACHNAMEN
+                v = _rnd.choice(_VORNAMEN) if _VORNAMEN else "Manager"
+                n = _rnd.choice(_NACHNAMEN) if _NACHNAMEN else "X"
+                z = str(_rnd.randint(1000, 9999))
+                self._send_json({"success": True, "nick": f"{v}{n}{z}"})
+            except Exception as e:
+                self._send_json({"success": False, "error": str(e)}, 500)
+
         elif path == '/api/admin/check':
             try:
                 auth_token = query.get('token', [None])[0]
