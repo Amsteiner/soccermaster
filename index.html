@@ -1045,7 +1045,7 @@ function showLoggedInUI() {
   document.querySelectorAll('#radio-autostart,#radio-autostart-sb').forEach(b=>b.classList.toggle('aktiv',_autoAktiv));
   document.querySelectorAll('#radio-shuffle,#radio-shuffle-sb').forEach(b=>b.classList.toggle('aktiv',_shAktiv));
   document.getElementById('lobbies-section').style.display = 'block';
-  fetch(`/api/admin/check?token=${encodeURIComponent(S.auth_token)}`).then(r=>r.json()).then(d=>{ S.isAdmin = d.is_admin||false; S.isTester = d.is_tester||false; S.isDevAdmin = d.is_dev||false; if(S.isAdmin||S.isDevAdmin) document.getElementById('btn-admin').style.display=''; const _sb=document.getElementById('btn-sim'); if(_sb){if(!istAdmin()&&!istTester())_sb.style.display='none';else if(S._simBtnPhase&&_sb.style.display==='none'){_sb.disabled=false;_sb.style.display='';}} }).catch(()=>{});
+  fetch(`/api/admin/check?token=${encodeURIComponent(S.auth_token)}`).then(r=>r.json()).then(d=>{ S.isAdmin = d.is_admin||false; S.isTester = d.is_tester||false; S.isDevAdmin = d.is_dev||false; if(S.isAdmin||S.isDevAdmin) document.getElementById('btn-admin').style.display=''; const _sb=document.getElementById('btn-sim'); if(_sb){if(!istAdmin()&&!istTester())_sb.style.display='none';else if(S._simBtnPhase&&_sb.style.display==='none'){_sb.disabled=false;_sb.style.display='';}} if(istAdmin()||istTester()) pruefeUpdate(S._serverVersion||''); }).catch(()=>{});
   // Beim Server anmelden ohne Lobby → Global-Chat sofort nutzbar
   wsVerbinden(() => {
     wsSend({aktion:'identifizieren', auth_token:S.auth_token, manager_id:S.id, name:S.nickname||'Manager'});
@@ -3005,7 +3005,7 @@ function handleMsg(d){
     case 'server_info':
       const _v = d.version || '–';
       document.getElementById('sb-version').textContent = _v;
-      if (istAdmin() || istTester()) pruefeUpdate(_v);
+      S._serverVersion = _v;
       if (d.afk_timeout_min != null) {
         S._afkTimeoutMin = d.afk_timeout_min;
         if (S._afkReset) S._afkReset();
