@@ -4056,8 +4056,8 @@ function renderVerkauf(){
     r.innerHTML=`
       <span style="font-size:0.82em;">${elfBadge}${chip}${s.name}${s.nat==='A'?'<span class="badge" style="color:var(--orange)">[I]</span>':''} <span style="color:var(--dim)">${s.stk}</span></span>
       <span style="font-size:0.72em;color:var(--dim);white-space:nowrap;">~${fmtK(pCa)} DM</span>
-      <button class="btn" style="font-size:0.65em;padding:2px 5px;" onclick="verkaufen('${s.name}','notverkauf')" title="Sofortverkauf: Abschlag auf den Marktwert">SOFORT</button>
-      <button class="btn" style="font-size:0.65em;padding:2px 5px;" onclick="verkaufen('${s.name}','listen')" title="Spieler auf den Transfermarkt listen (voller Preis)" ${S.kader.length<=11?'disabled title="Mindestens 11 Spieler im Kader erforderlich"':''}>LISTEN</button>`;
+      <button class="btn" style="font-size:0.65em;padding:2px 5px;" onclick="verkaufen('${s.name}','notverkauf')" ${s.ver>0||s.ges>0?'disabled title="Verletzte/gesperrte Spieler können nicht verkauft werden"':''}>SOFORT</button>
+      <button class="btn" style="font-size:0.65em;padding:2px 5px;" onclick="verkaufen('${s.name}','listen')" ${S.kader.length<=11?'disabled title="Mindestens 11 Spieler im Kader erforderlich"':s.ver>0||s.ges>0?'disabled title="Verletzte/gesperrte Spieler können nicht gelistet werden"':''}>LISTEN</button>`;
     l.appendChild(r);
   });
 }

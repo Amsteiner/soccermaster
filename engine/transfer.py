@@ -214,6 +214,11 @@ class Transfermarkt:
         if not spieler:
             return False, "Spieler nicht im Kader"
 
+        if spieler.verletzt_wochen > 0:
+            return False, f"{spieler.name} ist verletzt und kann nicht verkauft werden"
+        if spieler.gesperrt_wochen > 0:
+            return False, f"{spieler.name} ist gesperrt und kann nicht verkauft werden"
+
         erlös = int(spieler.marktwert * random.triangular(_NV_MIN, _NV_MAX, _NV_PEAK))
         team.kader.remove(spieler)
         team.kontostand += erlös
@@ -247,6 +252,11 @@ class Transfermarkt:
         spieler = next((s for s in team.kader if s.name == spieler_name), None)
         if not spieler:
             return False, "Spieler nicht im Kader"
+
+        if spieler.verletzt_wochen > 0:
+            return False, f"{spieler.name} ist verletzt und kann nicht gelistet werden"
+        if spieler.gesperrt_wochen > 0:
+            return False, f"{spieler.name} ist gesperrt und kann nicht gelistet werden"
 
         if len(team.kader) <= 11:
             return False, "Kader zu klein – mindestens 11 Spieler müssen im Kader bleiben"
