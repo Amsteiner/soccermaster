@@ -768,7 +768,7 @@ hr{border:none;border-top:1px solid var(--bg2);margin:8px 0;}
 </div>
 
 <div id="sb">
-  <span id="sb-title" style="color:var(--dim);">v<span id="sb-version" onclick="zeigeChangelog()" style="cursor:pointer;text-decoration:underline;" title="Changelog anzeigen">–</span> · BY AMSTEINER · <span onclick="zeigeHilfe()" style="cursor:pointer;text-decoration:underline;">HILFE</span></span>
+  <span id="sb-title" style="color:var(--dim);">v<span id="sb-version" onclick="zeigeChangelog()" style="cursor:pointer;text-decoration:underline;" title="Changelog anzeigen">–</span> · BY AMSTEINER · <span onclick="zeigeHilfe()" style="cursor:pointer;text-decoration:underline;">HILFE</span></span><span id="sb-update" style="display:none;margin-left:10px;color:var(--yellow);font-size:0.75em;cursor:pointer;" title="Neue Version verfügbar">▲ UPDATE</span>
   <span id="sb-radio" style="display:flex;align-items:center;gap:6px;width:520px;flex-shrink:0;overflow:hidden;line-height:1;">
     <span style="white-space:nowrap;">RADIO:</span>
     <span onclick="radioPrevious()" style="cursor:pointer;color:var(--gold);user-select:none;flex-shrink:0;font-family:system-ui,sans-serif;font-size:2em;line-height:1;display:inline-flex;align-items:center;" title="Vorheriger Titel">⏮</span>
@@ -1408,6 +1408,20 @@ async function saveNickname() {
 function istDevAdmin() { return S.isDevAdmin || false; }
 function istAdmin() { return S.isAdmin || istDevAdmin(); }
 function istTester() { return S.isTester && !istAdmin(); }
+
+function pruefeUpdate(lokalVersion) {
+  fetch('https://raw.githubusercontent.com/Amsteiner/soccermaster/main/VERSION')
+    .then(r => r.text())
+    .then(remote => {
+      const rv = remote.trim();
+      if (rv && rv !== lokalVersion) {
+        const el = document.getElementById('sb-update');
+        el.textContent = '▲ UPDATE v' + rv;
+        el.title = 'Neue Version ' + rv + ' verfügbar (lokal: ' + lokalVersion + ')';
+        el.style.display = 'inline';
+      }
+    }).catch(() => {});
+}
 
 // Parst settings.cfg-Text in Sektionen mit Einträgen (Kommentar, Leerzeile, Schlüssel)
 function _adminParse(text) {
@@ -2989,7 +3003,9 @@ function handleMsg(d){
       sbr('! '+d.nachricht); setTimeout(()=>sbr('BEREIT'),3000); break;
 
     case 'server_info':
-      document.getElementById('sb-version').textContent = d.version || '–';
+      const _v = d.version || '–';
+      document.getElementById('sb-version').textContent = _v;
+      if (istAdmin() || istTester()) pruefeUpdate(_v);
       if (d.afk_timeout_min != null) {
         S._afkTimeoutMin = d.afk_timeout_min;
         if (S._afkReset) S._afkReset();
