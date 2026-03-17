@@ -1393,6 +1393,8 @@ async function saveNickname() {
       cancelNicknameEdit();
       sbr('NICKNAME GESPEICHERT!');
       setTimeout(() => sbr('BEREIT'), 2500);
+      if (S.ws && S.ws.readyState === WebSocket.OPEN)
+        wsSend({aktion:'identifizieren', auth_token:S.auth_token, manager_id:S.id, name:nick});
     } else if (resp.status === 403) {
       amsteinEasterEgg(nick);
     } else {
