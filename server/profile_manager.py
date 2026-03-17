@@ -6,6 +6,7 @@ Handles JSON-based persistence of manager profiles and statistics
 import json
 import logging
 import os
+import random
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -73,7 +74,7 @@ class ProfileManager:
             "google_id": google_id,
             "email": email,
             "name": name,           # Google Klarname – wird nicht angezeigt
-            "nickname": name,       # Anzeigename – vom User frei wählbar
+            "nickname": ProfileManager._random_nick(),  # Zufälliger Startname
             "profile_image": picture_url,
             "manager_id": manager_id,
             "created_at": datetime.now(timezone.utc).isoformat(timespec='seconds').replace('+00:00', 'Z'),
@@ -110,6 +111,16 @@ class ProfileManager:
         except Exception as e:
             log.error(f"Error creating profile {google_id}: {e}")
             return None
+
+    @staticmethod
+    def _random_nick() -> str:
+        try:
+            from engine.game_state import _VORNAMEN, _NACHNAMEN
+            v = random.choice(_VORNAMEN) if _VORNAMEN else "Manager"
+            n = random.choice(_NACHNAMEN) if _NACHNAMEN else "X"
+            return f"{v}{n}{random.randint(1000, 9999)}"
+        except Exception:
+            return f"Manager{random.randint(1000, 9999)}"
 
     @staticmethod
     def validate_nickname(nickname):
