@@ -60,7 +60,7 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 #chat-tab{display:none;}
 #chat-backdrop{display:none;position:fixed;inset:0;z-index:595;background:rgba(0,0,0,0.45);}
 @media(max-width:700px){
-  #app{flex-direction:column;padding-bottom:2em;}
+  #app{flex-direction:column;padding-bottom:6em;}
   #main-content{max-width:none;width:100%;}
   /* Panel schiebt von rechts rein */
   #chat-wrap{
@@ -207,6 +207,7 @@ body.force-mobile #sb-radio #radio-vol{width:80px;}
 body.force-mobile #modal-box{padding:14px 12px;}
 body.force-mobile #modal-buttons{flex-direction:column;align-items:stretch;}
 body.force-mobile #modal-buttons .btn{width:100%;text-align:center;}
+body.force-mobile #app{padding-bottom:6em;}
 body.force-mobile #user-info>div{flex-direction:column!important;gap:8px!important;}
 body.force-mobile .profil-vsep{display:none!important;}
 body.force-mobile #profil-stats-body{flex-direction:column!important;}
@@ -1405,8 +1406,6 @@ async function saveNickname() {
 }
 
 function istDevAdmin() { return S.isDevAdmin || false; }
-function istAdmin() { return S.isAdmin || istDevAdmin(); }
-function istTester() { return S.isTester && !istAdmin(); }
 
 function pruefeUpdate(lokalVersion) {
   fetch('https://raw.githubusercontent.com/Amsteiner/soccermaster/main/VERSION')
@@ -1421,6 +1420,8 @@ function pruefeUpdate(lokalVersion) {
       }
     }).catch(() => {});
 }
+function istAdmin() { return S.isAdmin || istDevAdmin(); }
+function istTester() { return S.isTester && !istAdmin(); }
 
 // Parst settings.cfg-Text in Sektionen mit Einträgen (Kommentar, Leerzeile, Schlüssel)
 function _adminParse(text) {
