@@ -10,9 +10,9 @@
 <meta name="description" content="Retro Fußball-Manager – Bundesliga 1983/84 im C64-Stil. Multiplayer, Transfers, Europacup.">
 <meta property="og:title" content="SOCCERMASTER">
 <meta property="og:description" content="Retro Fußball-Manager – Bundesliga 1983/84 im C64-Stil. Multiplayer, Transfers, Europacup.">
-<meta property="og:url" content="">
+<meta property="og:url" content="https://soccermaster.amsteiner.de">
 <meta property="og:type" content="website">
-<meta property="og:image" content="/img/banner.png">
+<meta property="og:image" content="https://soccermaster.amsteiner.de/img/banner.png">
 <!-- Google Identity Services -->
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <!-- AudioContext-Interceptor: fängt den jsSID-AudioContext ab, damit wir resume() aufrufen können -->
@@ -31,8 +31,6 @@
   if(window.webkitAudioContext)window.webkitAudioContext=_PatchedAC;
 })();
 </script>
-<!-- Changelog -->
-<script src="/changelog.js"></script>
 <!-- SID-Player (jsSID by hermit-reasoner – Datei in js/jssid.js ablegen) -->
 <script src="/js/jssid.js"></script>
 <!-- MOD-Player (chiptune2.js / libopenmpt) -->
@@ -60,7 +58,7 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 #chat-tab{display:none;}
 #chat-backdrop{display:none;position:fixed;inset:0;z-index:595;background:rgba(0,0,0,0.45);}
 @media(max-width:700px){
-  #app{flex-direction:column;padding-bottom:6em;}
+  #app{flex-direction:column;padding-bottom:2em;}
   #main-content{max-width:none;width:100%;}
   /* Panel schiebt von rechts rein */
   #chat-wrap{
@@ -207,7 +205,6 @@ body.force-mobile #sb-radio #radio-vol{width:80px;}
 body.force-mobile #modal-box{padding:14px 12px;}
 body.force-mobile #modal-buttons{flex-direction:column;align-items:stretch;}
 body.force-mobile #modal-buttons .btn{width:100%;text-align:center;}
-body.force-mobile #app{padding-bottom:6em;}
 body.force-mobile #user-info>div{flex-direction:column!important;gap:8px!important;}
 body.force-mobile .profil-vsep{display:none!important;}
 body.force-mobile #profil-stats-body{flex-direction:column!important;}
@@ -359,7 +356,7 @@ hr{border:none;border-top:1px solid var(--bg2);margin:8px 0;}
             <div id="profil-einst-body" style="display:none;padding-left:4px;">
               <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
                 <span style="font-size:0.55em;color:var(--dim);min-width:4.5em;">THEME</span>
-                <select id="theme-select" class="theme-select" onchange="applyTheme(this.value)" style="font-family:inherit;font-size:0.55em;background:var(--bg2);color:var(--text);border:1px solid var(--gold);padding:2px 4px;cursor:pointer;">
+                <select id="theme-select" onchange="applyTheme(this.value)" style="font-family:inherit;font-size:0.55em;background:var(--bg2);color:var(--text);border:1px solid var(--gold);padding:2px 4px;cursor:pointer;">
                   <option value="c64">C64</option>
                   <option value="dos">DOS/GRÜN</option>
                   <option value="wb13">WB 1.3</option>
@@ -383,11 +380,11 @@ hr{border:none;border-top:1px solid var(--bg2);margin:8px 0;}
               <div style="display:flex;align-items:center;flex-wrap:wrap;gap:3px;">
                 <span style="font-size:0.55em;color:var(--dim);min-width:4.5em;">RADIO</span>
                 <button class="btn radio-typ-btn" id="radio-typ-ost" data-typ="ost" onclick="radioTypToggle(this)" style="font-size:0.55em;padding:2px 5px;">MP3<span style="color:var(--dim);margin-left:2px;">(OST)</span></button>
-                <button class="btn radio-typ-btn" id="radio-typ-mp3" data-typ="mp3" onclick="radioTypToggle(this)" style="font-size:0.55em;padding:2px 5px;">MP3<span style="color:var(--dim);margin-left:2px;">(Andere)</span></button>
+                <button class="btn radio-typ-btn" id="radio-typ-mp3" data-typ="mp3" onclick="radioTypToggle(this)" style="font-size:0.55em;padding:2px 5px;">MP3<span style="color:var(--dim);margin-left:2px;">(Ki)</span></button>
                 <button class="btn radio-typ-btn" id="radio-typ-sid" data-typ="sid" onclick="radioTypToggle(this)" style="font-size:0.55em;padding:2px 5px;">SID<span style="color:var(--dim);margin-left:2px;">(C64)</span></button>
                 <button class="btn radio-typ-btn" id="radio-typ-mod" data-typ="mod" onclick="radioTypToggle(this)" style="font-size:0.55em;padding:2px 5px;">MOD<span style="color:var(--dim);margin-left:2px;">(Amiga)</span></button>
-                <button class="btn radio-typ-btn radio-autostart-btn" id="radio-autostart" onclick="radioAutostartToggle(this)" style="font-size:0.55em;padding:2px 5px;" title="Radio beim Laden automatisch starten">AUTOPLAY</button>
-                <button class="btn radio-typ-btn radio-shuffle-btn" id="radio-shuffle" onclick="radioShuffleToggle(this)" style="font-size:0.55em;padding:2px 5px;" title="Zufällige Reihenfolge">SHUFFLE</button>
+                <button class="btn radio-typ-btn" id="radio-autostart" onclick="radioAutostartToggle(this)" style="font-size:0.55em;padding:2px 5px;" title="Radio beim Laden automatisch starten">AUTOPLAY</button>
+                <button class="btn radio-typ-btn" id="radio-shuffle" onclick="radioShuffleToggle(this)" style="font-size:0.55em;padding:2px 5px;" title="Zufällige Reihenfolge">SHUFFLE</button>
               </div>
             </div>
 
@@ -750,11 +747,12 @@ hr{border:none;border-top:1px solid var(--bg2);margin:8px 0;}
     </div>
     <pre id="hilfe-text" style="flex:1;overflow-y:auto;font-family:inherit;font-size:0.72em;color:var(--gold);white-space:pre-wrap;line-height:1.6;margin:0;"></pre>
     <div style="border-top:1px solid var(--bg2);margin-top:10px;padding-top:8px;text-align:center;font-size:0.65em;color:var(--dim);">
-      Ein Spiel von <span style="color:var(--yellow);">AMSTEINER</span> · 2026 · Fragen &amp; Feedback?
-      <a id="discord-link" href="#" target="_blank" rel="noopener"
-         style="display:none;color:var(--gold);text-decoration:none;border-bottom:1px dashed var(--gold);margin-left:4px;">▌ Discord</a>
-      <br>
-      <span style="color:var(--dim);">OST © Sebastian Amstein · SID/MOD/MP3 liegt in der Verantwortung des Serverbetreibers.</span>
+      <div style="margin-bottom:6px;color:var(--dim);">Ein Spiel von <span style="color:var(--yellow);">AMSTEINER</span> · 2026</div>
+      Fragen, Feedback, Mitspieler gesucht?
+      <a href="https://discord.gg/D2xUtTdej4" target="_blank" rel="noopener"
+         style="color:var(--gold);text-decoration:none;border-bottom:1px dashed var(--gold);margin-left:4px;">▌ Discord beitreten</a>
+      <br><br>
+      <span onclick="zeigeDownloads()" style="cursor:pointer;color:var(--gold);border-bottom:1px dashed var(--gold);">▌ Downloads</span>
     </div>
   </div>
 </div>
@@ -768,7 +766,7 @@ hr{border:none;border-top:1px solid var(--bg2);margin:8px 0;}
 </div>
 
 <div id="sb">
-  <span id="sb-title" style="color:var(--dim);">v<span id="sb-version" onclick="zeigeChangelog()" style="cursor:pointer;text-decoration:underline;" title="Changelog anzeigen">–</span> · BY AMSTEINER · <span onclick="zeigeHilfe()" style="cursor:pointer;text-decoration:underline;">HILFE</span><span id="sb-update" style="display:none;color:var(--gold);cursor:pointer;"> · UPDATE</span></span>
+  <span id="sb-title" style="color:var(--dim);">v<span id="sb-version" onclick="zeigeChangelog()" style="cursor:pointer;text-decoration:underline;" title="Changelog anzeigen">–</span> · BY AMSTEINER · <span onclick="zeigeHilfe()" style="cursor:pointer;text-decoration:underline;">HILFE</span></span>
   <span id="sb-radio" style="display:flex;align-items:center;gap:6px;width:520px;flex-shrink:0;overflow:hidden;line-height:1;">
     <span style="white-space:nowrap;">RADIO:</span>
     <span onclick="radioPrevious()" style="cursor:pointer;color:var(--gold);user-select:none;flex-shrink:0;font-family:system-ui,sans-serif;font-size:2em;line-height:1;display:inline-flex;align-items:center;" title="Vorheriger Titel">⏮</span>
@@ -777,8 +775,8 @@ hr{border:none;border-top:1px solid var(--bg2);margin:8px 0;}
     <span onclick="radioNaechster()" style="cursor:pointer;color:var(--gold);user-select:none;flex-shrink:0;font-family:system-ui,sans-serif;font-size:2em;line-height:1;display:inline-flex;align-items:center;" title="Nächster Titel">⏭</span>
     <span id="radio-bar" onclick="toggleRadio()" style="cursor:pointer;flex:1;min-width:0;overflow:hidden;" title="Radio ein/ausschalten"><span id="radio-titel" style="color:var(--dim);white-space:nowrap;display:inline-block;">–</span></span>
     <input id="radio-vol" type="range" min="0" max="100" value="60" oninput="radioLautstärke(this.value)" title="Lautstärke" style="flex-shrink:0;">
-    <button class="btn radio-typ-btn radio-shuffle-btn" id="radio-shuffle-sb" onclick="radioShuffleToggle(this)" style="font-size:0.7em;padding:2px 4px;flex-shrink:0;" title="Shuffle">S</button>
-    <button class="btn radio-typ-btn radio-autostart-btn" id="radio-autostart-sb" onclick="radioAutostartToggle(this)" style="font-size:0.7em;padding:2px 4px;flex-shrink:0;" title="Autoplay">A</button>
+    <button class="btn radio-typ-btn" id="radio-shuffle-sb" onclick="radioShuffleToggle(this)" style="font-size:0.7em;padding:2px 4px;flex-shrink:0;" title="Shuffle">S</button>
+    <button class="btn radio-typ-btn" id="radio-autostart-sb" onclick="radioAutostartToggle(this)" style="font-size:0.7em;padding:2px 4px;flex-shrink:0;" title="Autoplay">A</button>
   </span>
   <span id="sb-conn" style="white-space:nowrap;"><span id="sb-r">GETRENNT</span><span class="blink">■</span></span>
 </div>
@@ -808,7 +806,6 @@ const S = {
   auth_token: _sl('auth_token'),
   isAdmin: false,
   isTester: false,
-  isDevAdmin: false,
   manager_id: _sl('manager_id'),
   google_id: _sl('google_id'),
   email: _sl('email'),
@@ -921,20 +918,13 @@ function loginSuccess(auth_token, manager_id, profile) {
   localStorage.setItem('lieblingsverein', S.lieblingsverein || '');
   localStorage.setItem('auth_expires', String(_exp30d));
   if (!S.nickname) {
-    zeigeNickOverlay();
+    const ov = document.getElementById('nickname-overlay');
+    ov.style.display = 'flex';
+    setTimeout(() => document.getElementById('inp-nickname-forced').focus(), 50);
   } else {
     showLoggedInUI();
     loadOngoingGames(); loadMpSlots();
   }
-}
-
-function zeigeNickOverlay() {
-  const ov = document.getElementById('nickname-overlay');
-  ov.style.display = 'flex';
-  const inp = document.getElementById('inp-nickname-forced');
-  inp.value = '';
-  fetch('/api/random_nick').then(r=>r.json()).then(j=>{ if(j.success && !inp.value) inp.value = j.nick; }).catch(()=>{});
-  setTimeout(() => inp.focus(), 50);
 }
 
 async function saveNicknameForced() {
@@ -1026,7 +1016,7 @@ function initiateGoogleSignIn() {
 function showLoggedInUI() {
   document.getElementById('login-form').style.display = 'none';
   document.getElementById('user-info').style.display = 'block';
-  document.getElementById('user-nickname').textContent = S.nickname || 'MANAGER';
+  document.getElementById('user-nickname').textContent = S.nickname || S.name || 'MANAGER';
   const pic = document.getElementById('profile-pic');
   if (S.profile_image) { pic.style.display = 'block'; pixeliereBild(S.profile_image, pic, 2); }
   renderProfileStats();
@@ -1039,16 +1029,17 @@ function showLoggedInUI() {
     if (einstArrow) einstArrow.textContent = '▼';
   }
   const _rt=_radioTypenGeladen();
-  ['mp3','sid','mod','ost'].forEach(t=>document.querySelectorAll('.radio-typ-btn[data-typ="'+t+'"]').forEach(b=>b.classList.toggle('aktiv',_rt.includes(t))));
+  ['mp3','sid','mod','ost'].forEach(t=>{const el=document.getElementById('radio-typ-'+t);if(el)el.classList.toggle('aktiv',_rt.includes(t));});
   const _autoAktiv=localStorage.getItem('radioAutostart')==='1';
   const _shAktiv=localStorage.getItem('radioShuffle')==='1';
-  document.querySelectorAll('.radio-autostart-btn').forEach(b=>b.classList.toggle('aktiv',_autoAktiv));
-  document.querySelectorAll('.radio-shuffle-btn').forEach(b=>b.classList.toggle('aktiv',_shAktiv));
+  document.querySelectorAll('#radio-autostart,#radio-autostart-sb').forEach(b=>b.classList.toggle('aktiv',_autoAktiv));
+  document.querySelectorAll('#radio-shuffle,#radio-shuffle-sb').forEach(b=>b.classList.toggle('aktiv',_shAktiv));
+  document.getElementById('btn-admin').style.display = istAmsteiner() ? '' : 'none';
   document.getElementById('lobbies-section').style.display = 'block';
-  fetch(`/api/admin/check?token=${encodeURIComponent(S.auth_token)}`).then(r=>r.json()).then(d=>{ S.isAdmin = d.is_admin||false; S.isTester = d.is_tester||false; S.isDevAdmin = d.is_dev||false; if(S.isAdmin||S.isDevAdmin) document.getElementById('btn-admin').style.display=''; const _sb=document.getElementById('btn-sim'); if(_sb){if(!istAdmin()&&!istTester())_sb.style.display='none';else if(S._simBtnPhase&&_sb.style.display==='none'){_sb.disabled=false;_sb.style.display='';}} if(istAdmin()||istTester()) pruefeUpdate(S._serverVersion||''); }).catch(()=>{});
+  fetch(`/api/admin/check?token=${encodeURIComponent(S.auth_token)}`).then(r=>r.json()).then(d=>{ S.isAdmin = d.is_admin||false; S.isTester = d.is_tester||false; if(S.isAdmin) document.getElementById('btn-admin').style.display=''; const _sb=document.getElementById('btn-sim'); if(_sb){if(!istAdmin()&&!istTester())_sb.style.display='none';else if(S._simBtnPhase&&_sb.style.display==='none'){_sb.disabled=false;_sb.style.display='';}} }).catch(()=>{});
   // Beim Server anmelden ohne Lobby → Global-Chat sofort nutzbar
   wsVerbinden(() => {
-    wsSend({aktion:'identifizieren', auth_token:S.auth_token, manager_id:S.id, name:S.nickname||'Manager'});
+    wsSend({aktion:'identifizieren', auth_token:S.auth_token, manager_id:S.id, name:S.nickname||S.name||'Manager'});
     // Auto-Reconnect: falls Spieler vor einem Refresh in einem laufenden Spiel war
     const _rk = sessionStorage.getItem('reconnect_game_key');
     if(_rk) wsSend({aktion:'resume_game', game_key:_rk, auth_token:S.auth_token});
@@ -1217,10 +1208,9 @@ function applyTheme(id) {
   Object.entries(t).forEach(([k,v]) => { if (k !== 'font' && k !== 'baseSize') r.style.setProperty(k, v); });
   document.body.style.fontFamily = t.font;
   localStorage.setItem('theme', id);
-  document.querySelectorAll('.theme-select').forEach(sel => sel.value = id);
+  const sel = document.getElementById('theme-select');
+  if (sel) sel.value = id;
   applyFontScale(parseFloat(localStorage.getItem('font_scale') || '1'));
-  if (S.auth_token) fetch('/api/profile', {method:'POST', headers:{'Content-Type':'application/json'},
-    body: JSON.stringify({token: S.auth_token, theme: id})}).catch(()=>{});
 }
 
 function triggerAvatarUpload() {
@@ -1369,7 +1359,7 @@ async function avatarCropOk() {
       const pic = document.getElementById('profile-pic');
       pic.style.display = 'block';
       pixeliereBild(newUrl, pic, 2);
-      const eigenerName = S.nickname || 'MANAGER';
+      const eigenerName = S.nickname || S.name;
       if (eigenerName && S.gidToProfile[eigenerName]) S.gidToProfile[eigenerName].bild = newUrl;
       sbr('AVATAR GESPEICHERT!');
     } else { sbr('FEHLER: ' + (json.error || 'UNBEKANNT')); }
@@ -1394,9 +1384,7 @@ async function saveNickname() {
       cancelNicknameEdit();
       sbr('NICKNAME GESPEICHERT!');
       setTimeout(() => sbr('BEREIT'), 2500);
-      if (S.ws && S.ws.readyState === WebSocket.OPEN)
-        wsSend({aktion:'identifizieren', auth_token:S.auth_token, manager_id:S.id, name:nick});
-    } else if (resp.status === 403) {
+    } else if (resp.status === 403 && ['amstein','amsteiner'].includes(nick.toLowerCase())) {
       amsteinEasterEgg(nick);
     } else {
       sbr('FEHLER: ' + (result.error || 'UNBEKANNT'));
@@ -1406,23 +1394,11 @@ async function saveNickname() {
   }
 }
 
-function istDevAdmin() { return S.isDevAdmin || false; }
-
-function pruefeUpdate(lokalVersion) {
-  fetch('https://raw.githubusercontent.com/Amsteiner/soccermaster/main/VERSION')
-    .then(r => r.text())
-    .then(remote => {
-      const rv = remote.trim();
-      if (rv && rv !== lokalVersion) {
-        const el = document.getElementById('sb-update');
-        el.textContent = '· UPDATE';
-        el.title = '';
-        el.onclick = () => { document.getElementById('modal-title').textContent = '▌ UPDATE VERFÜGBAR'; showModal('Neue Version <b>' + rv + '</b> auf GitHub (lokal: ' + lokalVersion + ').<br><br>Auf dem Server ausführen:<br><br><span style="color:var(--yellow);">git pull<br>systemctl restart soccermaster</span>', [{label:'OK', action:()=>{}}]); };
-        el.style.display = 'inline';
-      }
-    }).catch(() => {});
+function istAmsteiner() {
+  const OWNERS = ['sebastian.amstein@gmail.com','sebastian.amstein@googlemail.com'];
+  return OWNERS.includes((S.email||'').toLowerCase());
 }
-function istAdmin() { return S.isAdmin || istDevAdmin(); }
+function istAdmin() { return S.isAdmin || istAmsteiner(); }
 function istTester() { return S.isTester && !istAdmin(); }
 
 // Parst settings.cfg-Text in Sektionen mit Einträgen (Kommentar, Leerzeile, Schlüssel)
@@ -1566,6 +1542,110 @@ function _adminRender(sections) {
   }
 }
 
+const CHANGELOG = [
+  { v: '0.7.25', einträge: [
+    'AFK-Modus: Verbundene aber inaktive Spieler werden in der Online-Liste mit gelbem Punkt und [AFK]-Status angezeigt',
+    'AFK-Spieler zählen beim WEITER-Button automatisch als bereit',
+    'AFK-Timeout konfigurierbar in settings.cfg und Admin-Panel (afk_timeout_min, Standard 5 Min.)',
+  ]},
+  { v: '0.7.24', einträge: [
+    'Saison-Abschluss: Gelistete Spieler (woche=1) werden vor der Insolvenzprüfung zwangsverkauft – Erlös zählt noch zur Saison',
+    'In Woche 34 neu gelistete Spieler (woche=0) kehren beim Saisonende zum Kader zurück',
+  ]},
+  { v: '0.7.23', einträge: [
+    'Pokal VORSPULEN: Elfmeter-Ergebnis (sim_skip Reset) blockierte nicht mehr andere parallele Matches',
+  ]},
+  { v: '0.7.22', einträge: [
+    'AFK-Erkennung: Nach 5 Min. Inaktivität werden Spieler als [AFK] markiert (gelber Punkt in der Online-Liste)',
+    'AFK-Spieler zählen automatisch als "Bereit" → kein Blockieren der Management-Phase',
+    'AFK-Timeout konfigurierbar in settings.cfg und Admin-Panel (afk_timeout_min, 0 = deaktiviert)',
+    'Relegationsspiel: Ohne Managerbeteiligung wird das Spiel instant im Hintergrund berechnet',
+  ]},
+  { v: '0.7.21', einträge: [
+    'DFB-Pokal: Folgerunden werden jetzt korrekt als Einzelspiele (KO) ausgelost, nicht als Hin/Rückspiel',
+  ]},
+  { v: '0.7.20', einträge: [
+    'Pokal-CPU-Runden (kein Manager beteiligt) laufen jetzt sofort statt in Echtzeit → kein 40s-Hänger nach Weiter',
+    'VORSPULEN im Pokal funktioniert jetzt korrekt: alle parallelen CPU-Spiele skippen mit',
+  ]},
+  { v: '0.7.19', einträge: [
+    'VORSPULEN-Button jetzt nur für Admins/Tester sichtbar (war versehentlich für alle sichtbar)',
+    'Weiter-Timer bei Reconnect: zeigt korrekte Restzeit statt immer 60 Sekunden',
+    'Spieler-Listing: mindestens 11 Spieler müssen im Kader bleiben',
+  ]},
+  { v: '0.7.18', einträge: [
+    'Versionsnummer anklickbar: zeigt diesen Changelog',
+    'Neue Retro-Themes: ZX Spectrum, CGA, Macintosh, Commodore PET, C64 BASIC',
+    'Statusleiste überarbeitet: einheitlicheres Erscheinungsbild',
+  ]},
+  { v: '0.7.17', einträge: [
+    'Spielsimulation: Weitere Balance-Parameter über das Admin-Panel einstellbar',
+    'Malus für Rote Karten, Eigentor-Chance und weitere Faktoren anpassbar',
+  ]},
+  { v: '0.7.16', einträge: [
+    'Vorspulen: Ereignisse (Tore, Karten, Verletzungen) werden nach dem Spiel im Ticker angezeigt',
+    'Pokal-Vorspulen: Spielzusammenfassung inklusive Verlängerungsereignisse',
+  ]},
+  { v: '0.7.15', einträge: [
+    'Internationale Vereinsspieler: Zufallsnamen bleiben länderspezifisch, auch wenn die Namensliste erschöpft ist',
+  ]},
+  { v: '0.7.14', einträge: [
+    'Internationale Vereinsspieler erhalten länderspezifische Namen (18 Nationen, Ära 1983/84)',
+  ]},
+  { v: '0.7.13', einträge: [
+    'Bereit-Status: Anzeige wer bereits bestätigt hat und auf wen noch gewartet wird',
+  ]},
+  { v: '0.7.12', einträge: [
+    'Spieltag starten: Jeder Manager kann sich bereit melden – Spieltag beginnt, sobald alle bereit sind',
+  ]},
+  { v: '0.7.11', einträge: [
+    'Tabellen 1. und 2. Bundesliga auf- und zuklappbar',
+    'Ligen ohne eigenen Manager-Verein werden automatisch eingeklappt',
+  ]},
+  { v: '0.7.10', einträge: [
+    'Pokal-Ansicht: Nur das eigene Spiel wird angezeigt, bei Rückspielen mit Hinspiel-Ergebnis',
+  ]},
+  { v: '0.7.9', einträge: [
+    'Tabellen-Ansicht: Box „Nächste Spiele" zeigt alle Begegnungen des aktuellen Spieltags',
+    'Pokal-Ansicht: Aktuelle Paarungen mit Hinspiel-Ergebnis bei Rückspielen',
+  ]},
+  { v: '0.7.8', einträge: [
+    'Avatar-Upload: Bild kann vor dem Hochladen zugeschnitten, verschoben und gezoomt werden',
+    'Avatar-Vorschau im Schnellprofil in voller Größe',
+  ]},
+  { v: '0.7.7', einträge: [
+    'Radio: Pause/Weiter über Medientasten auch bei SID- und MOD-Formaten',
+  ]},
+  { v: '0.7.6', einträge: [
+    'Relegations-Zuschauer: Managers ohne eigenes Relegationsspiel können das Spiel mitverfolgen',
+  ]},
+  { v: '0.7.5', einträge: [
+    'Marktwert: wird wöchentlich neu berechnet und variiert leicht um den Spielerwert',
+    'News-Ticker: Anzeigeposition bleibt beim Ausblenden erhalten',
+  ]},
+  { v: '0.7.4', einträge: [
+    'Saison-Abschluss: Auf- und Absteiger werden im Tabellenabschluss farblich hervorgehoben',
+    'Relegationsergebnis sichtbar im Saison-Abschluss',
+  ]},
+  { v: '0.7.3', einträge: [
+    'Game-Over-Bildschirm: Karriere-Ende zeigt Abschlussübersicht und Vergleich mit anderen Managern',
+    'Pokal-Zuschauer sehen das Spiel eines anderen Managers live mit',
+  ]},
+  { v: '0.7.2', einträge: [
+    'Gelbe Karten: Anzeige als Gesamt (Zyklus) wenn Pokalkarten die Ligawertung aufblähen',
+    'Auslandsmarkt: Mindeststärke auf Sehr stark / Weltklasse angehoben',
+    'Spielabbruch: Wertung Liga 2:0, international 3:0 – nur wenn Ergebnis nicht bereits besser',
+  ]},
+  { v: '0.7.1', einträge: [
+    'Europapokale: ECL, Pokalsieger-Cup und UEFA-Pokal vollständig spielbar',
+    'DFB-Pokal: vollständiger Turniermodus mit Hin- und Rückspielen, Verlängerung, Elfmeterschießen',
+    'Relegation: Auf-/Abstieg zwischen 1. und 2. Bundesliga',
+  ]},
+  { v: '0.7.0', einträge: [
+    'Spieler-Entwicklung: Inländer verbessern/verschlechtern sich saisonal',
+    'Mehrspielermodus: 2–4 Manager in einer Lobby',
+  ]},
+];
 
 function zeigeChangelog() {
   const ov = document.getElementById('changelog-overlay');
@@ -1589,19 +1669,20 @@ async function zeigeAdmin() {
   document.getElementById('admin-felder').innerHTML = '<div style="color:var(--dim);font-size:0.8em;">Lade...</div>';
   st.textContent = '';
   // Owner-only: Admin-Verwaltung einblenden
-  document.getElementById('admin-mgmt-section').style.display = istDevAdmin() ? 'block' : 'none';
-  document.getElementById('tester-mgmt-section').style.display = istDevAdmin() ? 'block' : 'none';
+  const isOwner = ['sebastian.amstein@gmail.com','sebastian.amstein@googlemail.com'].includes((S.email||'').toLowerCase());
+  document.getElementById('admin-mgmt-section').style.display = isOwner ? 'block' : 'none';
+  document.getElementById('tester-mgmt-section').style.display = isOwner ? 'block' : 'none';
   const [settingsResp, adminsResp, testersResp] = await Promise.all([
     fetch(`/api/admin/settings?token=${encodeURIComponent(S.auth_token)}`).then(r=>r.json()).catch(()=>null),
-    istDevAdmin() ? fetch(`/api/admin/admins?token=${encodeURIComponent(S.auth_token)}`).then(r=>r.json()).catch(()=>null) : Promise.resolve(null),
-    istDevAdmin() ? fetch(`/api/admin/testers?token=${encodeURIComponent(S.auth_token)}`).then(r=>r.json()).catch(()=>null) : Promise.resolve(null)
+    isOwner ? fetch(`/api/admin/admins?token=${encodeURIComponent(S.auth_token)}`).then(r=>r.json()).catch(()=>null) : Promise.resolve(null),
+    isOwner ? fetch(`/api/admin/testers?token=${encodeURIComponent(S.auth_token)}`).then(r=>r.json()).catch(()=>null) : Promise.resolve(null)
   ]);
   if (settingsResp?.success) {
     _adminSections = _adminParse(settingsResp.content);
     _adminRender(_adminSections);
   } else { st.textContent = '✗ ' + (settingsResp?.error || 'Verbindungsfehler'); st.style.color = 'var(--red)'; }
-  if (istDevAdmin() && adminsResp?.success) _adminRenderMgmt(adminsResp);
-  if (istDevAdmin() && testersResp?.success) _adminRenderTesterMgmt(testersResp);
+  if (isOwner && adminsResp?.success) _adminRenderMgmt(adminsResp);
+  if (isOwner && testersResp?.success) _adminRenderTesterMgmt(testersResp);
 }
 
 function _adminRenderMgmt(d) {
@@ -1921,13 +2002,13 @@ async function loadOngoingGames() {
         div.style.cssText = ROW + (game.pinned ? 'border-bottom-color:rgba(200,146,42,0.3);' : '');
         const pinDisabled = !game.pinned && hasPinned;
         const pinTitle = game.pinned ? 'Endlos-Spiel entfernen' : (pinDisabled ? 'Bereits ein Endlos-Spiel vorhanden' : 'Als Endlos-Spiel pinnen');
-        const pinBtn = `<button class="btn" style="width:22px;height:22px;font-size:1em;padding:0;line-height:22px;text-align:center;overflow:hidden;${pinDisabled?'opacity:0.3;cursor:not-allowed;':''}" title="${pinTitle}" ${pinDisabled?'disabled':''} onclick="togglePin('${game.game_key}',${!game.pinned})">${game.pinned?'★':'☆'}</button>`;
+        const pinBtn = `<button class="btn" style="font-size:0.7em;padding:2px 6px;${pinDisabled?'opacity:0.3;cursor:not-allowed;':''}" title="${pinTitle}" ${pinDisabled?'disabled':''} onclick="togglePin('${game.game_key}',${!game.pinned})">${game.pinned?'★':'☆'}</button>`;
         const col = game.pinned ? 'var(--yellow)' : 'var(--gold)';
         div.innerHTML =
-          `<span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer;color:${col};" onclick="resumeGame('${game.game_key}','${escHtml(game.team||'?')}',${game.season||1},${game.matchday||1},${game.pinned?1:0})">` +
+          `<span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer;color:${col};" onclick="resumeGame('${game.game_key}')">` +
           `▶ ${escHtml(team)} · ${saison} · ${st} · <span style="color:var(--dim);font-size:0.9em;">${datum}</span></span>` +
           pinBtn +
-          `<button class="btn" style="width:22px;height:22px;font-size:1em;padding:0;line-height:22px;text-align:center;overflow:hidden;border-color:var(--red);color:var(--red);" title="Löschen" onclick="deleteGame('${game.game_key}',${!!game.pinned})">✕</button>`;
+          `<button class="btn" style="font-size:0.7em;padding:2px 6px;border-color:var(--red);color:var(--red);" title="Löschen" onclick="deleteGame('${game.game_key}',${!!game.pinned})">✕</button>`;
         list.appendChild(div);
       }
       box.style.display = 'block';
@@ -1988,11 +2069,8 @@ async function togglePin(gameKey, pinned) {
   } catch(e) { sbr('FEHLER BEIM PINNEN'); }
 }
 
-async function resumeGame(gameKey, team, season, matchday, pinned) {
-  const saison = season ? `'${String(1982+season).slice(-2)}/'${String(1983+season).slice(-2)}` : '';
-  const st = matchday ? `ST${String(matchday).padStart(2,'0')}` : '';
-  const label = team ? ((pinned ? '★ ENDLOS' : team) + (saison?' · '+saison:'') + (st?' · '+st:'')) : '...';
-  sbr('LADE SPIELSTAND: ' + label);
+async function resumeGame(gameKey) {
+  sbr('Spiel wird geladen: ' + gameKey);
   S.lobbyCode = null;
   wsVerbinden(() => {
     wsSend({
@@ -2065,7 +2143,7 @@ function mpLadenStarten(slot) {
           aktion: 'mp_laden',
           slot,
           auth_token: S.auth_token,
-          name: S.nickname || 'Manager',
+          name: S.nickname || S.name || 'Manager',
           email: S.email || ''
         }));
       }},
@@ -2182,12 +2260,8 @@ document.addEventListener('DOMContentLoaded', () => {
       })
       .catch(() => {})
       .finally(() => {
-        if (!S.nickname) {
-          zeigeNickOverlay();
-        } else {
-          showLoggedInUI();
-          loadOngoingGames();
-        }
+        showLoggedInUI();
+        loadOngoingGames();
       });
   }
 });
@@ -2487,7 +2561,7 @@ function handleMsg(d){
       }
       // Benachrichtigung: alle anderen sind bereit, nur ich noch nicht
       if(document.hidden && d.warten_auf && d.warten_auf.length===1) {
-        const _ichName=S.nickname||'';
+        const _ichName=S.nickname||S.name||'';
         if(_ichName && d.warten_auf[0]===_ichName) {
           if('Notification' in window) {
             Notification.requestPermission().then(p=>{
@@ -3008,9 +3082,7 @@ function handleMsg(d){
       sbr('! '+d.nachricht); setTimeout(()=>sbr('BEREIT'),3000); break;
 
     case 'server_info':
-      const _v = d.version || '–';
-      document.getElementById('sb-version').textContent = _v;
-      S._serverVersion = _v;
+      document.getElementById('sb-version').textContent = d.version || '–';
       if (d.afk_timeout_min != null) {
         S._afkTimeoutMin = d.afk_timeout_min;
         if (S._afkReset) S._afkReset();
@@ -3054,7 +3126,7 @@ function handleMsg(d){
         S.chatGlobal = [];
         (d.nachrichten || []).forEach(m => {
           if (m.profil) S.gidToProfile[m.name] = m.profil;
-          S.chatGlobal.push({ name: m.name, text: m.text, bereich: bch, ts: m.ts || '', ts_epoch: m.ts_epoch||null, google_id: m.google_id || '' });
+          S.chatGlobal.push({ name: m.name, text: m.text, bereich: bch, ts: m.ts || '', google_id: m.google_id || '' });
         });
         sysMsgs.forEach(m => S.chatGlobal.push(m));
         if (S._pendingOnlineMsg) {
@@ -3072,7 +3144,7 @@ function handleMsg(d){
 
     case 'chat_nachricht':
       if (d.profil) S.gidToProfile[d.name] = d.profil;
-      appendChatNachricht(d.name, d.text, d.bereich || 'global', d.google_id, d.ts, d.ts_epoch||null); break;
+      appendChatNachricht(d.name, d.text, d.bereich || 'global', d.google_id, d.ts); break;
 
     case 'lobby_code_abgelaufen': {
       const code = d.code;
@@ -3172,7 +3244,7 @@ function lobbyErstellen(){
     return;
   }
   S.istErsteller=true;
-  wsVerbinden(()=>wsSend({aktion:'lobby_erstellen', auth_token:S.auth_token, email:S.email, name:S.nickname||'Manager'}));
+  wsVerbinden(()=>wsSend({aktion:'lobby_erstellen', auth_token:S.auth_token, email:S.email, name:S.nickname||S.name}));
 }
 function lobbyBeitreten(){
   const code=document.getElementById('inp-code').value.trim().toUpperCase();
@@ -3180,7 +3252,7 @@ function lobbyBeitreten(){
   wsVerbinden(()=>{
     S.lobbyCode=code;
     document.getElementById('anzeige-code').textContent=code;
-    wsSend({aktion:'lobby_beitreten', code, auth_token:S.auth_token, email:S.email, name:S.nickname||'Manager'});
+    wsSend({aktion:'lobby_beitreten', code, auth_token:S.auth_token, email:S.email, name:S.nickname||S.name});
     zeige('s-warten'); ladeVereine();
   });
 }
@@ -3321,10 +3393,6 @@ async function zeigeHilfe(){
       pre.textContent=await r.text();
     }catch(e){pre.textContent='Hilfe konnte nicht geladen werden.';}
   }
-  fetch('/api/discord').then(r=>r.json()).then(j=>{
-    const a=document.getElementById('discord-link');
-    if(a && j.success && j.url){ a.href=j.url; a.style.display='inline'; }
-  }).catch(()=>{});
 }
 
 async function zeigeDownloads(){
@@ -3739,7 +3807,7 @@ function renderFinanzen(){
       return `<div style="display:flex;justify-content:space-between;padding:2px 0;border-bottom:1px solid rgba(0,0,0,0.2);font-size:0.78em;">
         <span style="color:var(--dim)">SAISON ${e.saison} · ${_liga}</span>
         <span>${_pos} Platz</span>
-        <span style="color:${_kc}">${fmt(e.end_kontostand)}</span>
+        <span style="color:${_kc}">${fmt(e.end_kontostand)} DM</span>
       </div>`;
     }).join('');
   } else {
@@ -3982,7 +4050,7 @@ function zeigeInland(angebote){
     const ausl=a.nationalitaet==='A';
     const kaufBtn=istVergriffen
       ?`<div style="margin-top:5px;font-size:0.72em;color:var(--red);">[ VERGRIFFEN ]</div>`
-      :`<button class="btn" style="margin-top:5px;font-size:0.75em;" ${kannKaufen?'':'disabled'} onclick="kaufen('${a.name.replace(/'/g,"\\'")}',${a.preis},'inland',this)">[KAUFEN]</button>`;
+      :`<button class="btn" style="margin-top:5px;font-size:0.75em;" ${kannKaufen?'':'disabled'} onclick="kaufen('${a.name}',${a.preis},'inland',this)">[KAUFEN]</button>`;
     box.innerHTML=`
       <span class="${POS_COLOR[a.position]||'cA'}">[${a.position}] ${a.name}${ausl?'<span class="badge" style="color:var(--orange)">[I]</span>':''}</span>
       <span class="preis">${fmt(a.preis)}</span>
@@ -4000,7 +4068,7 @@ function zeigeAusland(sp){
   const kannKaufen=!imKader&&S.kader.length<20&&auslCount<3;
   const kaufBtn=imKader
     ?`<div style="margin-top:5px;font-size:0.72em;color:var(--dim);">[ IM KADER ]</div>`
-    :`<button class="btn btn-hi" style="margin-top:5px;font-size:0.75em;" ${kannKaufen?'':'disabled'} onclick="kaufen('${sp.name.replace(/'/g,"\\'")}',${sp.preis},'ausland',this)">[VERPFLICHTEN]</button>`;
+    :`<button class="btn btn-hi" style="margin-top:5px;font-size:0.75em;" ${kannKaufen?'':'disabled'} onclick="kaufen('${sp.name}',${sp.preis},'ausland',this)">[VERPFLICHTEN]</button>`;
   document.getElementById('ausland-ang').innerHTML=`
     <div class="angebot">
       <span class="${POS_COLOR[sp.position]||'cA'}">[${sp.position}] ${sp.name}</span>
@@ -4058,8 +4126,8 @@ function renderVerkauf(){
     r.innerHTML=`
       <span style="font-size:0.82em;">${elfBadge}${chip}${s.name}${s.nat==='A'?'<span class="badge" style="color:var(--orange)">[I]</span>':''} <span style="color:var(--dim)">${s.stk}</span></span>
       <span style="font-size:0.72em;color:var(--dim);white-space:nowrap;">~${fmtK(pCa)} DM</span>
-      <button class="btn" style="font-size:0.65em;padding:2px 5px;" onclick="verkaufen('${s.name}','notverkauf')" ${s.ver>0||s.ges>0?'disabled title="Verletzte/gesperrte Spieler können nicht verkauft werden"':''}>SOFORT</button>
-      <button class="btn" style="font-size:0.65em;padding:2px 5px;" onclick="verkaufen('${s.name}','listen')" ${S.kader.length<=11?'disabled title="Mindestens 11 Spieler im Kader erforderlich"':s.ver>0||s.ges>0?'disabled title="Verletzte/gesperrte Spieler können nicht gelistet werden"':''}>LISTEN</button>`;
+      <button class="btn" style="font-size:0.65em;padding:2px 5px;" onclick="verkaufen('${s.name}','notverkauf')" title="Sofortverkauf: Abschlag auf den Marktwert">SOFORT</button>
+      <button class="btn" style="font-size:0.65em;padding:2px 5px;" onclick="verkaufen('${s.name}','listen')" title="Spieler auf den Transfermarkt listen (voller Preis)" ${S.kader.length<=11?'disabled title="Mindestens 11 Spieler im Kader erforderlich"':''}>LISTEN</button>`;
     l.appendChild(r);
   });
 }
@@ -4424,7 +4492,8 @@ function zeigeProfilTooltip(e, name, profil) {
                (erf.pokalsieger_titel ? erf.pokalsieger_titel + '×PSC ' : '') +
                (erf.uefacup_titel ? erf.uefacup_titel + '×UEFA ' : '');
   const G = 'display:grid;grid-template-columns:max-content 1fr;gap:2px 8px;';
-  const _isDev = profil.is_dev || false;
+  const _devEmails = ['sebastian.amstein@gmail.com','sebastian.amstein@googlemail.com'];
+  const _isDev = _devEmails.includes((profil.email||'').toLowerCase());
   const adminBadge = (profil.is_admin ? ' <span style="color:var(--red);font-size:0.85em;">[ADMIN]</span>' : (profil.is_tester ? ' <span style="color:var(--orange);font-size:0.85em;">[TESTER]</span>' : '')) + (_isDev ? ' <span style="color:#00e5ff;font-size:0.85em;">[DEVELOPER]</span>' : '');
   const statusBadge = profil.status ? ` <span style="color:var(--dim);font-size:0.85em;">${escHtml(profil.status)}</span>` : '';
   const saisons = profil.saisons || 0;
@@ -4494,7 +4563,8 @@ function oeffneProfilModal(name, profil) {
   const hasMatches = mS + mU + mN > 0;
   const bilanz = hasMatches ? `${mS}S / ${mU}U / ${mN}N` : '–';
   const bsStr = bs ? `Pl. ${bs.position} · ${escHtml(bs.team||'')} (S${bs.saison||''})` : '–';
-  const _isDev2 = profil.is_dev || false;
+  const _devEmails2 = ['sebastian.amstein@gmail.com','sebastian.amstein@googlemail.com'];
+  const _isDev2 = _devEmails2.includes((profil.email||'').toLowerCase());
   const adminBadge = (profil.is_admin ? `<span style="color:var(--red);margin-left:6px;font-size:0.85em;">[ADMIN]</span>` : (profil.is_tester ? `<span style="color:var(--orange);margin-left:6px;font-size:0.85em;">[TESTER]</span>` : '')) + (_isDev2 ? `<span style="color:#00e5ff;margin-left:6px;font-size:0.85em;">[DEVELOPER]</span>` : '');
   const statusLine = profil.status ? `<div style="color:var(--dim);font-size:0.85em;margin-top:2px;">${escHtml(profil.status)}</div>` : '';
   const nickLine = profil.nickname ? `<div style="color:var(--dim);font-size:0.85em;margin-top:1px;">${escHtml(profil.nickname)}</div>` : '';
@@ -4537,110 +4607,11 @@ function oeffneProfilModal(name, profil) {
 
   body.appendChild(info);
 
-  // Einstellungen anzeigen: eigener Account, Admins/Dev sehen auch Fremdprofile
-  const _isOwn = name === S.nickname;
-  const _canEdit = _isOwn || istAdmin() || istDevAdmin();
-  const _isAdmin = istAdmin() || istDevAdmin();
-  if (_canEdit) {
-    const SEP2 = document.createElement('div');
-    SEP2.style.cssText = 'border-top:1px solid rgba(255,215,0,0.2);margin:8px 0;';
-    body.appendChild(SEP2);
-    const einst = document.createElement('div');
-
-    // Einstellungen: eigene aus localStorage, fremde aus Profil
-    const _targetGid = profil.email ? (S.gidToProfile[name]?.google_id || '') : '';
-    const _rs = _isOwn ? null : (profil.radio_settings || {});
-    const _curTheme = _isOwn
-      ? (localStorage.getItem('theme') || 'c64')
-      : (profil.theme || 'c64');
-    const _curScale = parseFloat(localStorage.getItem('font_scale') || '1');
-    const _rt = _isOwn ? _radioTypenGeladen() : (_rs?.types || ['ost']);
-    const _autoA = _isOwn ? !!document.querySelector('.radio-autostart-btn.aktiv') : (_rs?.autostart === '1');
-    const _shA   = _isOwn ? !!document.querySelector('.radio-shuffle-btn.aktiv')   : (_rs?.shuffle   === '1');
-
-    const _themeOpts = ['c64','dos','wb13','wb31','magicwb','arcade','amber','spectrum','cga','mac','pet','c64basic']
-      .map(t => `<option value="${t}"${t===_curTheme?' selected':''}>${t.toUpperCase()}</option>`).join('');
-    const _lbl = (t) => `<span style="font-size:0.7em;color:var(--dim);white-space:nowrap;">${t}</span>`;
-    const _scBtn = (v, lbl) => `<button class="btn font-scale-btn${_curScale===v?' btn-hi':''}" data-scale="${v}" onclick="applyFontScale(${v})" style="font-size:0.7em;padding:2px 5px;">${lbl}</button>`;
-
-    // Für fremde Profile: Buttons/Dropdowns rufen Admin-Speicherfunktion auf
-    const _onTheme = _isOwn
-      ? `applyTheme(this.value)`
-      : `_adminSaveUserSetting('${profil.google_id||''}','theme',this.value,this)`;
-    const _rtBtn = (typ, lbl) => {
-      const aktiv = _rt.includes(typ);
-      const onclick = _isOwn
-        ? `radioTypToggle(this)`
-        : `_adminRadioTypToggle(this,'${profil.google_id||''}')`;
-      return `<button class="btn radio-typ-btn${aktiv?' aktiv':''}" data-typ="${typ}" onclick="${onclick}" style="font-size:0.7em;padding:2px 5px;width:100%;">${lbl}</button>`;
-    };
-    const _autoOnclick = _isOwn ? `radioAutostartToggle(this)` : `_adminRadioToggle(this,'autostart','${profil.google_id||''}')`;
-    const _shOnclick   = _isOwn ? `radioShuffleToggle(this)`   : `_adminRadioToggle(this,'shuffle','${profil.google_id||''}')`;
-
-    const _editHint = !_isOwn ? `<div style="color:var(--orange);font-size:0.72em;margin-bottom:4px;">[ Admin: Einstellungen für ${escHtml(name)} ]</div>` : '';
-
-    einst.innerHTML =
-      `<div style="color:var(--dim);margin-bottom:4px;letter-spacing:1px;font-size:0.9em;">── EINSTELLUNGEN</div>` +
-      _editHint +
-      `<div style="display:grid;grid-template-columns:auto 1fr;gap:4px 8px;align-items:center;">` +
-        _lbl('THEME') + `<div><select class="theme-select" onchange="${_onTheme}" style="font-family:inherit;font-size:0.7em;background:var(--bg2);color:var(--text);border:1px solid var(--gold);padding:2px 4px;cursor:pointer;">${_themeOpts}</select></div>` +
-        (_isOwn && !S.lobbyCode ? _lbl('SCHRIFT') + `<div style="display:flex;gap:3px;">${_scBtn(1,'1×')}${_scBtn(1.5,'1.5×')}${_scBtn(2,'2×')}</div>` : '') +
-        _lbl('RADIO') +
-        `<div style="display:grid;grid-template-columns:1fr 1fr;gap:3px;">` +
-          [['ost','MP3 (OST)'],['sid','SID (C64)'],['mp3','MP3 (Andere)'],['mod','MOD (Amiga)']].filter(([t])=>(S._verfügbareTypen||['ost','sid','mod','mp3']).includes(t)).map(([t,l])=>_rtBtn(t,l)).join('') +
-          `<button class="btn radio-typ-btn radio-autostart-btn${_autoA?' aktiv':''}" onclick="${_autoOnclick}" style="font-size:0.7em;padding:2px 5px;width:100%;">AUTOPLAY</button>` +
-          `<button class="btn radio-typ-btn radio-shuffle-btn${_shA?' aktiv':''}" onclick="${_shOnclick}" style="font-size:0.7em;padding:2px 5px;width:100%;">SHUFFLE</button>` +
-        `</div>` +
-      `</div>`;
-    body.appendChild(einst);
-  }
-
   document.getElementById('profil-modal-overlay').classList.add('vis');
 }
 
 function schliesseProfil() {
   document.getElementById('profil-modal-overlay').classList.remove('vis');
-}
-
-async function _adminSaveUserSetting(gid, field, value, el) {
-  if (!gid) return;
-  const body = {token: S.auth_token, target_google_id: gid};
-  body[field] = value;
-  const r = await fetch('/api/admin/user_settings', {method:'POST',
-    headers:{'Content-Type':'application/json'}, body: JSON.stringify(body)}).then(r=>r.json()).catch(()=>null);
-  if (r?.success) sbr('EINSTELLUNG GESPEICHERT');
-  else sbr('FEHLER: ' + (r?.error||'?'));
-}
-
-function _adminRadioTypToggle(btn, gid) {
-  if (!gid) return;
-  const typ = btn.dataset.typ;
-  const aktiv = [...btn.closest('div').querySelectorAll('.radio-typ-btn[data-typ]')]
-    .filter(b => b.classList.contains('aktiv')).map(b => b.dataset.typ);
-  const idx = aktiv.indexOf(typ);
-  let neu;
-  if (idx >= 0) {
-    if (aktiv.length <= 1) return;
-    neu = aktiv.filter(t => t !== typ);
-  } else {
-    neu = [...aktiv, typ];
-  }
-  btn.closest('div').querySelectorAll('.radio-typ-btn[data-typ]').forEach(b =>
-    b.classList.toggle('aktiv', neu.includes(b.dataset.typ)));
-  const rs = {types: neu, autostart: btn.closest('div').querySelector('.radio-autostart-btn')?.classList.contains('aktiv') ? '1' : '0',
-               shuffle: btn.closest('div').querySelector('.radio-shuffle-btn')?.classList.contains('aktiv') ? '1' : '0'};
-  _adminSaveUserSetting(gid, 'radio_settings', rs, btn);
-}
-
-function _adminRadioToggle(btn, field, gid) {
-  if (!gid) return;
-  btn.classList.toggle('aktiv');
-  const container = btn.closest('div');
-  const types = [...container.querySelectorAll('.radio-typ-btn[data-typ].aktiv')].map(b => b.dataset.typ);
-  const rs = {types,
-    autostart: container.querySelector('.radio-autostart-btn')?.classList.contains('aktiv') ? '1' : '0',
-    shuffle:   container.querySelector('.radio-shuffle-btn')?.classList.contains('aktiv')   ? '1' : '0'};
-  _adminSaveUserSetting(gid, 'radio_settings', rs, btn);
 }
 
 function _ntBuildHtml(items) {
@@ -4809,14 +4780,7 @@ function chatMobileToggle() {
   }
 }
 
-function formatChatTs(ts, tsEpoch) {
-  if (tsEpoch) {
-    const d = new Date(tsEpoch);
-    const today = new Date().toLocaleDateString('de-DE', {day:'2-digit', month:'2-digit', year:'numeric'});
-    const dayStr = d.toLocaleDateString('de-DE', {day:'2-digit', month:'2-digit', year:'numeric'});
-    const timeStr = d.toLocaleTimeString('de-DE', {hour:'2-digit', minute:'2-digit'});
-    return dayStr === today ? timeStr : dayStr + ' ' + timeStr;
-  }
+function formatChatTs(ts) {
   if (!ts) return '';
   const [datePart, timePart] = ts.split(' ');
   if (!datePart || !timePart) return ts;
@@ -4825,7 +4789,7 @@ function formatChatTs(ts, tsEpoch) {
 }
 
 function highlightMentions(html) {
-  const myName = S.nickname || '';
+  const myName = S.nickname || S.name || '';
   return html.replace(/@(\S+)/g, (match, n) => {
     const isMe = myName && n.toLowerCase() === myName.toLowerCase();
     const bg = isMe ? 'background:rgba(184,134,11,0.18);padding:0 2px;' : '';
@@ -4868,7 +4832,7 @@ function chatLobbyCodeKlick(code) {
   ]);
 }
 function _isMentioned(text) {
-  const myName = S.nickname || '';
+  const myName = S.nickname || S.name || '';
   if (!myName) return false;
   return new RegExp('@' + myName.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + '\\b', 'i').test(text);
 }
@@ -4876,7 +4840,7 @@ function chatMsgHtml(m) {
   if (m.system) {
     if (m.ts_epoch && Date.now() - m.ts_epoch > 5 * 60 * 1000) return '';
     return `<div class="chat-msg chat-msg-server">` +
-      `<div class="chat-meta">${escHtml(formatChatTs(m.ts||'', m.ts_epoch))} <span class="cn-server">▌ SERVER</span></div>` +
+      `<div class="chat-meta">${escHtml(formatChatTs(m.ts||''))} <span class="cn-server">▌ SERVER</span></div>` +
       `<div class="ct">${escHtml(m.text)}</div>` +
       `</div>`;
   }
@@ -4886,7 +4850,7 @@ function chatMsgHtml(m) {
       ? `<span class="cn cn-tip" data-name="${escHtml(m.name)}">${escHtml(m.name)}</span>`
       : `<span class="cn">${escHtml(m.name)}</span>`;
     return `<div class="chat-msg${mentionCls}">` +
-      `<div class="chat-meta">${escHtml(formatChatTs(m.ts||'', m.ts_epoch))} ${nameHtml}:</div>` +
+      `<div class="chat-meta">${escHtml(formatChatTs(m.ts||''))} ${nameHtml}:</div>` +
       `<div class="ct">${highlightMentions(linkifyLobbyCodes(replaceEmojis(escHtml(m.text))))}</div>` +
       `</div>`;
   }
@@ -4900,9 +4864,13 @@ function renderChatNachrichten() {
   requestAnimationFrame(() => { const _last = el.lastElementChild; if (_last) _last.scrollIntoView(false); else el.scrollTop = el.scrollHeight; });
 }
 
-function appendChatNachricht(name, text, bereich, google_id, ts, ts_epoch) {
-  if (!ts_epoch) ts_epoch = Date.now();
-  const msg = { name, text, bereich, ts: ts||'', ts_epoch, google_id: google_id || '' };
+function appendChatNachricht(name, text, bereich, google_id, ts) {
+  if (!ts) {
+    const now = new Date();
+    ts = now.toLocaleDateString('de-DE', {day:'2-digit', month:'2-digit', year:'numeric'}) + ' ' +
+         now.toLocaleTimeString('de-DE', {hour:'2-digit', minute:'2-digit'});
+  }
+  const msg = { name, text, bereich, ts, google_id: google_id || '' };
   const arr = (bereich === 'session') ? S.chatSession : S.chatGlobal;
   arr.push(msg);
   if (arr.length > 200) arr.shift();
@@ -5210,7 +5178,7 @@ function chatAcUpdate(inp) {
     const pool = S.chatBereich === 'session'
       ? (S.sessionSpieler || [])
       : (S.onlineSpieler || []).map(u => u.name).filter(Boolean);
-    const myName = S.nickname || '';
+    const myName = S.nickname || S.name || '';
     const namen = pool.filter(n => n && n !== myName);
     const matches = namen.filter(n => n.toLowerCase().startsWith(query));
     if (matches.length) {
@@ -5570,19 +5538,9 @@ function _saveRadioSettings(){
   },800);
 }
 function radioTypToggle(btn){
-  const typ=btn.dataset.typ;
-  const aktiv=_radioTypenGeladen().slice();
-  const idx=aktiv.indexOf(typ);
-  if(idx>=0){
-    // deaktivieren — nur erlaubt wenn noch ein anderer verfügbarer Typ aktiv bleibt
-    const verfügbar=S._verfügbareTypen||['ost','sid','mod','mp3'];
-    const verbleibend=aktiv.filter(t=>t!==typ&&verfügbar.includes(t));
-    if(verbleibend.length===0) return; // letzter aktiver — nicht deaktivieren
-    aktiv.splice(idx,1);
-  } else {
-    aktiv.push(typ);
-  }
-  ['mp3','sid','mod','ost'].forEach(t=>document.querySelectorAll('.radio-typ-btn[data-typ="'+t+'"]').forEach(b=>b.classList.toggle('aktiv',aktiv.includes(t))));
+  btn.classList.toggle('aktiv');
+  const aktiv=['mp3','sid','mod','ost'].filter(t=>document.getElementById('radio-typ-'+t)?.classList.contains('aktiv'));
+  if(aktiv.length===0){btn.classList.add('aktiv');return;} // mindestens eine Option muss aktiv bleiben
   _radioTypenSpeichern(aktiv);
   _saveRadioSettings();
   const aktuell=_radioSong();
@@ -5594,14 +5552,14 @@ function radioAutostartToggle(btn){
   btn.classList.toggle('aktiv');
   const v=btn.classList.contains('aktiv')?'1':'0';
   localStorage.setItem('radioAutostart',v);
-  document.querySelectorAll('.radio-autostart-btn').forEach(b=>{if(b!==btn)b.classList.toggle('aktiv',v==='1');});
+  document.querySelectorAll('#radio-autostart,#radio-autostart-sb').forEach(b=>{if(b!==btn)b.classList.toggle('aktiv',v==='1');});
   _saveRadioSettings();
 }
 function radioShuffleToggle(btn){
   btn.classList.toggle('aktiv');
   const v=btn.classList.contains('aktiv')?'1':'0';
   localStorage.setItem('radioShuffle',v);
-  document.querySelectorAll('.radio-shuffle-btn').forEach(b=>{if(b!==btn)b.classList.toggle('aktiv',v==='1');});
+  document.querySelectorAll('#radio-shuffle,#radio-shuffle-sb').forEach(b=>{if(b!==btn)b.classList.toggle('aktiv',v==='1');});
   ladeRadio();
   _saveRadioSettings();
 }
@@ -5613,9 +5571,13 @@ function _initRadioDefaults(){
       const autoStart=d.radio['standard_auto']==='1';
       // Buttons aktualisieren falls noch kein lokaler Wert gespeichert
       if(!localStorage.getItem('radioTypen')){
-        ['mp3','sid','mod','ost'].forEach(t=>document.querySelectorAll('.radio-typ-btn[data-typ="'+t+'"]').forEach(b=>b.classList.toggle('aktiv',_radioServerDefaults.includes(t))));
+        ['mp3','sid','mod','ost'].forEach(t=>{
+          const el=document.getElementById('radio-typ-'+t);
+          if(el)el.classList.toggle('aktiv',_radioServerDefaults.includes(t));
+        });
         if(!localStorage.getItem('radioAutostart')){
-          document.querySelectorAll('.radio-autostart-btn').forEach(b=>b.classList.toggle('aktiv',autoStart));
+          const ae=document.getElementById('radio-autostart');
+          if(ae)ae.classList.toggle('aktiv',autoStart);
         }
       }
     }
@@ -5634,8 +5596,6 @@ async function ladeRadio(){
     const r=await fetch('/api/music');
     const d=await r.json();
     const alle=d.songs||[];
-    S._verfügbareTypen=[...new Set(alle.map(s=>s.type))];
-    ['mp3','sid','mod','ost'].forEach(t=>{const ok=S._verfügbareTypen.includes(t);document.querySelectorAll('.radio-typ-btn[data-typ="'+t+'"]').forEach(b=>b.style.display=ok?'':'none');});
     const typen=_radioTypenGeladen();
     const aktuell=_radioSong();
     radio.songs=alle.filter(s=>typen.includes(s.type));
@@ -5728,7 +5688,6 @@ function _mediaSessionAktualisieren(song,name,aktiv){
   navigator.mediaSession.setActionHandler('nexttrack',()=>radioNaechster());
   navigator.mediaSession.setActionHandler('previoustrack',()=>radioPrevious());
 }
-
 
 function _radioVol(slider){
   // logarithmische Kurve: gleichmäßige Wahrnehmung über den ganzen Regler
