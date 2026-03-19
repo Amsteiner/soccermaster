@@ -5395,20 +5395,6 @@ document.addEventListener('keydown', e => {
   }
 });
 
-// Multimedia-Tasten direkt abfangen wenn SM das aktive Tab ist (unabhängig von MediaSession)
-document.addEventListener('keydown', e => {
-  switch(e.key){
-    case 'MediaPlayPause':
-      if(!radio.aktiv)toggleRadio();else pauseRadio();e.preventDefault();break;
-    case 'MediaTrackNext':
-      radioNaechster();e.preventDefault();break;
-    case 'MediaTrackPrevious':
-      radioPrevious();e.preventDefault();break;
-    case 'MediaStop':
-      if(radio.aktiv)toggleRadio();e.preventDefault();break;
-  }
-},{capture:true});
-
 // ── Radio ──────────────────────────────────────────────────────────────────────
 const radio={aktiv:false,paused:false,songs:[],idx:0};
 // Minimales stilles WAV – hält Chrome als "Medienbesitzer" auch bei SID/MOD
