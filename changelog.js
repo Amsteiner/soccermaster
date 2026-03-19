@@ -1,4 +1,7 @@
 const CHANGELOG = [
+  { v: '0.7.31', einträge: [
+    'Multimedia-Tasten (Play/Pause/Weiter/Zurück) steuern das Radio wieder korrekt, nachdem man zu SoccerMaster zurückwechselt',
+  ]},
   { v: '0.7.30', einträge: [
     'Rote Karten im Pokal und Europapokalen führen nicht mehr zu einer Ligasperre',
     'Spieler mit Sonderzeichen im Namen konnten nicht verpflichtet werden – behoben',
