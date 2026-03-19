@@ -5729,6 +5729,17 @@ function _mediaSessionAktualisieren(song,name,aktiv){
   navigator.mediaSession.setActionHandler('previoustrack',()=>radioPrevious());
 }
 
+// MediaSession bei Tab-Wechsel zurück zu SM neu registrieren
+document.addEventListener('visibilitychange',()=>{
+  if(document.visibilityState==='visible'&&radio.aktiv&&!radio.paused&&radio.songs.length>0){
+    const song=radio.songs[radio.index]||{};
+    _mediaSessionAktualisieren(song,song.name||'?',true);
+    // audio.play() neu aufrufen damit Browser SM als aktive Audioquelle erkennt
+    const a=document.getElementById('radio-audio');
+    if(a&&!a.paused)a.play().catch(()=>{});
+  }
+});
+
 function _radioVol(slider){
   // logarithmische Kurve: gleichmäßige Wahrnehmung über den ganzen Regler
   const v=slider/100;
