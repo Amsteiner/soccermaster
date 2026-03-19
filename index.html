@@ -5750,7 +5750,7 @@ function _mediaSessionReklaim(){
   _mediaSessionAktualisieren(song,song.name||'?',true);
   // pause+play dispatched neues play-Event → Chrome erkennt SM als aktiven MediaSession-Owner
   const a=document.getElementById('radio-audio');
-  if(a&&!a.paused){a.pause();requestAnimationFrame(()=>a.play().catch(()=>{}));}
+  if(a&&!a.paused){a.pause();a.play().catch(()=>{});}
 }
 document.addEventListener('visibilitychange',()=>{
   if(document.visibilityState==='visible')_mediaSessionReklaim();
