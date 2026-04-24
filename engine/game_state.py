@@ -105,14 +105,18 @@ def berechne_marktwert(staerke_wert: int) -> int:
 
 
 def staerke_label(wert: int) -> str:
-    """Gibt den angezeigten Stärkenamen zurück, bei Überschneidungen zufällig"""
-    kandidaten = []
-    for label, (lo, hi) in STAERKE_RANGES.items():
-        if lo <= wert <= hi:
-            kandidaten.append(label)
-    if not kandidaten:
-        return "Sehr schwach"
-    return random.choice(kandidaten)
+    """Gibt den angezeigten Stärkenamen zurück (deterministisch, kein zufälliges Tier-Overlap)."""
+    if wert >= 85:
+        return "Weltklasse"
+    if wert >= 70:
+        return "Sehr stark"
+    if wert >= 55:
+        return "Stark"
+    if wert >= 40:
+        return "Durchschnitt"
+    if wert >= 20:
+        return "Schwach"
+    return "Sehr schwach"
 
 
 def wuerfel_staerke(label: str) -> int:

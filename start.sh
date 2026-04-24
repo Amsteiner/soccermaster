@@ -3,7 +3,7 @@
 # Soccermaster Startup Script
 
 # Wechsle in das Verzeichnis, in dem dieses Skript liegt
-cd "$(dirname "$0")"
+cd "/home/amsteiner/legacy soccermaster"
 
 # Erstellt venv, installiert Dependencies, startet Server
 

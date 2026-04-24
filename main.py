@@ -442,13 +442,34 @@ class APIHandler(SimpleHTTPRequestHandler):
             except Exception as e:
                 self._send_json({"success": False, "files": [], "error": str(e)})
 
+        elif path == '/api/languages':
+            try:
+                i18n_dir = BASE_DIR / 'i18n'
+                langs = []
+                for f in sorted(i18n_dir.glob('*.json')):
+                    try:
+                        data = json.loads(f.read_text(encoding='utf-8'))
+                        if data.get('lang.hidden'):
+                            continue
+                        langs.append({
+                            'code': f.stem,
+                            'name': data.get('lang.name', f.stem.upper()),
+                            'flag': data.get('lang.flag', ''),
+                        })
+                    except Exception:
+                        pass
+                self._send_json({'success': True, 'languages': langs})
+            except Exception as e:
+                self._send_json({'success': False, 'error': str(e)}, 500)
+
         elif path == '/api/public_settings':
             try:
                 import configparser as _cp
                 _cfg = _cp.ConfigParser()
                 _cfg.read(BASE_DIR / "settings.cfg", encoding="utf-8")
                 radio = dict(_cfg['radio']) if 'radio' in _cfg else {}
-                self._send_json({"success": True, "radio": radio})
+                standard_sprache = _cfg.get('dev', 'standard_sprache', fallback='de')
+                self._send_json({"success": True, "radio": radio, "standard_sprache": standard_sprache})
             except Exception as e:
                 self._send_json({"success": False, "error": str(e)}, 500)
 
@@ -562,6 +583,9 @@ class APIHandler(SimpleHTTPRequestHandler):
 
                 if 'theme' in data and isinstance(data['theme'], str):
                     update_data["theme"] = data['theme']
+
+                if 'sprache' in data and isinstance(data['sprache'], str):
+                    update_data["sprache"] = data['sprache']
 
                 profile = ProfileManager.update_profile(google_id, update_data)
                 if not profile:

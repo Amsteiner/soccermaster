@@ -1,0 +1,81 @@
+SOCCERMASTER
+============
+Retro Fußballmanager im Stil von Soccermaster (Thorsten Wölki, 1987)
+Bundesliga-Manager, Saison 1983/84
+
+DATEIEN:
+  index.html          → Frontend (Single Page App, kein Build-Schritt)
+  main.py             → Server-Einstiegspunkt
+  requirements.txt    → Python-Abhängigkeiten
+  settings.cfg        → Spielparameter (Match, Transfer, Finanzen, KI, ...)
+  .env                → Konfiguration (OAuth, Ports, Domain)
+  engine/             → Spiellogik (Match, Transfer, Finanzen, etc.)
+  server/             → HTTP/WebSocket-Server, Auth, Profile
+  data/               → Spieler- und Vereinsdaten (CSV)
+  docs/               → Regelwerk, Vereinsliste, CSV-Regeln
+  i18n/               → Sprachdateien (de.json, en.json, help.de.html, help.en.html)
+
+SCHNELLSTART (Demo ohne Server):
+  1. index.html im Browser öffnen
+  2. „DEMO SPIELEN" klicken
+
+SCHNELLSTART (mit Server):
+  python3 -m venv venv
+  source venv/bin/activate
+  pip install -r requirements.txt
+  cp .env.example .env   # .env anpassen (Google OAuth Credentials)
+  python3 main.py
+  → Browser: http://localhost:8080
+
+LIVE-SERVER:
+  https://soccermaster.amsteiner.de
+
+KONFIGURATION (.env):
+  GOOGLE_CLIENT_ID=...               # Google OAuth Client ID
+  GOOGLE_CLIENT_SECRET=...           # Google OAuth Client Secret
+  REDIRECT_URI=https://HOST/auth/callback   # OAuth Redirect URI
+  JWT_SECRET=...                     # Zufälliger Secret-String
+  DOMAIN=localhost                   # Server-Domain (ohne Port)
+  HTTP_PORT=8080                     # HTTP-Port
+  WS_PORT=8765                       # WebSocket-Port (direkt, ohne Proxy)
+  WS_URL=wss://HOST/ws               # WebSocket-URL (mit Proxy/Nginx)
+
+SERVER-PORTS:
+  HTTP    :8080   (index.html + REST API + OAuth Callback)
+  WebSocket :8765 (Multiplayer Echtzeit, intern; extern via Nginx /ws)
+
+NGINX (Reverse Proxy):
+  HTTP  → proxy_pass http://127.0.0.1:8080
+  /ws   → proxy_pass http://127.0.0.1:8765  (mit WebSocket-Upgrade)
+  HTTPS via Let's Encrypt (certbot --nginx)
+
+KONSOLE (Tastenkürzel während Server läuft):
+  q  → Sauber beenden (Screen leeren, Server stoppen)
+  r  → Alle aktiven Spielstände sofort speichern + Anzeige aktualisieren
+  b  → Manuelles Backup erstellen
+
+IMPLEMENTIERTE FEATURES (Stand: März 2026, v0.7.36):
+  ✓ Google OAuth2 Login (Manager-Profile mit Statistiken)
+  ✓ HTTPS / WSS (Let's Encrypt, Nginx Reverse Proxy)
+  ✓ Multiplayer-Lobbys (2–4 Manager pro Lobby, Einladungscode)
+  ✓ Kompletter Saison-Loop: Transfer → Aufstellung → Spieltag → Finanzen
+  ✓ Match-Engine mit Formations-Boni, Verletzungen, Karten
+  ✓ DFB-Pokal (KO, Hin/Rückspiel, Verlängerung, Elfmeterschießen)
+  ✓ Europapokal (ECL, Pokalsieger-Cup, UEFA-Pokal)
+  ✓ Relegation (1. ↔ 2. Bundesliga)
+  ✓ Spielerentwicklung: Inländer verbessern/verschlechtern sich saisonal
+  ✓ Inlands- und Auslandsmarkt (unterschiedliche Seltenheit)
+  ✓ Spielstand speichern & laden (pause/resume, Solo + Multiplayer)
+  ✓ Manager-Statistiken und Leaderboard
+  ✓ Avatar-Upload mit Zuschnitt-Editor (C64-Pixel-Style)
+  ✓ Retro-Themes (C64, ZX Spectrum, CGA, Macintosh, Commodore PET, ...)
+  ✓ Musik-Radio (MP3, SID-Chiptune, MOD-Tracker) mit Track-Navigation
+  ✓ AFK-Modus: Inaktive Spieler werden automatisch als bereit gezählt
+  ✓ Zuschauer-Modus: Pokal- und Relegationsspiele live mitverfolgen
+  ✓ Admin-Panel mit Chat-Befehlen (/kick, /mute, /announce, ...)
+  ✓ Mehrsprachig: Deutsch und Englisch (Flaggen-Buttons zum Umschalten)
+
+NOCH AUSSTEHEND:
+  - Vollständige Spieler-CSV (1000+ Spieler, aktuell Teilbestand)
+
+STAND: März 2026 — v0.7.36

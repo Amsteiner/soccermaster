@@ -159,139 +159,10 @@ def generiere_lobby_code(laenge: int = 6) -> str:
     return "".join(random.choices(string.ascii_uppercase + string.digits, k=laenge))
 
 
-# ── News-Ticker Meldungsvorlagen ──────────────────────────────────────────────
-
-_KAUF_TEXTE = [
-    "{team} verpflichtet {spieler} ({pos}) – Wechsel für {preis} perfekt!",
-    "Neuzugang bei {team}: {spieler} wechselt für {preis}",
-    "{team} legt {preis} auf den Tisch und sichert sich {spieler}",
-    "Transfercoup! {team} holt {spieler} für {preis}",
-    "{spieler} wechselt für {preis} zu {team}",
-    "{team} investiert {preis} und verpflichtet {spieler} ({pos})",
-    "Deal ist durch: {spieler} kostet {team} stolze {preis}",
-    "Überraschungstransfer: {team} holt {spieler} für {preis}",
-    "{team} verstärkt sich mit {spieler} – Ablöse: {preis}",
-    "{team} schlägt auf dem Transfermarkt zu – {spieler} für {preis}",
-    "Einigung erzielt: {spieler} ({pos}) wechselt für {preis} zu {team}",
-    "{preis} für {spieler}: {team} rüstet kräftig auf",
-    "Vollzogen! {spieler} trägt künftig das Trikot von {team}",
-    "{team} und {spieler} einigen sich – Ablöse: {preis}",
-    "Schnelle Nummer: {team} schnappt sich {spieler} für {preis}",
-    "Perfekt! {spieler} unterschreibt bei {team} für {preis}",
-    "Der Hammer: {spieler} ({pos}) wechselt für {preis} zu {team}",
-    "{preis} – so viel lässt sich {team} den Transfer von {spieler} kosten",
-    "Frischer Wind bei {team}: {spieler} kommt für {preis}",
-    "Offiziell: {spieler} ist ab sofort Spieler von {team} ({preis})",
-    "Transfermarkt heiß gelaufen: {team} sichert sich {spieler} für {preis}",
-    "{spieler} tauscht das Trikot – {team} zahlt {preis}",
-    "Bombe geplatzt: {spieler} ({pos}) wechselt zu {team} für {preis}",
-    "{team} greift tief in die Tasche: {spieler} für {preis} verpflichtet",
-]
-
-_LIST_TEXTE = [
-    "{spieler} von {team} zum Verkauf angeboten",
-    "Trennung bei {team}: {spieler} sucht neuen Verein",
-    "{spieler} steht bei {team} nicht mehr im Plan",
-    "{team} will {spieler} abgeben – Spieler auf der Transferliste",
-    "Abgang bahnt sich an: {spieler} verlässt {team}",
-    "{spieler} von {team} ab sofort auf der Transferliste",
-    "{team} setzt {spieler} auf die Verkaufsliste",
-    "Überraschende Trennung: {team} trennt sich von {spieler}",
-    "{team} macht Platz im Kader – {spieler} steht zum Verkauf",
-    "Wechselwunsch: {spieler} verlässt {team} auf eigenen Wunsch",
-    "{spieler} verlässt {team} – Transfer gesucht",
-    "Kaderbereinigung bei {team}: {spieler} wird abgegeben",
-    "{team} listet {spieler} auf dem Markt – Angebote willkommen",
-    "Kapitalmaßnahme: {team} verabschiedet sich von {spieler}",
-    "{spieler} ist nicht mehr Teil der Planung bei {team}",
-    "Frischer Schnitt: {team} bietet {spieler} feil",
-    "Schaufenster: {team} stellt {spieler} zum Verkauf",
-    "{spieler} sucht nach seiner Zeit bei {team} einen neuen Club",
-    "Keine Zukunft mehr: {spieler} verlässt {team}",
-    "{team} stößt {spieler} ab – Wechsel in Kürze erwartet",
-]
-
-_POKAL_WEITER_TEXTE = [
-    "{team} zieht in die nächste Runde des {pokal} ein",
-    "Weiterkommen für {team} im {pokal}!",
-    "{team} übersteht die Hürde im {pokal}",
-    "Knappe Kiste, aber {team} ist weiter im {pokal}",
-    "{team} setzt sich durch und kommt weiter im {pokal}",
-    "{team} überzeugt im {pokal} – nächste Runde gesichert!",
-    "Souverän: {team} marschiert im {pokal} weiter",
-    "Weiter! {team} bleibt im {pokal} am Ball",
-    "{team} besteht die Prüfung im {pokal}",
-    "{team} kämpft sich in die nächste {pokal}-Runde",
-    "Nächste Runde für {team} im {pokal}!",
-    "{team} meistert die Aufgabe im {pokal}",
-    "Weiterhin dabei: {team} setzt sich im {pokal} durch",
-    "Mission erfüllt: {team} im {pokal} weiter",
-    "{team} ist noch dabei – {pokal}-Reise geht weiter",
-    "Hart erkämpft: {team} schafft den Einzug in die nächste {pokal}-Runde",
-    "{team} bleibt {pokal}-Teilnehmer – nächste Runde!",
-    "Knapper Sieg reicht: {team} weiter im {pokal}",
-    "Aufatmen bei {team} – {pokal}-Abenteuer geht weiter!",
-    "Runde für Runde: {team} marschiert im {pokal}",
-]
-
-_POKAL_AUS_TEXTE = [
-    "Bitteres Aus für {team} im {pokal}!",
-    "{team} scheitert im {pokal}",
-    "Überraschung! {team} fliegt aus dem {pokal}",
-    "Enttäuschung bei {team}: Aus im {pokal}",
-    "{team} muss den {pokal} vorzeitig beenden",
-    "Drama im {pokal}: {team} ist draußen",
-    "Früh ist Schluss: {team} scheidet im {pokal} aus",
-    "Keine Chance: {team} im {pokal} gescheitert",
-    "{team} stolpert im {pokal} und scheidet überraschend aus",
-    "Trauriges Ende für {team} im {pokal}",
-    "Vorzeitiges Ende der {pokal}-Reise für {team}",
-    "{team} kann den {pokal} abhaken – Ausscheiden bestätigt",
-    "Pleite im {pokal}: {team} ist raus!",
-    "Das war's: {team} scheitert im {pokal}",
-    "Niederlage besiegelt das {pokal}-Aus von {team}",
-    "Herber Dämpfer: {team} fliegt aus dem {pokal}",
-    "{team} ohne Glück im {pokal} – Aus in der aktuellen Runde",
-    "Schluss, Aus, Ende: {team} im {pokal} ausgeschieden",
-    "{team} muss die {pokal}-Hoffnungen begraben",
-    "Kein Glück für {team} – {pokal}-Kampagne beendet",
-]
-
-_POKAL_SIEG_TEXTE = [
-    "Pokalheld! {team} gewinnt den {pokal}!",
-    "{team} triumphiert im {pokal}-Finale!",
-    "Historisch: {team} krönt sich zum {pokal}-Sieger!",
-    "{team} holt den Titel im {pokal}!",
-    "Unvergesslich: {team} ist {pokal}-Champion!",
-    "Der {pokal} geht an {team} – Titelgewinn!",
-    "Was für ein Finale! {team} gewinnt den {pokal}!",
-    "{team} steht oben! {pokal}-Titel für die Mannschaft!",
-    "Jubel ohne Ende: {team} ist {pokal}-Sieger!",
-    "Sensation! {team} holt den {pokal}!",
-    "Endlich! {team} hebt den {pokal} in die Höhe!",
-    "{team} ist unaufhaltbar – {pokal}-Triumph!",
-    "Der Traum wird wahr: {team} gewinnt den {pokal}!",
-    "Unsterblich: {team} krönt eine starke Saison mit dem {pokal}!",
-]
-
-_CPU_KAUF_TEXTE = [
-    "{team} verpflichtet {spieler} ({pos})",
-    "Neuzugang bei {team}: {spieler} kommt",
-    "{team} holt {spieler} als Verstärkung",
-    "{spieler} wechselt zu {team}",
-    "Verstärkung für {team}: {spieler} unterschreibt",
-    "{spieler} ist ab sofort Spieler bei {team}",
-    "{team} reagiert auf dem Markt und holt {spieler}",
-    "{team} sichert sich {spieler} auf dem Transfermarkt",
-    "{spieler} ({pos}) verstärkt ab sofort {team}",
-    "Vollzogen: {spieler} wechselt zu {team}",
-    "{team} legt nach und verpflichtet {spieler}",
-    "Transferaktiv: {team} holt {spieler} ({pos})",
-    "{spieler} schlägt bei {team} auf",
-    "Kaderplanung bei {team}: {spieler} wird verpflichtet",
-    "{team} bringt {spieler} ({pos}) an Bord",
-    "{spieler} – neuer Kicker bei {team}",
-]
+# ── News-Ticker Meldungsvorlagen (entfernt – Server schickt jetzt strukturierte Objekte) ──────────
+# Die Text-Arrays _KAUF_TEXTE, _LIST_TEXTE, _POKAL_WEITER_TEXTE, _POKAL_AUS_TEXTE,
+# _POKAL_SIEG_TEXTE und _CPU_KAUF_TEXTE wurden entfernt.
+# Das Frontend baut die Anzeigetexte per i18n aus den strukturierten Dicts.
 
 # ── Pressestimmen & Spieltag-Schlagzeilen ─────────────────────────────────────
 
@@ -783,10 +654,12 @@ class LobbyServer:
         erf = profile.get("erfolge", {})
         history = profile.get("game_history", [])
         positions = [g["final_position"] for g in history if g.get("final_position")]
+        saisons_liste = [g["saison"] for g in history if g.get("saison")]
         bs = stats.get("beste_saison")
         saisons = erf.get("saisons", 0)
         wins = stats.get("wins", 0)
         email = profile.get("email", "")
+        _total_matches = stats.get("match_siege", 0) + stats.get("match_unentschieden", 0) + stats.get("match_niederlagen", 0)
         return {
             "wins":     wins,
             "draws":    stats.get("draws", 0),
@@ -797,8 +670,18 @@ class LobbyServer:
             "match_niederlagen":  stats.get("match_niederlagen", 0),
             "saisons":  saisons,
             "best_pos": min(positions) if positions else None,
+            "avg_position": round(sum(positions) / len(positions), 1) if positions else None,
+            "hoechste_saison": max(saisons_liste) if saisons_liste else None,
+            "avg_punkte": round(stats.get("avg_points_per_season", 0), 1),
+            "win_rate": round(stats.get("match_siege", 0) / _total_matches * 100) if _total_matches > 0 else None,
+            "saisons_bl1": stats.get("saisons_bl1", 0),
+            "saisons_bl2": stats.get("saisons_bl2", 0),
+            "abstiege":  stats.get("abstiege", 0),
+            "aufstiege": stats.get("aufstiege", 0),
+            "beste_tordifferenz": stats.get("beste_tordifferenz"),
             "bild":     profile.get("profile_image", ""),
             "nickname": profile.get("nickname", ""),
+            "status":   profile.get("status", ""),
             "erfolge":  erf,
             "lieblingsverein": profile.get("lieblingsverein"),
             "tore":            stats.get("tore", 0),
@@ -812,6 +695,7 @@ class LobbyServer:
             "last_seen": profile.get("last_seen", ""),
             "radio_settings": profile.get("radio_settings", {}),
             "theme": profile.get("theme", ""),
+            "sprache": profile.get("sprache", "de"),
             "google_id": google_id,
         }
 
@@ -1154,6 +1038,7 @@ class LobbyServer:
                                 "pokale": self._compute_pokal_uebersicht(gs_r),
                                 "naechstes_cup": _rc_cup,
                                 "kontostand_verlauf": team.kontostand_verlauf[-34:],
+                                "finanzen_verlauf": gs_r.finanzen_verlauf.get(team_name, []),
                                 "resumed": True,
                                 "reconnected": True,
                                 "game_key": active_lobby.game_key,
@@ -1247,6 +1132,7 @@ class LobbyServer:
                             "pokale": self._compute_pokal_uebersicht(loaded_gs),
                             "naechstes_cup": _naechstes_cup,
                             "kontostand_verlauf": team.kontostand_verlauf[-34:],
+                            "finanzen_verlauf": loaded_gs.finanzen_verlauf.get(team_name, []),
                             "resumed": True,
                             "phase": lobby.phase,
                             "weiter_sek": max(0, int(60 - (time.time() - lobby.weiter_ts))) if lobby.phase == "spiel" and lobby.weiter_ts else None,
@@ -1643,7 +1529,7 @@ class LobbyServer:
                         _global_muted = bereich != "session" and mid in self.global_muted
                         if (_session_muted or _global_muted) and not _is_muted_admin:
                             await self._ws_send(ws, json.dumps({"typ": "system_msg",
-                                "text": "Du bist stummgeschaltet."}, ensure_ascii=False))
+                                "key": "sys.muted", "text": "Du bist stummgeschaltet."}, ensure_ascii=False))
                             continue
                         if text:
                             name = self.online_users[mid]["name"]
@@ -1776,7 +1662,7 @@ class LobbyServer:
                                     _kws = _lobby.spieler[_kicked_mid].get("ws")
                                     if _kws:
                                         await _kws.send(json.dumps({"typ": "kicked",
-                                            "grund": "Vom Admin aus der Lobby entfernt."}, ensure_ascii=False))
+                                            "key": "sys.kicked", "grund": "Vom Admin aus der Lobby entfernt."}, ensure_ascii=False))
                                     _kname = _lobby.spieler[_kicked_mid].get("name", _kicked_mid)
                                     _lobby.spieler.pop(_kicked_mid, None)
                                     _lobby.bereit.discard(_kicked_mid)
@@ -1787,6 +1673,7 @@ class LobbyServer:
                                         if _cinfo.get("manager_id") == _kicked_mid:
                                             _cinfo["lobby_code"] = None
                                     await _lobby.broadcast({"typ": "system_msg",
+                                        "key": "sys.kicked_broadcast", "key_params": {"name": _kname},
                                         "text": f"{_kname} wurde vom Admin entfernt."})
                                     await _admin_reply(f"{_kname} wurde gekickt.")
 
@@ -1828,6 +1715,7 @@ class LobbyServer:
                                         if _tws:
                                             try:
                                                 await _tws.send(json.dumps({"typ": "system_msg",
+                                                    "key": "sys.muted_session",
                                                     "text": "Du wurdest im Session-Chat stummgeschaltet."}, ensure_ascii=False))
                                             except Exception:
                                                 pass
@@ -1838,6 +1726,7 @@ class LobbyServer:
                                     if _tws:
                                         try:
                                             await _tws.send(json.dumps({"typ": "system_msg",
+                                                "key": "sys.muted_global",
                                                 "text": "Du wurdest im globalen Chat stummgeschaltet."}, ensure_ascii=False))
                                         except Exception:
                                             pass
@@ -1871,6 +1760,7 @@ class LobbyServer:
                                         if _tws:
                                             try:
                                                 await _tws.send(json.dumps({"typ": "system_msg",
+                                                    "key": "sys.unmuted_session",
                                                     "text": "Du wurdest im Session-Chat entstummt."}, ensure_ascii=False))
                                             except Exception:
                                                 pass
@@ -1881,6 +1771,7 @@ class LobbyServer:
                                     if _tws:
                                         try:
                                             await _tws.send(json.dumps({"typ": "system_msg",
+                                                "key": "sys.unmuted_global",
                                                 "text": "Du wurdest im globalen Chat entstummt."}, ensure_ascii=False))
                                         except Exception:
                                             pass
@@ -1922,7 +1813,7 @@ class LobbyServer:
                             else:
                                 _count = 0
                                 for _t in _gs.teams.values():
-                                    for _sp in _t.spieler:
+                                    for _sp in _t.kader:
                                         if _sp.verletzt_wochen > 0:
                                             _sp.verletzt_wochen = 0
                                             _count += 1
@@ -1938,7 +1829,7 @@ class LobbyServer:
                                 if not _tname:
                                     await _admin_reply(f"Team '{' '.join(_args)}' nicht gefunden.")
                                 else:
-                                    for _sp in _gs.teams[_tname].spieler:
+                                    for _sp in _gs.teams[_tname].kader:
                                         _sp.gelbe_karten = 0
                                         _sp.gelbe_karten_zyklus = 0
                                         _sp.gesperrt_wochen = 0
@@ -2063,10 +1954,10 @@ class LobbyServer:
                                         await _admin_reply(f"Team '{' '.join(_args)}' nicht gefunden.")
                                     else:
                                         _t = _gs.teams[_tname]
-                                        _sp_count = len(_t.spieler)
-                                        _verletzt = sum(1 for s in _t.spieler if s.verletzt_wochen > 0)
-                                        _gesperrt = sum(1 for s in _t.spieler if s.gesperrt_wochen > 0)
-                                        _gelb = sum(1 for s in _t.spieler if s.gelbe_karten_zyklus >= 4)
+                                        _sp_count = len(_t.kader)
+                                        _verletzt = sum(1 for s in _t.kader if s.verletzt_wochen > 0)
+                                        _gesperrt = sum(1 for s in _t.kader if s.gesperrt_wochen > 0)
+                                        _gelb = sum(1 for s in _t.kader if s.gelbe_karten_zyklus >= 4)
                                         await _admin_reply(
                                             f"{_tname}\n"
                                             f"Konto: {_t.kontostand:,} DM\n"
@@ -2080,6 +1971,35 @@ class LobbyServer:
                                         _t = _gs.teams.get(_tn)
                                         if _t:
                                             lines.append(f"{_minfo.get('name')}: {_tn} — {_t.kontostand:,} DM")
+                                    await _admin_reply("\n".join(lines))
+
+                        elif _cmd == "kader":
+                            if not _args:
+                                await _admin_reply("Verwendung: /kader <team>")
+                            elif not _gs:
+                                await _admin_reply("Kein aktives Spiel in dieser Lobby.")
+                            else:
+                                _tname = _fuzzy_team(_args)
+                                if not _tname:
+                                    await _admin_reply(f"Team '{' '.join(_args)}' nicht gefunden.")
+                                else:
+                                    _t = _gs.teams[_tname]
+                                    _typ = "Mensch" if _t.ist_menschlich else "CPU"
+                                    lines = [f"{_tname} [{_typ}] | Liga {_t.liga} | {_t.kontostand:,} DM"]
+                                    lines.append(f"{'Pos':<4} {'Name':<22} {'Stärke':<12} {'Nat':<4} {'Marktwert':>10}")
+                                    lines.append("-" * 55)
+                                    for _sp in sorted(_t.kader, key=lambda s: (s.position, -s.staerke_wert)):
+                                        _flags = []
+                                        if _sp.verletzt_wochen > 0:
+                                            _flags.append(f"VL{_sp.verletzt_wochen}W")
+                                        if _sp.gesperrt_wochen > 0:
+                                            _flags.append(f"SP{_sp.gesperrt_wochen}W")
+                                        if _sp.gelbe_karten_zyklus >= 4:
+                                            _flags.append("4G")
+                                        _flag_str = f" [{','.join(_flags)}]" if _flags else ""
+                                        lines.append(
+                                            f"{_sp.position:<4} {_sp.name[:22]:<22} {_sp.staerke_label[:12]:<12} {_sp.nationalitaet:<4} {_sp.marktwert:>10,}{_flag_str}"
+                                        )
                                     await _admin_reply("\n".join(lines))
 
                         else:
@@ -2383,9 +2303,7 @@ class LobbyServer:
             if tabelle[0].punkte > max_andere:
                 lobby.gemeldet_tabellen_ereignisse.add(key)
                 lobby.news_items.append(
-                    random.choice(_MEILENSTEIN_MEISTER).format(
-                        team=tabelle[0].name, punkte=tabelle[0].punkte
-                    )
+                    {"type": "meister", "team": tabelle[0].name, "punkte": tabelle[0].punkte}
                 )
 
         # ── UEFA-Cup-Qualifikation (Plätze 2–5) ───────────────────────────────
@@ -2399,7 +2317,7 @@ class LobbyServer:
                 if team.punkte > max_ausserhalb:
                     lobby.gemeldet_tabellen_ereignisse.add(key)
                     lobby.news_items.append(
-                        random.choice(_MEILENSTEIN_UEFA).format(team=team.name)
+                        {"type": "uefacup_quali", "team": team.name}
                     )
 
         # ── Abstieg (Plätze 16–18, direkte Absteiger) ─────────────────────────
@@ -2411,7 +2329,7 @@ class LobbyServer:
                     if team.punkte + verbleibend(team) * 3 < punkte_15:
                         lobby.gemeldet_tabellen_ereignisse.add(key)
                         lobby.news_items.append(
-                            random.choice(_MEILENSTEIN_ABSTIEG).format(team=team.name)
+                            {"type": "abstieg_besiegelt", "team": team.name}
                         )
 
     def _generiere_spieltag_news(self, lobby):
@@ -2436,36 +2354,34 @@ class LobbyServer:
         ht, gt = spiel["heim_tore"], spiel["gast_tore"]
         diff = ht - gt
         if diff >= 3:
-            tmpl = random.choice(_PRESSE_SIEG_HOCH)
+            subtype = "sieg_hoch"
         elif diff >= 1:
-            tmpl = random.choice(_PRESSE_SIEG_KNAPP)
+            subtype = "sieg_knapp"
         elif diff == 0:
-            tmpl = random.choice(_PRESSE_UNENTSCHIEDEN)
+            subtype = "unentschieden"
         elif diff >= -2:
-            tmpl = random.choice(_PRESSE_NIEDERLAGE_KNAPP)
+            subtype = "niederlage_knapp"
         else:
-            tmpl = random.choice(_PRESSE_NIEDERLAGE_HOCH)
-        lobby.news_items.append(tmpl.format(heim=spiel["heim"], gast=spiel["gast"], ht=ht, gt=gt))
+            subtype = "niederlage_hoch"
+        lobby.news_items.append({"type": "ergebnis", "subtype": subtype,
+                                 "heim": spiel["heim"], "gast": spiel["gast"], "ht": ht, "gt": gt})
 
         # ── Schlagzeile: Tabellenspitze ─────────────────────────────────────────
         tabelle = gs.get_tabelle(1)
         if len(tabelle) >= 2 and spieltag >= 3:
             leader, zweiter = tabelle[0], tabelle[1]
             abstand = leader.punkte - zweiter.punkte
-            tmpl = random.choice(_HEADLINE_SPITZE)
-            lobby.news_items.append(tmpl.format(
-                leader=leader.name, zweiter=zweiter.name,
-                abstand=abstand, punkte=leader.punkte, spiele=leader.spiele
-            ))
+            lobby.news_items.append({"type": "tabelle_spitze",
+                                     "leader": leader.name, "zweiter": zweiter.name,
+                                     "abstand": abstand, "punkte": leader.punkte,
+                                     "spiele": leader.spiele})
 
         # ── Schlagzeile: Abstiegskampf (ab 2. Saisonhälfte, 60% Chance) ──────────
         if len(tabelle) >= 16 and spieltag >= 18 and random.random() < 0.60:
             kellerkind = tabelle[15]
-            tmpl = random.choice(_HEADLINE_ABSTIEG)
-            lobby.news_items.append(tmpl.format(
-                kellerkind=kellerkind.name, punkte=kellerkind.punkte,
-                spiele=kellerkind.spiele, platz=16
-            ))
+            lobby.news_items.append({"type": "abstiegskampf",
+                                     "team": kellerkind.name, "punkte": kellerkind.punkte,
+                                     "spiele": kellerkind.spiele, "platz": 16})
 
         # ── Spieltag-Highlight: Torekonto + größter Sieg (40% Chance) ───────────
         if random.random() < 0.40:
@@ -2473,10 +2389,9 @@ class LobbyServer:
             top = max(bl1, key=lambda e: abs(e["heim_tore"] - e["gast_tore"]))
             if top["heim_tore"] != top["gast_tore"]:
                 sieger = top["heim"] if top["heim_tore"] > top["gast_tore"] else top["gast"]
-                tmpl = random.choice(_HEADLINE_SPIELTAG)
-                lobby.news_items.append(tmpl.format(
-                    spieltag=spieltag, tore_gesamt=tore_gesamt, sieger=sieger
-                ))
+                lobby.news_items.append({"type": "spieltag_highlight",
+                                         "spieltag": spieltag, "tore_gesamt": tore_gesamt,
+                                         "sieger": sieger})
 
     def _news_pokal_runde(self, lobby, wettbewerb: str, runde: str, paarungen: list, menschliche_teams: set):
         """Fügt Pokal-News für Manager-Teams zum Ticker hinzu."""
@@ -2492,12 +2407,12 @@ class LobbyServer:
                     continue
                 if team_name == sieger:
                     if runde == "Finale":
-                        tmpl = random.choice(_POKAL_SIEG_TEXTE)
+                        news_type = "pokal_sieg"
                     else:
-                        tmpl = random.choice(_POKAL_WEITER_TEXTE)
+                        news_type = "pokal_weiter"
                 else:
-                    tmpl = random.choice(_POKAL_AUS_TEXTE)
-                lobby.news_items.append(tmpl.format(team=team_name, pokal=label))
+                    news_type = "pokal_aus"
+                lobby.news_items.append({"type": news_type, "team": team_name, "pokal": label})
 
     async def _sende_management_phase(self, lobby: Lobby):
         """Sendet die Management-Phase-Nachrichten an alle Manager."""
@@ -2522,8 +2437,15 @@ class LobbyServer:
             mgr_teams = {n for n, t in gs.teams.items() if t.ist_menschlich}
             markiert = []
             for item in lobby.news_items:
-                for t in mgr_teams:
-                    item = item.replace(t, f"«{t}»")
+                if isinstance(item, dict):
+                    item = dict(item)  # flache Kopie
+                    for field in ("team", "heim", "gast", "leader", "zweiter", "kellerkind", "sieger"):
+                        if field in item and item[field] in mgr_teams:
+                            item[field] = f"«{item[field]}»"
+                else:
+                    # Legacy-String-Fallback
+                    for t in mgr_teams:
+                        item = item.replace(t, f"«{t}»")
                 markiert.append(item)
             await lobby.broadcast({"typ": "news_ticker", "items": markiert})
             lobby.news_items = []
@@ -2679,13 +2601,13 @@ class LobbyServer:
         # BL2: Platz 1+2+3 direkt aufgestiegen
         aufsteiger_bl2 = [t.name for t in tabelle_bl2[:3]] if len(tabelle_bl2) >= 3 else []
 
-        # BL2: Plätze 17–20 steigen direkt ab; Platz 16 = Relegationsspiel BL2↔Liga3 (noch nicht live)
-        absteiger_bl2 = [t.name for t in tabelle_bl2[16:20]] if len(tabelle_bl2) >= 17 else []
+        # BL2: Plätze 17–18 steigen direkt ab; Platz 16 = Relegationsspiel BL2↔Liga3
+        absteiger_bl2 = [t.name for t in tabelle_bl2[16:18]] if len(tabelle_bl2) >= 17 else []
 
-        # BL2: 4 direkte Aufsteiger aus Liga-3-Pool (ersetzen die 4 Absteiger)
+        # BL2: 2 direkte Aufsteiger aus Liga-3-Pool (ersetzen die 2 direkten Absteiger)
         liga3_kandidaten = [n for n, t in gs.teams.items() if t.liga == 3]
-        if len(liga3_kandidaten) >= 4:
-            aufsteiger_bl3 = random.sample(liga3_kandidaten, 4)
+        if len(liga3_kandidaten) >= 2:
+            aufsteiger_bl3 = random.sample(liga3_kandidaten, 2)
         elif liga3_kandidaten:
             aufsteiger_bl3 = liga3_kandidaten[:]
         else:
@@ -2697,7 +2619,7 @@ class LobbyServer:
         ]
         random.shuffle(eligible_pool)
         for kandidat in eligible_pool:
-            if len(aufsteiger_bl3) >= 4:
+            if len(aufsteiger_bl3) >= 2:
                 break
             if kandidat not in aufsteiger_bl3 and kandidat not in gs.teams:
                 aufsteiger_bl3.append(kandidat)
@@ -2883,6 +2805,8 @@ class LobbyServer:
             # Saisonabschluss in Spielhistorie speichern (gesicherte Pre-Reset-Stats)
             _saved = _pre_reset_stats.get(team_name, {})
             from datetime import date as _date
+            _abg = team_name in absteiger_bl1 or team_name in absteiger_bl2
+            _aufg = team_name in aufsteiger_bl2 or team_name in aufsteiger_bl3
             ProfileManager.add_to_game_history(google_id, {
                 "game_key": lobby.game_key or "",
                 "date": str(_date.today()),
@@ -2898,6 +2822,8 @@ class LobbyServer:
                 "siege": _saved.get("siege", 0),
                 "unentschieden": _saved.get("unentschieden", 0),
                 "niederlagen": _saved.get("niederlagen", 0),
+                "abgestiegen": _abg,
+                "aufgestiegen": _aufg,
             })
 
         # ── Ausstehende Transfermarkt-Verkäufe vor Insolvenzprüfung abwickeln ──
@@ -3413,24 +3339,31 @@ class LobbyServer:
         ist_tor = not ist_miss and not ist_gehalten
 
         if ist_manager_spiel and not instant:
-            anlauf_text = random.choice(_ELF_ANLAUF).format(s=s_name, tw=tw_name)
+            anlauf_idx = random.randrange(len(_ELF_ANLAUF))
             await lobby.broadcast({
                 "typ": "ticker",
                 "heim": heim_name, "gast": gast_name,
                 "wettbewerb": "", "runde": "",
                 "minute": 120,
                 "ereignis": "elfmeter_anlauf",
-                "spieler": anlauf_text, "team": schussmannschaft, "detail": "",
+                "spieler": _ELF_ANLAUF[anlauf_idx].format(s=s_name, tw=tw_name),
+                "team": schussmannschaft, "detail": "",
+                "event": {"type": "elf_anlauf", "idx": anlauf_idx,
+                          "schutze": s_name, "torwart": tw_name},
             })
-            await asyncio.sleep(random.uniform(4.0, 7.0))
+            await asyncio.sleep(random.uniform(_cfg_float("match", "elfmeter_pause_min"), _cfg_float("match", "elfmeter_pause_max")))
 
+            neuer_heim = heim_elf + (1 if schussmannschaft == heim_name else 0)
+            neuer_gast = gast_elf + (1 if schussmannschaft == gast_name else 0)
             if ist_tor:
-                ergebnis_text = random.choice(_ELF_TOR).format(s=s_name, tw=tw_name)
-                neuer_heim = heim_elf + (1 if schussmannschaft == heim_name else 0)
-                neuer_gast = gast_elf + (1 if schussmannschaft == gast_name else 0)
+                ergebnis_idx = random.randrange(len(_ELF_TOR))
+                ergebnis_text = _ELF_TOR[ergebnis_idx].format(s=s_name, tw=tw_name)
                 ergebnis_text += f" [{neuer_heim}:{neuer_gast} n.E.]"
+                elf_event_type = "elf_tor"
             else:
-                ergebnis_text = random.choice(_ELF_GEHALTEN).format(s=s_name, tw=tw_name)
+                ergebnis_idx = random.randrange(len(_ELF_GEHALTEN))
+                ergebnis_text = _ELF_GEHALTEN[ergebnis_idx].format(s=s_name, tw=tw_name)
+                elf_event_type = "elf_gehalten"
 
             await lobby.broadcast({
                 "typ": "ticker_append",
@@ -3438,7 +3371,14 @@ class LobbyServer:
                 "text": f" → {ergebnis_text}",
                 "tor": ist_tor,
                 "team": schussmannschaft,
+                "event": {
+                    "type": elf_event_type,
+                    "idx": ergebnis_idx,
+                    "schutze": s_name, "torwart": tw_name,
+                    "score": f"{neuer_heim}:{neuer_gast}",
+                },
             })
+            await asyncio.sleep(random.uniform(_cfg_float("match", "elfmeter_pause_min"), _cfg_float("match", "elfmeter_pause_max")))  # Lesepause nach Ergebnis
         return ist_tor
 
     async def _simuliere_elfmeterschiessen(self, lobby, heim_name: str, gast_name: str,
@@ -3816,7 +3756,8 @@ class LobbyServer:
                                     "ergebnisse": [{"heim": p["heim"], "gast": p["gast"],
                                                     "heim_tore": p["heim_tore"],
                                                     "gast_tore": p["gast_tore"],
-                                                    "sieger": p["sieger"]} for p in paarungen]})
+                                                    "sieger": p["sieger"],
+                                                    "elfmeter_sieger": p.get("elfmeter_sieger")} for p in paarungen]})
         return hat_manager
 
     async def _europa_runde_ausfuehren(self, lobby, wettbewerb: str,
@@ -3894,13 +3835,21 @@ class LobbyServer:
 
         if hat_manager:
             lobby.weiter_ts = time.time()
+            def _erg_eintrag(p):
+                e = {"heim": p["heim"], "gast": p["gast"], "sieger": p.get("sieger"),
+                     "elfmeter_sieger": p.get("elfmeter_sieger")}
+                if leg == "rueck":
+                    # Im Rückspiel: gast spielt heim → tausch für konsistente Anzeige
+                    e["heim_tore"] = p.get("rueck_gast")   # original gast's away goals
+                    e["gast_tore"] = p.get("rueck_heim")   # original heim's away goals
+                elif leg == "einzel":
+                    e["heim_tore"] = p.get("heim_tore")
+                    e["gast_tore"] = p.get("gast_tore")
+                return e
             await lobby.broadcast({"typ": "pokal_runde_ende",
                                     "wettbewerb": wettbewerb, "runde": runde, "leg": leg,
                                     "pokale": self._compute_pokal_uebersicht(lobby.game_state),
-                                    "ergebnisse": [
-                                        {"heim": p["heim"], "gast": p["gast"],
-                                         "sieger": p.get("sieger")} for p in paarungen
-                                    ]})
+                                    "ergebnisse": [_erg_eintrag(p) for p in paarungen]})
         return hat_manager
 
     async def _handle_transfer_inland(self, ws, _data: dict):
@@ -3995,10 +3944,10 @@ class LobbyServer:
         preis_str = f"{orig_preis/1_000_000:.2f} Mio. DM" if orig_preis >= 1_000_000 else f"{orig_preis:,} DM"
         ist_ausland = spieler_obj.nationalitaet == "A"
         if ist_ausland or spieler_obj.staerke_wert >= 82 or orig_preis >= 1_000_000:
-            msg = random.choice(_KAUF_TEXTE).format(
-                team=f"«{team_name}»", spieler=spieler_obj.name,
-                pos=spieler_obj.position, preis=preis_str)
-            await lobby.broadcast({"typ": "news_ticker", "items": [msg]})
+            await lobby.broadcast({"typ": "news_ticker", "items": [
+                {"type": "kauf", "team": f"«{team_name}»", "spieler": spieler_obj.name,
+                 "pos": spieler_obj.position, "preis": preis_str}
+            ]})
 
         team = lobby.game_state.teams[team_name]
         await self._ws_send(ws, json.dumps({
@@ -4030,12 +3979,12 @@ class LobbyServer:
 
         if modus == "notverkauf":
             erfolg, nachricht = lobby.transfermarkt.notverkauf(team_name, spieler_name)
-            extra = {}
+            team = lobby.game_state.teams.get(team_name)
+            extra = {"kontostand": team.kontostand} if erfolg and team else {}
         else:
             erfolg, nachricht = lobby.transfermarkt.transfermarkt_listen(team_name, spieler_name)
             if erfolg:
-                lobby.news_items.append(random.choice(_LIST_TEXTE).format(
-                    team=team_name, spieler=spieler_name))
+                lobby.news_items.append({"type": "listing", "team": team_name, "spieler": spieler_name})
                 listed_preis = next((p for s, p, vk, w in lobby.transfermarkt.gelistete_spieler
                                      if s.name == spieler_name and vk == team_name), None)
                 extra = {"modus": "listen", "spieler": spieler_name, "preis": listed_preis}

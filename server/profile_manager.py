@@ -90,6 +90,14 @@ class ProfileManager:
                 "gegentore": 0,
                 "bester_kontostand": 0,
                 "beste_saison": None,
+                "match_siege": 0,
+                "match_unentschieden": 0,
+                "match_niederlagen": 0,
+                "saisons_bl1": 0,
+                "saisons_bl2": 0,
+                "abstiege": 0,
+                "aufstiege": 0,
+                "beste_tordifferenz": None,
             },
             "game_history": [],
             "ongoing_games": [],
@@ -155,7 +163,7 @@ class ProfileManager:
             return None
 
         # Update allowed fields
-        allowed_fields = ["name", "nickname", "profile_image", "last_login", "lieblingsverein", "radio_settings", "theme", "last_seen"]
+        allowed_fields = ["name", "nickname", "profile_image", "last_login", "lieblingsverein", "radio_settings", "theme", "last_seen", "sprache"]
         for field in allowed_fields:
             if field in data:
                 profile[field] = data[field]
@@ -211,12 +219,32 @@ class ProfileManager:
                 stats["losses"] += 1
 
             # Tore / Gegentore akkumulieren
-            stats["tore"] = stats.get("tore", 0) + game_data.get("tore", 0)
-            stats["gegentore"] = stats.get("gegentore", 0) + game_data.get("gegentore", 0)
+            tore = game_data.get("tore", 0)
+            gegentore = game_data.get("gegentore", 0)
+            stats["tore"] = stats.get("tore", 0) + tore
+            stats["gegentore"] = stats.get("gegentore", 0) + gegentore
             # Spiel-Siege/U/N über alle Saisons
             stats["match_siege"] = stats.get("match_siege", 0) + game_data.get("siege", 0)
             stats["match_unentschieden"] = stats.get("match_unentschieden", 0) + game_data.get("unentschieden", 0)
             stats["match_niederlagen"] = stats.get("match_niederlagen", 0) + game_data.get("niederlagen", 0)
+
+            # Liga-Zugehörigkeit
+            liga = game_data.get("liga", 1)
+            if liga == 1:
+                stats["saisons_bl1"] = stats.get("saisons_bl1", 0) + 1
+            else:
+                stats["saisons_bl2"] = stats.get("saisons_bl2", 0) + 1
+
+            # Auf-/Abstiege
+            if game_data.get("abgestiegen"):
+                stats["abstiege"] = stats.get("abstiege", 0) + 1
+            if game_data.get("aufgestiegen"):
+                stats["aufstiege"] = stats.get("aufstiege", 0) + 1
+
+            # Beste Tordifferenz einer Saison
+            td = tore - gegentore
+            if stats.get("beste_tordifferenz") is None or td > stats["beste_tordifferenz"]:
+                stats["beste_tordifferenz"] = td
 
             # Bester Kontostand
             konto = game_data.get("kontostand", 0)
@@ -231,11 +259,12 @@ class ProfileManager:
                     "team": game_data.get("team", ""),
                     "saison": game_data.get("saison", ""),
                     "punkte": points,
+                    "liga": liga,
                 }
 
-            # Calculate average
+            # Durchschnittliche Punkte/Saison
             if stats["total_games"] > 0:
-                stats["avg_points_per_season"] = int(stats["total_points"] / stats["total_games"])
+                stats["avg_points_per_season"] = round(stats["total_points"] / stats["total_games"], 1)
 
         try:
             profile_path = ProfileManager.get_profile_path(google_id)

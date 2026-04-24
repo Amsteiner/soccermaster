@@ -405,7 +405,7 @@ async def simulate_match(
                 if callback:
                     e_ab = MatchEreignis(minute=minute, typ="info",
                                         spieler="SPIELABBRUCH", team=team_name,
-                                        detail=f"Zu wenig Spieler ({start_anz - ausgefallen})")
+                                        detail=f"too_few:{start_anz - ausgefallen}")
                     await callback(minute, e_ab, ergebnis)
                 _abbruch = True
                 break

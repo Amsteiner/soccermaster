@@ -10,24 +10,7 @@ from engine.draft import bestimme_startelf, MINDEST_POSITIONEN
 from engine.game_state import lade_spieler_csv
 from engine.settings import getint, getfloat
 
-_CPU_KAUF_TEXTE = [
-    "{team} verpflichtet {spieler} ({pos})",
-    "Neuzugang bei {team}: {spieler} kommt",
-    "{team} holt {spieler} als Verstärkung",
-    "{spieler} wechselt zu {team}",
-    "Verstärkung für {team}: {spieler} unterschreibt",
-    "{spieler} ist ab sofort Spieler bei {team}",
-    "{team} reagiert auf dem Markt und holt {spieler}",
-    "{team} sichert sich {spieler} auf dem Transfermarkt",
-    "{spieler} ({pos}) verstärkt ab sofort {team}",
-    "Vollzogen: {spieler} wechselt zu {team}",
-    "{team} legt nach und verpflichtet {spieler}",
-    "Transferaktiv: {team} holt {spieler} ({pos})",
-    "{spieler} schlägt bei {team} auf",
-    "Kaderplanung bei {team}: {spieler} wird verpflichtet",
-    "{team} bringt {spieler} ({pos}) an Bord",
-    "{spieler} – neuer Kicker bei {team}",
-]
+# _CPU_KAUF_TEXTE entfernt – Server schickt jetzt strukturierte Objekte statt Freitext
 
 # Maximale Kadertiefe pro Position (darüber wird gelistet)
 _POS_MAX = {"T": 2, "A": 5, "M": 6, "S": 5}
@@ -150,8 +133,8 @@ def _cpu_kaufen(team, team_name, game_state, transfermarkt, spieler_cache, news_
                 team.kontostand -= preis
                 team.kader.append(kandidat)
                 if news_items is not None:
-                    news_items.append(random.choice(_CPU_KAUF_TEXTE).format(
-                        team=team_name, spieler=kandidat.name, pos=kandidat.position))
+                    news_items.append({"type": "cpu_kauf", "team": team_name,
+                                       "spieler": kandidat.name, "pos": kandidat.position})
                 return
 
     # Inland
@@ -178,8 +161,8 @@ def _cpu_kaufen(team, team_name, game_state, transfermarkt, spieler_cache, news_
             team.kontostand -= preis
             team.kader.append(kandidat)
             if news_items is not None and kandidat.staerke_wert >= 82:
-                news_items.append(random.choice(_CPU_KAUF_TEXTE).format(
-                    team=team_name, spieler=kandidat.name, pos=kandidat.position))
+                news_items.append({"type": "cpu_kauf", "team": team_name,
+                                   "spieler": kandidat.name, "pos": kandidat.position})
 
 
 # ─── Hilfsfunktionen ──────────────────────────────────────────────────────────

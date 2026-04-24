@@ -61,16 +61,26 @@ class Transfermarkt:
         # Generiere Spieler-Pool für Inlandsmarkt (max Sehr stark, kein Weltklasse)
         pool = self._generiere_spieler_pool(auslaender=False, max_staerke=84)
 
+        # Eigene gelistete Spieler pro Team vorberechnen (Name-Set)
+        eigene_gelistete = {
+            team_name: {s.name for s, _, vk, _ in self.gelistete_spieler if vk == team_name}
+            for team_name in menschliche_teams
+        }
+
         for team_name in menschliche_teams:
-            angebote = random.sample(pool, min(3, len(pool)))
+            # Eigene gelistete Spieler nicht im eigenen Angebot anzeigen
+            pool_fuer_team = [s for s in pool if s.name not in eigene_gelistete.get(team_name, set())]
+            angebote = random.sample(pool_fuer_team, min(3, len(pool_fuer_team)))
             angebote_mit_preis = [(s, int(s.marktwert * random.uniform(_KAUF_MIN, _KAUF_MAX))) for s in angebote]
             self.inland_angebote[team_name] = angebote_mit_preis
 
         # Gelistete Spieler (ab nächster Woche verfügbar) als Shared-Slot einbauen
         # Nur Spieler die diese Woche neu gelistet wurden (woche == 0, noch nicht verarbeitet)
+        # Nur Inländer (Ausländer gehören nicht auf den Inlandsmarkt)
         # Zeige sie allen anderen Managern außer dem Verkäufer
         gelistete_verfuegbar = [
-            (s, p, vk) for s, p, vk, w in self.gelistete_spieler if w == 0
+            (s, p, vk) for s, p, vk, w in self.gelistete_spieler
+            if w == 0 and s.nationalitaet == "D"
         ]
         if gelistete_verfuegbar and len(menschliche_teams) > 1:
             for s, p, verkäufer in gelistete_verfuegbar:
@@ -117,8 +127,9 @@ class Transfermarkt:
                 self.ausland_angebote[team_name] = (spieler, preis)
 
     def _generiere_spieler_pool(self, auslaender: bool, min_staerke: int = 1, max_staerke: int = 100) -> list:
-        """Generiert einen Pool von verfügbaren Spielern (ohne bereits vergebene)"""
+        """Generiert einen Pool von verfügbaren Spielern (ohne bereits vergebene und gelistete)"""
         bereits_vergeben = {s.name for t in self.gs.teams.values() for s in t.kader}
+        bereits_vergeben |= {s.name for s, _, _, _ in self.gelistete_spieler}
         alle = self._spieler_cache
         gefiltert = [
             s for s in alle
@@ -197,6 +208,18 @@ class Transfermarkt:
 
         if len(team.kader) >= _KADER_MAX:
             return False, "Kader ist voll"
+
+        # Gelisteten Spieler: Verkäufer sofort mit dem Listingpreis gutschreiben
+        gelistet_eintrag = next(
+            ((s, p, vk, w) for s, p, vk, w in self.gelistete_spieler if s.name == spieler.name),
+            None
+        )
+        if gelistet_eintrag:
+            _, listing_preis, verkäufer, _ = gelistet_eintrag
+            self.gelistete_spieler.remove(gelistet_eintrag)
+            verkäufer_team = self.gs.teams.get(verkäufer)
+            if verkäufer_team:
+                verkäufer_team.kontostand += listing_preis
 
         team.kontostand -= preis
         spieler.tore_liga = 0
