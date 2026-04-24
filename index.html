@@ -1685,12 +1685,27 @@ function applyLang() {
   document.querySelectorAll('#sb-lang [id^="lang-btn-"]').forEach(el => {
     el.style.opacity = el.id === 'lang-btn-' + lang ? '1' : '0.3';
   });
+  // Dynamisch gerenderte Inhalte neu zeichnen (Kader, Tabelle, Pokale …).
+  // Fehler werden geschluckt, weil die Funktionen je nach aktuellem Zustand
+  // evtl. keinen State haben (z. B. vor Login).
+  const _safe = fn => { try { fn(); } catch(_){} };
+  _safe(() => typeof renderStatus === 'function' && renderStatus());
+  _safe(() => typeof renderKader === 'function' && S.kader && renderKader());
+  _safe(() => typeof renderTabelle === 'function' && renderTabelle());
+  _safe(() => typeof renderSpieltageVorschau === 'function' && renderSpieltageVorschau());
+  _safe(() => typeof renderFinanzen === 'function' && renderFinanzen());
+  _safe(() => typeof renderVerkauf === 'function' && S.kader && renderVerkauf());
+  _safe(() => typeof renderGelisteteSpieler === 'function' && renderGelisteteSpieler());
+  _safe(() => typeof renderAlleSpiele === 'function' && renderAlleSpiele());
+  _safe(() => typeof renderPokale === 'function' && renderPokale());
+  _safe(() => typeof renderChatNachrichten === 'function' && renderChatNachrichten());
+  _safe(() => typeof renderProfileStats === 'function' && S.profil && renderProfileStats());
 }
 
 function setLanguage(lang) {
   S.sprache = lang;
   localStorage.setItem('sprache', lang);
-  loadLanguage(lang); // async: fetches JSON then calls applyLang()
+  loadLanguage(lang); // async: fetches JSON then calls applyLang() → re-rendert dynamische Screens
   // Reload help content in new language (clear cache so loadHelp() re-fetches)
   const helpEl = document.getElementById('help-content');
   if (helpEl) helpEl.innerHTML = '';
@@ -1703,8 +1718,6 @@ function setLanguage(lang) {
       body: JSON.stringify({ token: S.auth_token, sprache: lang })
     }).catch(() => {});
   }
-  // WS reconnecten damit Server State in neuer Sprache neu liefert
-  if (S.ws) S.ws.close();
 }
 
 // Persistent Login: Session-Daten aus localStorage lesen (30-Tage-Ablauf)
